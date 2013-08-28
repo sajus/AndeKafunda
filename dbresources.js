@@ -1,6 +1,6 @@
 module.exports = {
 	database: {
-		name: "interview_db",
+		name: "db_greetings",
     	host: "root",
     	password: "",
     	port: 90

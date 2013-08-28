@@ -1,0 +1,5 @@
+"tbl_users, empid, email, firstname, lastname, password, accesstype"
+"7601, sajus@cybage.com, Saju, Sasidharan, sajus, 1"
+"10789, vinayakpat@cybage.com, Vinayak, Patil, vinayakpat, 0"
+"10368, jerinj@cybage.com, Jerin, John, jerinj, 0"
+"10748, ashwinh@cybage.com, Ashwin, Hegde, ashwinh, 0"
