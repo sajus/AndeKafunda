@@ -19,6 +19,7 @@
     exports.getUsersList = function(req, res) {
         tbl_users.findAll({
             attributes: [
+                'id',
                 'empid',
                 'email',
                 'firstname',
@@ -42,6 +43,7 @@
                 empid: parseInt(req.params.id, 10)
             },
             attributes: [
+                'id',
                 'empid',
                 'email',
                 'firstname',
@@ -64,7 +66,19 @@
         tbl_users.update(requestBody, {
             empid: parseInt(req.params.id, 10)
         }).success(function() {
-            tbl_users.findAll().success(function(user) {
+            tbl_users.find({
+                where: {
+                    empid: parseInt(req.params.id, 10)
+                },
+                attributes: [
+                    'id',
+                    'empid',
+                    'email',
+                    'firstname',
+                    'lastname',
+                    'accesstype'
+                ]
+            }).success(function(user) {
                 res.send(user);
             });
         }).on("error", function(error) {
@@ -75,6 +89,30 @@
     exports.delUserById = function(req, res) {
         tbl_users.destroy({
             empid: parseInt(req.params.id, 10)
+        }).on("success", function() {
+            res.format({
+                json: function() {
+                    res.send(req.params.id);
+                }
+            });
+        }).on("error", function(error) {
+            console.log(error);
+        });
+    };
+
+    exports.getAdmins = function(req, res) {
+        tbl_users.findAll({
+            where: {
+                accesstype: true
+            },
+            attributes: [
+                'id',
+                'empid',
+                'email',
+                'firstname',
+                'lastname',
+                'accesstype'
+            ]
         }).on("success", function(user) {
             res.format({
                 json: function() {
