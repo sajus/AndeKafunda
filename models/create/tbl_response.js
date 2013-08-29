@@ -24,12 +24,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		}
 	}, {
-		tableName: 'tbl_response',
-		timestamps: true,
-		engine: 'INNODB', // engine: 'MYISAM', // default: 'InnoDB'
-		paranoid: true,
-		commment: "This is the table for storing response",
-		charset: 'utf8'
+		tableName: 'tbl_response'
 	});
 
 };

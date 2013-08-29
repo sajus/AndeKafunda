@@ -1,14 +1,44 @@
 var Sequelize   = require('sequelize')
 , mysql         = require('mysql')
 , config        = require('./dbresources')
-, db            = config.database
-, SQLValue      = ""
-, headValues    = [];
+, db            = config.database;
 
 var sequelize = new Sequelize(db.name, db.host, db.password, {
+    /**
+      * custom host; default: localhost
+    ***/
+    // host: 'my.server.tld',
+
+    /**
+      * The sql dialect of the database. default is 'mysql'
+      * currently supported: 'mysql', 'sqlite', 'postgres'
+    ***/
     dialect: 'mysql',
-    // disable logging; default: console.log
-    // logging: true
+
+    /**
+      * Disable logging; default: console.log
+    ***/
+    logging: true,
+
+
+    /**
+      * Specify options, which are used when sequelize.define is called.
+      * Below you can see the possible keys for settings.
+    ***/
+    define: {
+        engine: 'INNODB',
+        charset: 'utf8',
+        collate: 'utf8_general_ci',
+        timestamps: true,
+        paranoid: true
+    }
+
+    /**
+      * Use pooling in order to reduce db connection overload and to increase speed
+      * currently only for mysql and postgresql (since v1.5.0)
+    ***/
+    // pool: { maxConnections: 5, maxIdleTime: 30 }
+
 });
 
 exports.sequelize = sequelize;
@@ -22,8 +52,8 @@ var tbl_users         = sequelize.import(__dirname + '/models/create/tbl_users')
 
 tbl_users.hasMany(tbl_response, { onDelete: 'cascade', onUpdate: 'cascade' });
 tbl_greetings.hasMany(tbl_response, { onDelete: 'cascade', onUpdate: 'cascade' });
+tbl_users.hasMany(tbl_greetings, { onDelete: 'cascade', onUpdate: 'cascade' });
 
-csvEngine(csvDirectory);
 
 sequelize.sync().on('success', function() {
     tbl_users
@@ -39,7 +69,7 @@ sequelize.sync().on('success', function() {
 sequelize.sync().on('success', function() {
     tbl_greetings
     .create(
-        {url: '/uploads/google.png'}
+        {empid: 7601, url: '/uploads/google.png'}
     )
     .on('success', function(options) {
         console.log("Greeting Table Created");

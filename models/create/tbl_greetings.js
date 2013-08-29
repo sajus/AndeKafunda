@@ -7,20 +7,19 @@ module.exports = function(sequelize, DataTypes) {
 			primaryKey: true,
 			autoIncrement: true
 		},
+		empid: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: "tbl_users",
+			referencesKey: "empid"
+		},
 		url: {
 			type: DataTypes.STRING,
-			allowNull: true
-			// validate: {
-			// 	isUrl: true,
-			// }
+			allowNull: true,
+			defaultValue: null
 		}
 	}, {
-		tableName: 'tbl_greetings',
-		timestamps: true,
-		engine: 'INNODB', // engine: 'MYISAM', // default: 'InnoDB'
-		paranoid: true,
-		commment: "This is the table for storing greeting details",
-		charset: 'utf8'
+		tableName: 'tbl_greetings'
 	});
 
 };

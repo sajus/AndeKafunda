@@ -51,12 +51,7 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: false
 		}
 	}, {
-		tableName: 'tbl_users',
-		timestamps: true,
-		engine: 'INNODB', // engine: 'MYISAM', // default: 'InnoDB'
-		paranoid: true,
-		commment: "This is the table for storing users data",
-		charset: 'utf8'
+		tableName: 'tbl_users'
 	});
 
 };
