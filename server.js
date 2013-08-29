@@ -1,50 +1,29 @@
-var express   = require('express')
-  , http      = require('http')
-  , app       = express()
-  , http      = require('http')
-  , _         = require('underscore')
-  , path      = require('path');
+(function() {
+    "use strict";
+    var express = require('express'),
+        http = require('http'),
+        app = express(),
+        authorization = require('./routes/authorization_src'),
+        users = require('./routes/users_src'),
+        config = require("./dbresources"),
+        db = config.database;
 
-var routes          = require('./routes')
-  , authorization   = require('./routes/authorization_src')
-  , interview       = require('./routes/interview_src')
-  , interviewList   = require('./routes/interviewList_src')
-  , interviewer     = require('./routes/interviewer_src')
-  , mode            = require('./routes/mode_src')
-  , rounds          = require('./routes/rounds_src')
-  , status          = require('./routes/status_src')
-  , recruiter       = require('./routes/recruiter_src');
+    app.configure(function() {
+        app.set('host', 'cybage.ims.com');
+        app.set('port', process.env.PORT || db.port);
+        app.use(express.bodyParser());
+        app.set(express.methodOverride());
+        app.set(express.router);
+        app.use(express.static(__dirname + '/src'));
+    });
+    app.post('/checkAuthorization', authorization.postAuthorization);
+    app.post('/getUsers', users.createUser);
+    app.get('/getUsers', users.getUsersList);
+    app.get('/getUsers/:id', users.getUsersById);
+    app.put('/getUsers/:id', users.putUsersById);
+    app.del('/getUsers/:id', users.delUserById);
 
-var sequelize = require('./dbconfig').sequelize;
-config        = require("./dbresources");
-db            = config.database;
-
-app.configure(function() {
-    app.set('host','cybage.ims.com');
-    app.set('port', process.env.PORT || db.port);
-    app.use(express.bodyParser());
-    app.set(express.methodOverride());
-    app.set(express.router);
-    app.use(express.static(__dirname + '/src'));
-});
-
-// app.get('/', routes.index);
-
-app.post('/checkAuthorization', authorization.postAuthorization);
-
-app.post('/interview', interview.postInterview);
-
-app.get('/interviewList', interviewList.getInterviewList)
-app.get('/interviewList/:id', interviewList.getInterviewListById);
-app.put('/interviewList/:id', interviewList.putInterviewListById);
-app.del('/interviewList/:id', interviewList.delInterviewListById);
-
-app.get('/interviewer', interviewer.getInterviewer);
-app.get('/mode', mode.getMode);
-app.get('/rounds', rounds.getRounds);
-app.get('/status', status.getStatus);
-app.get('/recruiter', recruiter.getRecruiter);
-
-http.createServer(app).listen(app.get('port'), function(){
-    console.log("\n\n\tNode (Express) server listening on port " + app.get('port'))
-});
+    http.createServer(app).listen(app.get('port'), function() {
+        console.log("\n\n\tNode (Express) server listening on port " + app.get('port'));
+    });
+}());

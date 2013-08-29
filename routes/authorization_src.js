@@ -4,7 +4,7 @@ var sequelize = require('../dbconfig').sequelize
 exports.postAuthorization = function(req, res){
 	var email 		= req.body.email
 	,	password 	= req.body.password;
-	sequelize.query("SELECT email, firstname, lastname FROM users_tbl WHERE email='"+email+"' AND password='"+password+"' LIMIT 1 ").success(function(rows) {
+	sequelize.query("SELECT email, firstname, lastname FROM tbl_users WHERE email='"+email+"' AND password='"+password+"' LIMIT 1 ").success(function(rows) {
 		var authorization = null;
 
 		if(rows.length===0) {
