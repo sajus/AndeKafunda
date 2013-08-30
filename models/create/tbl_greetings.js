@@ -10,6 +10,7 @@ module.exports = function(sequelize, DataTypes) {
 		empid: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
+			unique: true,
 			references: "tbl_users",
 			referencesKey: "empid"
 		},

@@ -3,6 +3,15 @@
     var sequelize = require('../dbconfig').sequelize,
         tbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_users');
 
+    function errorHandler(error, res) {
+        console.error(error.message);
+        res.format({
+            json: function() {
+                res.send(error.message);
+            }
+        });
+    }
+
     exports.createUser = function(req, res) {
         var requestBody = req.body;
         tbl_users.create(requestBody).on("success", function(user) {
@@ -12,35 +21,14 @@
                 }
             });
         }).on("error", function(error) {
-            console.log(error);
+            errorHandler(error, res);
         });
     };
 
     exports.getUsersList = function(req, res) {
         tbl_users.findAll({
-            attributes: [
-                'id',
-                'empid',
-                'email',
-                'firstname',
-                'lastname',
-                'accesstype'
-            ]
-        }).on("success", function(user) {
-            res.format({
-                json: function() {
-                    res.send(user);
-                }
-            });
-        }).on("error", function(error) {
-            console.log(error);
-        });
-    };
-
-    exports.getUsersById = function(req, res) {
-        tbl_users.find({
             where: {
-                empid: parseInt(req.params.id, 10)
+                deletedAt: null
             },
             attributes: [
                 'id',
@@ -57,7 +45,39 @@
                 }
             });
         }).on("error", function(error) {
-            console.log(error);
+            errorHandler(error, res);
+        });
+    };
+
+    exports.getUsersById = function(req, res) {
+        tbl_users.find({
+            where: {
+                empid: parseInt(req.params.id, 10),
+                deletedAt: null
+            },
+            attributes: [
+                'id',
+                'empid',
+                'email',
+                'firstname',
+                'lastname',
+                'accesstype'
+            ]
+        }).on("success", function(user) {
+            res.format({
+                json: function() {
+                    if (user) {
+                        res.send(user);
+                    } else {
+                        res.send({
+                            status: 404,
+                            message: "No record found"
+                        });
+                    }
+                }
+            });
+        }).on("error", function(error) {
+            errorHandler(error, res);
         });
     };
 
@@ -82,7 +102,7 @@
                 res.send(user);
             });
         }).on("error", function(error) {
-            console.log(error);
+            errorHandler(error, res);
         });
     };
 
@@ -96,7 +116,7 @@
                 }
             });
         }).on("error", function(error) {
-            console.log(error);
+            errorHandler(error, res);
         });
     };
 
@@ -120,7 +140,7 @@
                 }
             });
         }).on("error", function(error) {
-            console.log(error);
+            errorHandler(error, res);
         });
     };
 }(exports));
