@@ -128,16 +128,7 @@
                     obj[arr[i]] = 1;
                 }
             }
-            _.each(_.keys(obj), function(value, key) {
-                gids.push(parseInt(value, 10));
-            });
-            tbl_greetings.findAll({
-                where: {
-                    id: gids
-                }
-            }).on("success", function(employee) {
-                res.send(_.object(_.pluck(employee, 'empid'), _.values(obj)));
-            });
+            res.send(obj);
         }).on("error", function(error) {
             errorHandler(error, res);
         });
