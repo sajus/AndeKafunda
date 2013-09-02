@@ -20,7 +20,10 @@ define(function(require) {
     create = function(context, name, View, options) {
         if (views[name] !== 'undefined') {
             views[name].remove();
+            /* Clean dom evnets hash */
             views[name].undelegateEvents();
+            /* Cleans triggers from  view */
+            views[name].unbind();
             if (typeof views[name].onClose === 'function') {
                 views[name].onClose();
             }

@@ -111,11 +111,7 @@
     };
 
     exports.getResponsesByGreetIdCountAll = function(req, res) {
-        tbl_respose.findAll({
-            attributes: [
-                'greetingid'
-            ]
-        }).on("success", function(response) {
+        tbl_respose.findAll().on("success", function(response) {
             var obj = {},
                 arr = _.pluck(response, 'greetingid'),
                 i = 0,
