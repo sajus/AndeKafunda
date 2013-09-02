@@ -35,7 +35,7 @@ define(function(require) {
                 this.postData();
             } else {
                 Events.trigger("alert:error", [{
-                    message: "Something went wrong!"
+                    message: "Please correct the errors in form!"
                 }]);
             }
         },
