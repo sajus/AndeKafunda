@@ -36,30 +36,30 @@ requirejs.config({
         'templates': '../templates',
 
         /* List of Backbone plugins */
-            'modelValidator':'vendors/backbone/plugins/backbone-validation',
-            'modelBinder':'vendors/backbone/plugins/backbone-modelbinder',
+        'modelValidator': 'vendors/backbone/plugins/backbone-validation',
+        'modelBinder': 'vendors/backbone/plugins/backbone-modelbinder',
         /* List of Require plugins */
-            'text': 'vendors/require/plugins/text',
+        'text': 'vendors/require/plugins/text',
 
         /* List of Bootstrap plugins */
-            'bootstrapAlert': 'vendors/bootstrap/js/bootstrap-alert',
-            'bootstrapDropdown': 'vendors/bootstrap/js/bootstrap-dropdown',
-            'bootstrapTransition': 'vendors/bootstrap/js/bootstrap-transition',            
+        'bootstrapAlert': 'vendors/bootstrap/js/bootstrap-alert',
+        'bootstrapDropdown': 'vendors/bootstrap/js/bootstrap-dropdown',
+        'bootstrapTransition': 'vendors/bootstrap/js/bootstrap-transition',
 
         /* List of jQuery plugins */
-            'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',
+        'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie'
 
     },
 
     /*
         shim config is part of `Require 2.0`_ and allows to Configure the dependencies
-        and exports for older, traditional “browser globals” scripts that do not use
+        and exports for older, traditional 'browser globals' scripts that do not use
         define() to declare the dependencies and set a module value.
         See http://requirejs.org/docs/api.html#config-shim for more details.
     */
     shim: {
         backbone: {
-            deps: ['jquery','underscore'],
+            deps: ['jquery', 'underscore'],
             exports: 'Backbone'
         },
         underscore: {
@@ -74,20 +74,25 @@ requirejs.config({
         bootstrapAlert: {
             deps: ['jquery']
         },
-        modelBinder:{
-            deps:['backbone'],
-            exports:'Backbone.ModelBinder'
+        modelBinder: {
+            deps: ['backbone'],
+            exports: 'Backbone.ModelBinder'
         }
     }
 });
 
 /* Load app.js to initialize your application module. */
 require(['views/app', 'router', 'core'], function(AppView, Router, Core) {
-    var appView = Core.create({}, 'AppView', AppView,{skipAuthCheck:true});
+    "use strict";
+    var appView = Core.create({}, 'AppView', AppView, {
+        skipAuthCheck: true
+    });
     appView.render();
 
     /*
         The router now has a copy of all main appview
     */
-    Router.initialize({appView: appView});
+    Router.initialize({
+        appView: appView
+    });
 });
