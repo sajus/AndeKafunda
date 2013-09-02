@@ -1,5 +1,21 @@
 (function() {
     "use strict";
+
+    var csv = require('csv')
+        , _ = require('underscore')
+        , SQLValue = ""
+        , headValues = []
+        , insertSQL = {}
+        , mapInsertSQL  = [];
+
+    /**
+      * Specify the path for of CSV directory
+    ***/
+    var csvDirectory = '/csv/';
+
+    /**
+      * Sequelize Model layer
+    ***/
     var sequelize = require('../dbconfig').sequelize,
         tbl_users = sequelize.import(__dirname + '/create/tbl_users'),
         tbl_greetings = sequelize.import(__dirname + '/create/tbl_greetings'),
@@ -18,7 +34,33 @@
         onUpdate: 'cascade'
     });
 
-    function addResponseEntries() {
+    var parseHeader = function(row) {
+        _.each(row, function(item){
+            _.each(item.split(','), function(tableColName){
+                tableColName = tableColName.replace(/^\s+/, '');
+                headValues.push(tableColName);
+            });
+        });
+    }
+
+    var parseData = function(row) {
+        var valueObj = [];
+        var valueString = "";
+        _.each(row, function(item){
+            _.each(item.split(','), function(insertValues) {
+                insertValues = insertValues.replace(/^\s+/, '');
+                if(!isNaN(insertValues)){
+                    valueString = parseInt(insertValues);
+                } else {
+                    valueString = insertValues;
+                }
+                valueObj.push(valueString);
+            });
+        });
+        return insertSQL = _.object(headValues, valueObj);
+    }
+
+    var addResponseEntries = function() {
         tbl_response
             .bulkCreate([{
                 empid: 7601,
@@ -46,12 +88,15 @@
                 hasresponse: true
             }])
             .on('success', function() {
-                console.log("Response Table Created");
-                console.log("Database has been setup successfully");
+                console.log("Response table is ready");
+                console.log("Database Tables has been setup successfully");
+            }).on('error', function(error) {
+                console.log("Error occured while creating response table!");
+                console.log(error);
             });
     }
 
-    function addGreetingEntries() {
+    var addGreetingEntries = function() {
         tbl_greetings
             .bulkCreate([{
                 empid: 7601,
@@ -67,46 +112,44 @@
                 url: '/uploads/jj.png'
             }])
             .on('success', function() {
-                console.log("Greeting Table Created");
-                console.log("Adding Response entries");
+                console.log("Greeting table is ready");
                 addResponseEntries();
+            }).on('error', function(error) {
+                console.log("Error occured while creating greeting table!");
+                console.log(error);
             });
     }
-    sequelize.sync().on('success', function() {
-        tbl_users
-            .bulkCreate([{
-                empid: 7601,
-                email: 'sajus@cybage.com',
-                firstname: 'Saju',
-                lastname: 'Sasidharan',
-                password: 'sajus',
-                accesstype: 1
-            }, {
-                empid: 10789,
-                email: 'vinayakpat@cybage.com',
-                firstname: 'Vinayak',
-                lastname: 'Patil',
-                password: 'vinayakpat',
-                accesstype: 0
-            }, {
-                empid: 10748,
-                email: 'ashwinh@cybage.com',
-                firstname: 'Ashwin',
-                lastname: 'Hegde',
-                password: 'ashwinh',
-                accesstype: 0
-            }, {
-                empid: 10368,
-                email: 'jerinj@cybage.com',
-                firstname: 'Jerin',
-                lastname: 'John',
-                password: 'jerinj',
-                accesstype: 0
-            }])
-            .on('success', function() {
-                console.log("Users Table Created");
-                console.log("Adding greetings entries");
-                addGreetingEntries();
+
+    var csvEngine = function(csvDirectory, tableName) {
+        console.log("Executing database rollout script...");
+        csv()
+            .from.path(__dirname + csvDirectory + tableName + '.in', { delimiter: ',', escape: '"' })
+            .on('record', function(row, index){
+                /* Pre condition, the first row needs to be string */
+                if(index == 0){
+                    parseHeader(row);
+                    return;
+                }
+                mapInsertSQL.push(parseData(row));
+            })
+            .on('end', function(){
+                sequelize.sync().on('success', function() {
+                    tbl_users
+                        .bulkCreate(mapInsertSQL)
+                        .on('success', function() {
+                            console.log("Users table is ready");
+                            addGreetingEntries();
+                        });
+                }).on('error', function(error) {
+                    console.log("Error occured while creating users table!");
+                    console.log(error);
+                });
+            })
+            .on('error', function(error){
+                console.log(error.message);
             });
-    });
+    }
+
+    csvEngine(csvDirectory, tbl_users.options.tableName);
+
 }());

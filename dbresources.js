@@ -1,6 +1,6 @@
 module.exports = {
     database: {
-        name: "db_greetings_temp",
+        name: "db_greetings",
         host: "root",
         password: "",
         port: 90
