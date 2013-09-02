@@ -3,19 +3,19 @@ define(function(require) {
     var Backbone = require('backbone'),
         Events = require('events'),
         BaseView = require('views/BaseView'),
-        loginPageTemplate = require('template!templates/login/login');
+        loginPageTemplate = require('template!templates/login/login'),
+        cookieManager = require('utilities/cookieManager');
 
     /* Requires with no return */
     require('modelBinder');
     require('bootstrapAlert');
-    require('jqueryCookie');
     return BaseView.extend({
 
         el: '.page',
 
         initialize: function() {
             this._modelBinder = new Backbone.ModelBinder();
-            this._isAuthenticated = $.cookie('isAuthenticated');
+            this._isAuthenticated = cookieManager.isAuthenticated();
             if (this._isAuthenticated) {
                 Events.trigger("view:navigate", {
                     path: "dashboard",
@@ -58,9 +58,8 @@ define(function(require) {
             this.model.save(this.model.toJSON(), {
                 success: function(model, response) {
                     if (response.isAuthenticated) {
-                        $.cookie('isAuthenticated', true);
-                        $.cookie('email', response.email);
-                        self.options.accesstype=response.accesstype;
+                        cookieManager.setSessionCookie(response);
+                        self.options.accesstype = response.accesstype;
                         Events.trigger('redirectToAuthPage', self.options);
                     } else {
                         Events.trigger("alert:error", [{

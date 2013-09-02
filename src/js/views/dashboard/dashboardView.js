@@ -9,7 +9,7 @@ define(function(require) {
         el: '.page',
 
         render: function() {
-            this.$el.html(dashboardTemplate);
+            this.$el.html(dashboardTemplate());
         }
     });
 });

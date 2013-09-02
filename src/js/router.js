@@ -34,8 +34,7 @@ define(function(require) {
             },
 
             routes: {
-                '': 'login',
-                'login': 'login',
+                '(login)': 'login',
                 'logout': 'logout',
                 'dashboard': 'dashboard',
                 // Default - catch all

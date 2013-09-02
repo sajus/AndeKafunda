@@ -19,14 +19,23 @@ define(function(require) {
 
     create = function(context, name, View, options) {
         if (views[name] !== undefined) {
-            views[name].remove();
-            /* Clean dom evnets hash */
+            /* remove the view and append the .page immediately in DOM */
+            if (name.toLowerCase() !== 'appview') {
+                views[name].remove();
+                if (!$('.page').length) {
+                    $('<div></div>', {
+                        class: 'page'
+                    }).insertBefore('.footer');
+                }
+            }
+            /* Clean dom events hash */
             views[name].undelegateEvents();
             /* Cleans triggers from  view */
             views[name].unbind();
             if (typeof views[name].onClose === 'function') {
                 views[name].onClose();
             }
+            delete views[name];
         }
 
         var skipAuthCheck = false,
@@ -60,7 +69,6 @@ define(function(require) {
         }
 
         views[name] = view;
-
         return view;
     };
 
