@@ -18,7 +18,7 @@ define(function(require) {
     });
 
     create = function(context, name, View, options) {
-        if (views[name] !== 'undefined') {
+        if (views[name] !== undefined) {
             views[name].remove();
             /* Clean dom evnets hash */
             views[name].undelegateEvents();
