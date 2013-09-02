@@ -9,7 +9,7 @@ define(function(require) {
 
             initialize: function() {
                 Events.on('page:navigate', this._navigatePage, this);
-                Events.on('redirectToAuthPage', this._navigateAdmin, this);
+                Events.on('redirectToAuthPage', this._navigateLoggedUser, this);
                 this.currentId = null;
             },
 
@@ -17,17 +17,17 @@ define(function(require) {
                 this.navigate(navigationData.path, navigationData.options);
             },
 
-            _navigateAdmin: function(options) {
+            _navigateLoggedUser: function(options) {
                 var appView = Core.create({}, 'AppView', AppView, {
                     skipAuthCheck: true
                 });
                 appView.render();
-                if (options !== undefined && options.targetView !== undefined) {
+                if (options !== undefined && options.accesstype) {
                     this.navigate("dashboard", {
                         trigger: true
                     });
                 } else {
-                    this.navigate("dashboard", {
+                    this.navigate("greetings", {
                         trigger: true
                     });
                 }
@@ -37,6 +37,7 @@ define(function(require) {
                 '': 'login',
                 'login': 'login',
                 'logout': 'logout',
+                'dashboard': 'dashboard',
                 // Default - catch all
                 '*actions': 'defaultAction'
             }
@@ -46,6 +47,7 @@ define(function(require) {
         var appView = options.appView,
             router = new AppRouter(options);
 
+        /* Login routes */
         router.on('route:login', function() {
             require(['views/login/loginView', 'models/login/loginModel'], function(LoginPage, LoginModel) {
                 var loginModel = new LoginModel(),
@@ -68,6 +70,15 @@ define(function(require) {
             });
         });
 
+        /* Dashboard admin */
+        router.on('route:dashboard', function() {
+            require(['views/dashboard/dashboardView'], function(DashboardPage) {
+                var dashboardPage = Core.create(appView, 'DashboardPage', DashboardPage);
+                dashboardPage.render();
+            });
+        });
+
+        /* Default route */
         router.on('route:defaultAction', function() {
             require(['views/defaultAction/defaultAction'], function(DefaultAction) {
                 var defaultAction = Core.create(appView, 'DefaultPage', DefaultAction);
