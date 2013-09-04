@@ -11,6 +11,7 @@ define(function(require) {
         UserEditView = require('views/user/userCreateEditView'),
         DeleteModal = require('models/user/userDelete'),
         userDeleteTemplate = require('template!templates/user/userDelete'),
+        UsersSummaryView = require('views/user/summaryUserModalView'),
         globalSelected = [],
         checkCounter = 0;
 
@@ -43,7 +44,9 @@ define(function(require) {
             'click .userDelete': 'userDelete',
             'click .confirmDelete': 'confirmDelete',
             /*Create handler*/
-            'click .create': 'create'
+            'click .create': 'create',
+            /*Summary handler*/
+            'click .summary': 'userTblSummary'
         },
 
         render: function() {
@@ -216,6 +219,24 @@ define(function(require) {
             this.$('#createModal').modal({
                 backdrop: 'static'
             });
+        },
+
+        /*Summary handling*/
+        userTblSummary: function() {
+            console.log("userTblSummary");
+            var usersSummary = new UsersSummaryView();
+            this.$('.modal-container').html(usersSummary.render().el);
+            this.$('#summaryModal').modal();
+            this.summaryData(this.collection.toJSON());
+            $('body').append($('#summaryModal').find('.summaryModal').html());
+            $('.container').siblings('.table-bordered').addClass('addPrint');
+        },
+
+        summaryData: function(userlistData) {
+            $('#admin').html((_.where(userlistData, {accesstype: true})).length);
+            $('#normal').html((_.where(userlistData, {accesstype: false})).length);
+
+            $('#totalUsers').html(userlistData.length);
         },
 
         /*Checkbox handling*/
