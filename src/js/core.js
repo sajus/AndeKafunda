@@ -6,10 +6,11 @@ define(function(require) {
         LoginView = require('views/login/loginView'),
         LoginModel = require('models/login/loginModel'),
         AccessForbidenView = require('views/defaultAction/accessForbiden'),
+        cookieManager = require('utilities/cookieManager'),
         _ = require('underscore'),
         globals = {},
         views = {},
-        user = [],
+        user = ['UserPage'],
         create = null;
 
     require('jqueryCookie');
@@ -56,14 +57,17 @@ define(function(require) {
                 targetView: View,
                 targetOptions: options
             });
-        } else if ((accesslevel === "admin" && name === "userPage") || (accesslevel === "user" && _.contains(user, name))) {
+        } else if (!cookieManager.isAdmin() && _.contains(user, name)) {
             view = new AccessForbidenView();
             Events.trigger("view:navigate", {
-                path: "accessForbiden",
+                path: "",
                 options: {
                     trigger: true
                 }
             });
+            Events.trigger("alert:error", [{
+                message: "You are not authorized to view this page."
+            }]);
         } else {
             view = new View(options);
         }

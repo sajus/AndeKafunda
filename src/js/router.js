@@ -4,6 +4,7 @@ define(function(require) {
         Core = require('core'),
         $ = require('jquery'),
         Events = require('events'),
+        cookieManager = require('utilities/cookieManager'),
         AppView = require('views/app'),
         AppRouter = Backbone.Router.extend({
 
@@ -36,6 +37,8 @@ define(function(require) {
             routes: {
                 '(login)': 'login',
                 'logout': 'logout',
+                'users': 'users',
+                'greetings': 'greetings',
                 'dashboard': 'dashboard',
                 // Default - catch all
                 '*actions': 'defaultAction'
@@ -57,7 +60,7 @@ define(function(require) {
                 loginPage.render();
             });
         });
-
+        /*Logout Routes*/
         router.on('route:logout', function() {
             $.removeCookie('isAuthenticated');
             Events.trigger("view:navigate", {
@@ -66,6 +69,28 @@ define(function(require) {
                     trigger: true,
                     skipAuthCheck: true
                 }
+            });
+        });
+
+        /* Greetings Routes */
+        router.on('route:greetings', function() {
+            var greetingsViewPath = cookieManager.isAdmin() ? 'views/greetings/admin/greetingsAdmin' : 'views/greetings/greetingsUser';
+            require([greetingsViewPath, 'collections/greetings/greetings'], function(GreetingsView, GreetingsCollection) {
+                var greetingsCollection = new GreetingsCollection();
+                Core.create(appView, 'GreetingsView', GreetingsView, {
+                    collection: greetingsCollection
+                });
+            });
+        });
+
+        /*User Admin*/
+        router.on('route:users', function() {
+            require(['views/user/userView', 'collections/user/userCollection'], function(UserPage, UserCollection) {
+                var userCollection = new UserCollection();
+                var userPage = Core.create(appView, 'UserPage', UserPage, {
+                    collection: userCollection
+                });
+                userPage.render();
             });
         });
 

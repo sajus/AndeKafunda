@@ -61,7 +61,8 @@
                 'email',
                 'firstname',
                 'lastname',
-                'accesstype'
+                'accesstype',
+                'password'
             ]
         }).on("success", function(user) {
             res.format({
@@ -84,11 +85,11 @@
     exports.putUsersById = function(req, res) {
         var requestBody = req.body;
         tbl_users.update(requestBody, {
-            empid: parseInt(req.params.id, 10)
+            id: parseInt(req.params.id, 10)
         }).success(function() {
             tbl_users.find({
                 where: {
-                    empid: parseInt(req.params.id, 10)
+                    id: parseInt(req.params.id, 10)
                 },
                 attributes: [
                     'id',
@@ -96,7 +97,8 @@
                     'email',
                     'firstname',
                     'lastname',
-                    'accesstype'
+                    'accesstype',
+                    'password'
                 ]
             }).success(function(user) {
                 res.send(user);
