@@ -192,9 +192,9 @@ define(function(require) {
                 Events.trigger("alert:success", [{
                     message: "User deleted successfully."
                 }]);
-            }).error(function() {
+            }).error(function(error) {
                 Events.trigger("alert:error", [{
-                    message: "Some service error occured during data fetching."
+                    message: error.statusText
                 }]);
             });
         },
