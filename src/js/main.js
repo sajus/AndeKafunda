@@ -47,7 +47,18 @@ requirejs.config({
         'bootstrapTransition': 'vendors/bootstrap/js/bootstrap-transition',
 
         /* List of jQuery plugins */
-        'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie'
+        'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',
+
+        /* FuelUx */
+
+        'fuelux': 'vendors/bootstrap/plugins/fuelux/all',
+        'fueluxDataGrid': 'vendors/bootstrap/plugins/fuelux/datagrid',
+        'fueluxDataSource': 'vendors/bootstrap/plugins/fuelux/datasource',
+        'fueluxComboBox': 'vendors/bootstrap/plugins/fuelux/combobox',
+        'fueluxSelectBox': 'vendors/bootstrap/plugins/fuelux/select',
+        'fueluxSearchBox': 'vendors/bootstrap/plugins/fuelux/search',
+        'util': 'vendors/bootstrap/plugins/fuelux/util',
+        'fueluxWizard': 'vendors/bootstrap/plugins/fuelux/wizard'
 
     },
 

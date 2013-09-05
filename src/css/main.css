@@ -22,6 +22,8 @@
 @import "../js/vendors/bootstrap/css/bootstrap-custom.css";
 @import "../js/vendors/bootstrap/css/bootstrap-responsive-custom.css";
 
-
+@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux.min.css";
+@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-responsive.min.css";
+@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-custom.css";
 /* Application Specific Modules */
 @import "modules/modules.css";

@@ -32,14 +32,14 @@
                 collate: 'utf8_general_ci',
                 timestamps: true,
                 paranoid: true
-            }
+            },
 
             /**
              * Use pooling in order to reduce db connection overload and to increase speed
              * currently only for mysql and postgresql (since v1.5.0)
              ***/
             // pool: { maxConnections: 5, maxIdleTime: 30 }
-
+            syncOnAssociation: true
         });
 
     exports.sequelize = sequelize;
