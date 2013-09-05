@@ -8,13 +8,10 @@ define(function(require) {
         userCreateTemplate = require('template!templates/user/userCreate');
 
     require('modelBinder');
-    require('jqueryCookie');
 
     return BaseView.extend({
 
         className: "modal hide fade",
-
-        id: "createModal",
 
         events: {
             'change input[type=text],textarea,select': 'processField',
@@ -26,8 +23,7 @@ define(function(require) {
         },
 
         render: function() {
-            var self = this;
-            self.$el.html(userCreateTemplate);
+            this.$el.html(userCreateTemplate);
             this.modelBinder.bind(this.model, this.el);
             Backbone.Validation.bind(this, {
                 invalid: this.showError,

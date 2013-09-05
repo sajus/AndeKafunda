@@ -5,6 +5,12 @@
 .checkGroup, 
 .inputGroup{margin: 7px 0 10px 9px;}
 .inputGroup button{margin-top: -10px;}
-
-
-          
+.addPrint{display:none;}
+@media print {
+	.container{
+		display:none;
+	}
+	.addPrint.table.table-bordered{
+		display:block !important;
+	}
+}

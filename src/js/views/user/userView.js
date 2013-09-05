@@ -16,7 +16,6 @@ define(function(require) {
         checkCounter = 0;
 
     /* Requires with no return */
-    require('jqueryCookie');
     require('fueluxDataGrid');
     require('bootstrapDropdown');
     require('fueluxComboBox');
@@ -50,16 +49,13 @@ define(function(require) {
         },
 
         render: function() {
-            console.log('render');
             this.$el.html(userTemplate({
                 isAdmin: true
             }));
             var self = this;
             this.collection.fetch({
                 success: function() {
-                    console.log("this");
                     self.createDataGrid(self.usersData(self.collection.toJSON()));
-                    console.log("In success");
                 }
             });
             return this;
@@ -67,7 +63,6 @@ define(function(require) {
 
         /*Table Layout*/
         usersData: function(Userlist) {
-            console.log("usersData");
             var userlistObj = {},
                 userslistObj = [],
                 operationHTML = '<button class="btn btn-small btn-primary userEdit" type="button"><i class="icon-edit icon-white"></i> Edit</button>';
@@ -105,7 +100,6 @@ define(function(require) {
 
         /*Table Formation*/
         createDataGrid: function(userslistObj) {
-            console.log("createDataGrid");
             var DataSource = new FuelUxDataSource({
                 columns: [{
                     property: "selectrows",
@@ -160,14 +154,13 @@ define(function(require) {
                 id = targetRow$.find('td').eq(1).text(),
                 userEdit;
 
-            console.log(id);
             this.editUserModel.set('id', id);
             userEdit = new UserEditView({
                 model: this.editUserModel
             });
 
             this.$('.modal-container').html(userEdit.render().el);
-            this.$('#editModal').modal({
+            this.$('.modal').modal({
                 backdrop: 'static'
             });
         },
@@ -193,7 +186,6 @@ define(function(require) {
                 id: deleteIndex
             });
             this.deleteUser.destroy().success(function() {
-                console.log('User deleted successfully.');
                 self.$('.modal').modal('hide');
                 self.render();
                 Events.trigger("alert:success", [{
@@ -204,31 +196,27 @@ define(function(require) {
                     message: "Some service error occured during data fetching."
                 }]);
             });
-            console.log(deleteIndex);
         },
 
         /*Create call*/
         create: function(e) {
             e.preventDefault();
             this.editUserModel.clear();
-            console.log("create");
             var userCreate = new UserCreateView({
                 model: this.editUserModel
             });
             this.$('.modal-container').html(userCreate.render().el);
-            this.$('#createModal').modal({
+            this.$('.modal').modal({
                 backdrop: 'static'
             });
         },
 
         /*Summary handling*/
         userTblSummary: function() {
-            console.log("userTblSummary");
             var usersSummary = new UsersSummaryView();
             this.$('.modal-container').html(usersSummary.render().el);
-            this.$('#summaryModal').modal();
+            this.$('.modal').modal({ backdrop: 'static'});
             this.summaryData(this.collection.toJSON());
-            $('body').append($('#summaryModal').find('.summaryModal').html());
             $('.container').siblings('.table-bordered').addClass('addPrint');
         },
 
@@ -260,10 +248,13 @@ define(function(require) {
 
         /*Row handling*/
         rowSelected: function(e) {
-            $($(e.target).closest('input[type="checkbox"]')).prop('checked', function() {
+            var target$ = this.$(e.target),
+                closestCheckbox = target$.closest('input[type="checkbox"]'),
+                closestTr = target$.closest('tr');
+            $(closestCheckbox).prop('checked', function() {
                 if (this.checked) {
-                    $(e.target).closest('tr').addClass('warning selectedRow');
-                    globalSelected.push($(e.target).closest('input[type="checkbox"]').attr('data-id'));
+                    closestTr.addClass('warning selectedRow');
+                    globalSelected.push(closestCheckbox.attr('data-id'));
                     checkCounter++;
                     if (checkCounter > 0) {
                         $('.userDelete').removeProp('disabled').removeClass('disabled');
@@ -275,13 +266,13 @@ define(function(require) {
                         $('.userDelete').prop('disabled', 'true');
                     }
                     $('.selectrows').prop('checked', function() {
-                        if ($(e.target).closest('tr').hasClass('error')) {
-                            $(e.target).closest('tr').removeClass('error selectedRow');
+                        if (closestTr.hasClass('error')) {
+                            closestTr.removeClass('error selectedRow');
                         } else {
-                            $(e.target).closest('tr').removeClass('warning selectedRow');
+                            closestTr.removeClass('warning selectedRow');
                         }
                     });
-                    globalSelected.pop($(e.target).closest('input[type="checkbox"]').attr('data-id'));
+                    globalSelected.pop(closestCheckbox.attr('data-id'));
                 }
             });
         },
