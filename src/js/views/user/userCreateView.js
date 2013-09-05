@@ -43,6 +43,7 @@ define(function(require) {
                     }]);
                 },
                 error: function(model, error) {
+                    error.responseText = (error.responseText.length) ? error.responseText : "Some error in creating new user. Please recheck the form!!";
                     Events.trigger("alert:error", [{
                         message: error.responseText
                     }]);

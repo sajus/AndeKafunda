@@ -56,6 +56,7 @@ define(function(require) {
                     }]);
                 },
                 error: function(model, error) {
+                    error.responseText = (error.responseText.length) ? error.responseText : "Some error in editing user. Please recheck the form!!";
                     Events.trigger("alert:error", [{
                         message: error.responseText
                     }]);
