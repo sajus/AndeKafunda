@@ -5,7 +5,7 @@ define(function(require) {
     var Backbone = require('backbone'),
         Events = require('events'),
         BaseView = require('views/BaseView'),
-        userCreateEditPageTemplate = require('template!templates/user/userCreateEdit');
+        userCreateEditTemplate = require('template!templates/user/userCreateEdit');
 
     require('modelBinder');
 
@@ -15,11 +15,12 @@ define(function(require) {
 
         events: {
             'change input[type=text],textarea,select': 'processField',
-            'click .update': 'processForm'
+            'click .createEditUser': 'processForm'
         },
 
         initialize: function() {
             var self = this;
+            this.responseText = "Some error in creating new user. Please recheck the form!!";
             this._modelBinder = new Backbone.ModelBinder();
             this.model.fetch({
                 success: function() {
@@ -29,11 +30,20 @@ define(function(require) {
         },
 
         render: function() {
-            console.log(this.model.toJSON());
-            this.$el.html(userCreateEditPageTemplate({
-                model: this.model.toJSON()
-            }));
-            this.model.set('accesstype', this.model.get('accesstype') + '');
+            if (this.options.id !== undefined) {
+                this.$el.html(userCreateEditTemplate({
+                    model: this.model.toJSON(),
+                    create: false,
+                    button: "Update"
+                }));
+                this.model.set('accesstype', this.model.get('accesstype') + '');
+            } else {
+                this.model.clear();
+                this.$el.html(userCreateEditTemplate({
+                    create: true,
+                    button: "Create"
+                }));
+            }
             this._modelBinder.bind(this.model, this.el);
             Backbone.Validation.bind(this, {
                 invalid: this.showError,
@@ -43,20 +53,23 @@ define(function(require) {
         },
 
         postData: function() {
-            var self = this,
-                accesstype = this.model.get("accesstype"),
+            var accesstype, accessLevel, self = this;
+            if (this.options.id !== undefined) {
+                accesstype = this.model.get("accesstype");
                 accessLevel = (accesstype === "true") ? true : false;
-            this.model.set('accesstype', accessLevel);
+                this.model.set('accesstype', accessLevel);
+                this.responseText = "Some error in editing user. Please recheck the form!!";
+            }
             this.model.save(this.model.toJSON(), {
                 success: function() {
-                    self.$('#editModal').modal('hide');
+                    self.$el.modal('hide');
                     Events.trigger("refreshView");
                     Events.trigger("alert:success", [{
                         message: "User updated successfully."
                     }]);
                 },
                 error: function(model, error) {
-                    error.responseText = (error.responseText.length) ? error.responseText : "Some error in editing user. Please recheck the form!!";
+                    error.responseText = (error.responseText.length) ? error.responseText : self.responseText;
                     Events.trigger("alert:error", [{
                         message: error.responseText
                     }]);
