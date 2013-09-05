@@ -1,12 +1,15 @@
-define(['backbone', 'models/user/userModel'], function(Backbone, userModel) {
+define(function(require) {
 
-    var UserCollection = Backbone.Collection.extend({
-    	url: function() {
+    'use strict';
+
+    var Backbone = require('backbone'),
+        userModel = require('models/user/userCreateEditModel');
+
+    return Backbone.Collection.extend({
+        url: function() {
             return Backbone.Model.gateWayUrl + '/getUsers';
         },
 
         model: userModel
     });
-
-    return UserCollection;
 });

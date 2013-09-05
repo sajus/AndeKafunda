@@ -8,15 +8,10 @@ define(function(require) {
         userCreateEditPageTemplate = require('template!templates/user/userCreateEdit');
 
     require('modelBinder');
-    require('bootstrapAlert');
-    require('jqueryCookie');
-    require('modelValidator');
 
     return BaseView.extend({
 
         className: "modal hide fade",
-
-        id: "editModal",
 
         events: {
             'change input[type=text],textarea,select': 'processField',
@@ -27,7 +22,6 @@ define(function(require) {
             var self = this;
             this._modelBinder = new Backbone.ModelBinder();
             this.model.fetch({
-                async: false,
                 success: function() {
                     self.render();
                 }
@@ -50,13 +44,9 @@ define(function(require) {
 
         postData: function() {
             var self = this,
-                accesstype = this.model.toJSON().accesstype;
-            if (accesstype === "true") {
-                accesstype = true;
-            } else {
-                accesstype = false;
-            }
-            this.model.set('accesstype', accesstype);
+                accesstype = this.model.get("accesstype"),
+                accessLevel = (accesstype === "true") ? true : false;
+            this.model.set('accesstype', accessLevel);
             this.model.save(this.model.toJSON(), {
                 success: function() {
                     self.$('#editModal').modal('hide');

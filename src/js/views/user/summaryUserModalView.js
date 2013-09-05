@@ -9,8 +9,6 @@ define(function(require) {
 
         className: "modal hide fade",
 
-        id: "summaryModal",
-
         render: function() {
             this.$el.html(summaryUserModalTemplate);
             return this;
