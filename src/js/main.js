@@ -48,6 +48,7 @@ requirejs.config({
 
         /* List of jQuery plugins */
         'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',
+        'jqueryAjaxForm': 'vendors/jquery/plugins/jquery.form.min',
 
         /* FuelUx */
 
