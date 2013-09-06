@@ -1,4 +1,4 @@
-"empid, email, firstname, lastname, password, accesstype"
+"id, email, firstname, lastname, password, accesstype"
 "7601, sajus@cybage.com, Saju, Sasidharan, sasidharan, 1"
 "10789, vinayakpat@cybage.com, Vinayak, Patil, vinayakpat, 0"
 "10368, jerinj@cybage.com, Jerin, John, jerinjohn, 0"

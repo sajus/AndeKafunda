@@ -5,15 +5,15 @@
                 <th>
                     <div class="datagrid-header-left">
                         <div class="input-append search datagrid-search">
-                            <input type="text" class="input-medium" placeholder="Search">
+                            <input type="text" class="input-medium" placeholder="Search Greetings">
                             <button type="button" class="btn"><i class="icon-search"></i></button>
                         </div>
                     </div>
                     <div class="rows pull-right">
                         <div class="btn-group">
-                            <button class="btn create">Create User</button>
-                            <button class="btn btn-danger userDelete disabled" disabled="true"><i class="icon-trash icon-white"></i> Delete</button>
-                            <button class="btn btn-inverse summary"><i class="icon-list-alt icon-white"></i> Summary</button>
+                            <button class="btn greetingCreate">Add Greeting</button>
+                            <!-- <button class="btn sendEmail disabled">Send Email</button> -->
+                            <button class="btn btn-danger deleteGreeting disabled" disabled="true"> Delete</button>
                         </div>
                     </div>
                 </th>
@@ -50,7 +50,7 @@
                             <button type="button" class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
                             <span>Page</span>
 
-                            <div class="input-append combobox">
+                            <div class="input-append dropdown combobox">
                                 <input class="span1" type="text">
                                 <button type="button" class="btn" data-toggle="dropdown"><i class="caret"></i></button>
                                 <ul class="dropdown-menu"></ul>

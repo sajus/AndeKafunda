@@ -18,7 +18,7 @@ define(function(require) {
             this._isAuthenticated = cookieManager.isAuthenticated();
             if (this._isAuthenticated) {
                 Events.trigger("view:navigate", {
-                    path: "dashboard",
+                    path: cookieManager.isAdmin() ? "dashboard" : "greetings",
                     options: {
                         trigger: true
                     }

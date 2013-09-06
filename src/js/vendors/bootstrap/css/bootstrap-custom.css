@@ -38,3 +38,9 @@ textarea{
 	position: fixed;
 	bottom: 0;
 }
+
+/* thumbPreview */
+.customThumbPreview ul{
+	float: none;
+	margin: 0 auto;
+}

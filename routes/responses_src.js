@@ -1,8 +1,6 @@
 (function(exports) {
     "use strict";
-    var sequelize = require('../dbconfig').sequelize,
-        tbl_respose = sequelize.import(__dirname + '\\..\\models\\create\\tbl_response'),
-        tbl_greetings = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetings'),
+    var associations = require('./associations'),
         _ = require('underscore');
 
     function errorHandler(error, res) {
@@ -16,7 +14,7 @@
 
     exports.createResponse = function(req, res) {
         var requestBody = req.body;
-        tbl_respose.create(requestBody).on("success", function(response) {
+        associations.tbl_response.create(requestBody).on("success", function(response) {
             res.format({
                 json: function() {
                     res.send(response);
@@ -28,7 +26,9 @@
     };
 
     exports.getResponsesList = function(req, res) {
-        tbl_respose.findAll().on("success", function(response) {
+        associations.tbl_response.findAll({
+            include: [associations.tbl_users, associations.tbl_greetings]
+        }).on("success", function(response) {
             res.format({
                 json: function() {
                     res.send(response);
@@ -40,7 +40,7 @@
     };
 
     exports.getResponsesByEmpId = function(req, res) {
-        tbl_respose.findAll({
+        associations.tbl_response.findAll({
             where: {
                 empid: parseInt(req.params.empid, 10)
             }
@@ -63,7 +63,7 @@
     };
 
     exports.getResponsesByGreetId = function(req, res) {
-        tbl_respose.findAll({
+        associations.tbl_response.findAll({
             where: {
                 greetingid: parseInt(req.params.gid, 10)
             }
@@ -86,7 +86,7 @@
     };
 
     exports.getResponsesByGreetIdCount = function(req, res) {
-        tbl_respose.count({
+        associations.tbl_response.count({
             where: [
                 "greetingid = ?", parseInt(req.params.gid, 10)
             ]
@@ -111,13 +111,13 @@
     };
 
     exports.getResponsesByGreetIdCountAll = function(req, res) {
-        tbl_respose.findAll().on("success", function(response) {
+        associations.tbl_response.findAll().on("success", function(response) {
             var obj = {},
                 arr = _.pluck(response, 'greetingid'),
                 i = 0,
                 j = arr.length,
                 gids = [];
-            for (; i < j; i++) {
+            for (;i<j;i++) {
                 if (obj[arr[i]]) {
                     obj[arr[i]]++;
                 } else {

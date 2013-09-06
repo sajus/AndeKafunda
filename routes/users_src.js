@@ -32,7 +32,6 @@
             },
             attributes: [
                 'id',
-                'empid',
                 'email',
                 'firstname',
                 'lastname',
@@ -52,12 +51,11 @@
     exports.getUsersById = function(req, res) {
         tbl_users.find({
             where: {
-                empid: parseInt(req.params.id, 10),
+                id: parseInt(req.params.id, 10),
                 deletedAt: null
             },
             attributes: [
                 'id',
-                'empid',
                 'email',
                 'firstname',
                 'lastname',
@@ -93,7 +91,6 @@
                 },
                 attributes: [
                     'id',
-                    'empid',
                     'email',
                     'firstname',
                     'lastname',
@@ -110,7 +107,7 @@
 
     exports.delUserById = function(req, res) {
         tbl_users.destroy({
-            empid: parseInt(req.params.id, 10)
+            id: parseInt(req.params.id, 10)
         }).on("success", function() {
             res.format({
                 json: function() {
@@ -129,7 +126,6 @@
             },
             attributes: [
                 'id',
-                'empid',
                 'email',
                 'firstname',
                 'lastname',

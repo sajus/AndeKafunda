@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <a class="close" data-dismiss="modal">&times;</a>
+    <h3>{{#if editMode}}Edit{{else}}Create{{/if}} greeting</h3>
+</div>
+<div class="modal-body">
+    <div class="alert-container"></div>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/upload">
+        <div class="control-group">
+            <label class="control-label" for="url">Url</label>
+            <div class="controls">
+                <input type="text" class="input-xlarge" id="url" name="url" disabled>
+                <span class="help-inline"></span>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="user">Select Artist</label>
+            <div class="controls">
+                <select class="user">
+                    {{#each users}}
+                    <option value="{{id}}">{{firstname}} {{lastname}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="fileInput">Upload greeting</label>
+            <div class="controls">
+                <input name="file" class="input-file" id="fileInput" type="file">
+            </div>
+        </div>
+    </form>
+    <div class="clearfix customThumbPreview">
+        <ul class="thumbnails span4">
+            <li class="span4">
+                <a class="thumbnail">
+                    <img src="{{#if editMode}} {{url}} {{/if}}" class="uploadedImage" alt="No image available">
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="modal-footer">
+    <a href="#" class="btn btn-primary saveGreeting">Save changes</a>
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+</div>

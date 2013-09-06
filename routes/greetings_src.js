@@ -1,7 +1,6 @@
 (function(exports) {
     "use strict";
-    var sequelize = require('../dbconfig').sequelize,
-        tbl_greetings = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetings');
+    var associations = require('./associations');
 
     function errorHandler(error, res) {
         console.error(error.message);
@@ -14,11 +13,23 @@
 
     exports.createGreeting = function(req, res) {
         var requestBody = req.body;
-        tbl_greetings.create(requestBody).on("success", function(greeting) {
-            res.format({
-                json: function() {
-                    res.send(greeting);
+        associations.tbl_greetings.create({
+            url: requestBody.url
+        }).on("success", function(greeting) {
+            associations.tbl_users.find({
+                where: {
+                    id: requestBody.empid
                 }
+            }).success(function(user) {
+                greeting.addTblUser(user).on("success", function() {
+                    res.format({
+                        json: function() {
+                            res.send({
+                                greetingid: greeting.id
+                            });
+                        }
+                    });
+                });
             });
         }).on("error", function(error) {
             errorHandler(error, res);
@@ -26,7 +37,8 @@
     };
 
     exports.getGreetingsList = function(req, res) {
-        tbl_greetings.findAll({
+        associations.tbl_greetings.findAll({
+            include: [associations.tbl_users],
             where: {
                 deletedAt: null
             }
@@ -42,7 +54,8 @@
     };
 
     exports.getGreetingsById = function(req, res) {
-        tbl_greetings.find({
+        associations.tbl_greetings.find({
+            include: [associations.tbl_users],
             where: {
                 id: parseInt(req.params.id, 10),
                 deletedAt: null
@@ -67,20 +80,42 @@
 
     exports.putGreetingsById = function(req, res) {
         var requestBody = req.body;
-        tbl_greetings.update(requestBody, {
+        associations.tbl_greetings.update({
+            url: requestBody.url
+        }, {
             id: parseInt(req.params.id, 10)
-        }).success(function() {
-            tbl_greetings.find({
+        }).on('success', function() {
+            associations.tbl_greetings.find({
                 where: {
                     id: parseInt(req.params.id, 10)
-                },
-                attributes: [
-                    'id',
-                    'empid',
-                    'url'
-                ]
-            }).success(function(greeting) {
-                res.send(greeting);
+                }
+            }).on('success', function(greeting) {
+                // console.log(greeting.hasTblUser());
+                greeting.getTblUsers().on('success', function(users) {
+                    if (users[0].get('id') === requestBody.empid) {
+                        res.format({
+                            json: function() {
+                                res.send(req.params.id);
+                            }
+                        });
+                    } else {
+                        greeting.removeTblUser(users[0]).on('success', function() {
+                            associations.tbl_users.find({
+                                where: {
+                                    id: parseInt(requestBody.empid, 10)
+                                }
+                            }).on('success', function(newArtist) {
+                                greeting.addTblUser(newArtist).on('success', function() {
+                                    res.format({
+                                        json: function() {
+                                            res.send(req.params.id);
+                                        }
+                                    });
+                                });
+                            });
+                        });
+                    }
+                });
             });
         }).on("error", function(error) {
             errorHandler(error, res);
@@ -88,7 +123,7 @@
     };
 
     exports.delGreetingsById = function(req, res) {
-        tbl_greetings.destroy({
+        associations.tbl_greetings.destroy({
             id: parseInt(req.params.id, 10)
         }).on("success", function() {
             res.format({

@@ -1,68 +1,39 @@
 (function() {
     "use strict";
 
-    var csv = require('csv')
-        , _ = require('underscore')
-        , SQLValue = ""
-        , headValues = []
-        , insertSQL = {}
-        , mapInsertSQL  = [];
-
-    /**
-      * Specify the path for of CSV directory
-    ***/
-    var csvDirectory = '/csv/';
-
-    /**
-      * Sequelize Model layer
-    ***/
-    var sequelize = require('../dbconfig').sequelize,
-        tbl_users = sequelize.import(__dirname + '/create/tbl_users'),
-        tbl_greetings = sequelize.import(__dirname + '/create/tbl_greetings'),
-        tbl_response = sequelize.import(__dirname + '/create/tbl_response');
-
-    tbl_users.hasMany(tbl_response, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    });
-    tbl_greetings.hasMany(tbl_response, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    });
-    tbl_users.hasMany(tbl_greetings, {
-        onDelete: 'cascade',
-        onUpdate: 'cascade'
-    });
-
-    var parseHeader = function(row) {
-        _.each(row, function(item){
-            _.each(item.split(','), function(tableColName){
-                tableColName = tableColName.replace(/^\s+/, '');
-                headValues.push(tableColName);
+    var csv = require('csv'),
+        _ = require('underscore'),
+        headValues = [],
+        mapInsertSQL = [],
+        csvDirectory = '/csv/',
+        sequelize = require('../dbconfig').sequelize,
+        associations = require('../routes/associations'),
+        parseHeader = function(row) {
+            _.each(row, function(item) {
+                _.each(item.split(','), function(tableColName) {
+                    tableColName = tableColName.replace(/^\s+/, '');
+                    headValues.push(tableColName);
+                });
             });
-        });
-    }
-
-    var parseData = function(row) {
-        var valueObj = [];
-        var valueString = "";
-        _.each(row, function(item){
-            _.each(item.split(','), function(insertValues) {
-                insertValues = insertValues.replace(/^\s+/, '');
-                if(!isNaN(insertValues)){
-                    valueString = parseInt(insertValues);
-                } else {
-                    valueString = insertValues;
-                }
-                valueObj.push(valueString);
+        },
+        parseData = function(row) {
+            var valueObj = [],
+                valueString = "";
+            _.each(row, function(item) {
+                _.each(item.split(','), function(insertValues) {
+                    insertValues = insertValues.replace(/^\s+/, '');
+                    if (!isNaN(insertValues)) {
+                        valueString = parseInt(insertValues, 10);
+                    } else {
+                        valueString = insertValues;
+                    }
+                    valueObj.push(valueString);
+                });
             });
-        });
-        return insertSQL = _.object(headValues, valueObj);
-    }
-
-    var addResponseEntries = function() {
-        tbl_response
-            .bulkCreate([{
+            return _.object(headValues, valueObj);
+        },
+        addResponseEntries = function() {
+            var data = [{
                 empid: 7601,
                 greetingid: 1,
                 hasresponse: true
@@ -86,19 +57,32 @@
                 empid: 10368,
                 greetingid: 1,
                 hasresponse: true
-            }])
-            .on('success', function() {
-                console.log("Response table is ready");
-                console.log("Database Tables has been setup successfully");
-            }).on('error', function(error) {
-                console.log("Error occured while creating response table!");
-                console.log(error);
-            });
-    }
+            }];
+            data.forEach(function(value) {
+                associations.tbl_response
+                    .create({
+                        hasresponse: value.hasresponse
+                    }).success(function(response) {
+                        associations.tbl_users.find({
+                            where: {
+                                id: value.empid
+                            }
+                        }).success(function(user) {
+                            response.addTblUser(user);
+                        });
 
-    var addGreetingEntries = function() {
-        tbl_greetings
-            .bulkCreate([{
+                        associations.tbl_greetings.find({
+                            where: {
+                                id: value.greetingid
+                            }
+                        }).success(function(greeting) {
+                            response.addTblGreeting(greeting);
+                        });
+                    });
+            });
+        },
+        addGreetingEntries = function() {
+            var data = [{
                 empid: 7601,
                 url: '/uploads/google.png'
             }, {
@@ -110,46 +94,59 @@
             }, {
                 empid: 10368,
                 url: '/uploads/jj.png'
-            }])
-            .on('success', function() {
-                console.log("Greeting table is ready");
-                addResponseEntries();
-            }).on('error', function(error) {
-                console.log("Error occured while creating greeting table!");
-                console.log(error);
-            });
-    }
-
-    var csvEngine = function(csvDirectory, tableName) {
-        console.log("Executing database rollout script...");
-        csv()
-            .from.path(__dirname + csvDirectory + tableName + '.in', { delimiter: ',', escape: '"' })
-            .on('record', function(row, index){
-                /* Pre condition, the first row needs to be string */
-                if(index == 0){
-                    parseHeader(row);
-                    return;
-                }
-                mapInsertSQL.push(parseData(row));
-            })
-            .on('end', function(){
-                sequelize.sync().on('success', function() {
-                    tbl_users
-                        .bulkCreate(mapInsertSQL)
-                        .on('success', function() {
-                            console.log("Users table is ready");
-                            addGreetingEntries();
+            }, {
+                empid: 10789,
+                url: '/uploads/dkjvhkxjh.png'
+            }, {
+                empid: 7601,
+                url: '/uploads/cvnvbn.jpg'
+            }];
+            data.forEach(function(value) {
+                associations.tbl_greetings
+                    .create({
+                        url: value.url
+                    }).success(function(greeting) {
+                        associations.tbl_users.find({
+                            where: {
+                                id: value.empid
+                            }
+                        }).success(function(user) {
+                            greeting.addTblUser(user);
                         });
-                }).on('error', function(error) {
-                    console.log("Error occured while creating users table!");
-                    console.log(error);
-                });
-            })
-            .on('error', function(error){
-                console.log(error.message);
+                    });
             });
-    }
+            addResponseEntries();
+        },
+        csvEngine = function(csvDirectory, tableName) {
+            csv()
+                .from.path(__dirname + csvDirectory + tableName + '.in', {
+                    delimiter: ',',
+                    escape: '"'
+                })
+                .on('record', function(row, index) {
+                    /* Pre condition, the first row needs to be string */
+                    if (index === 0) {
+                        parseHeader(row);
+                        return;
+                    }
+                    mapInsertSQL.push(parseData(row));
+                })
+                .on('end', function() {
+                    sequelize.sync().on('success', function() {
+                        associations.tbl_users
+                            .bulkCreate(mapInsertSQL)
+                            .on('success', function() {
+                                addGreetingEntries();
+                            });
+                    }).on('error', function(error) {
+                        console.log(error);
+                    });
+                })
+                .on('error', function(error) {
+                    console.log(error.message);
+                });
+        };
 
-    csvEngine(csvDirectory, tbl_users.options.tableName);
+    csvEngine(csvDirectory, associations.tbl_users.options.tableName);
 
 }());

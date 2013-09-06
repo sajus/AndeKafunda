@@ -11,7 +11,7 @@ define(function(require) {
         },
 
         validation: {
-            empid: [{
+            id: [{
                 required: true,
                 msg: 'Please enter Employee Id!!'
             }, {
