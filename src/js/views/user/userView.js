@@ -6,12 +6,12 @@ define(function(require) {
         Events = require('events'),
         userTemplate = require('template!templates/user/userList'),
         FuelUxDataSource = require('fueluxDataSource'),
-        EditModel = require('models/user/userCreateEditModel'),
-        UserCreateView = require('views/user/userCreateView'),
+        CreateEditModel = require('models/user/userCreateEditModel'),
         UserEditView = require('views/user/userCreateEditView'),
         DeleteModal = require('models/user/userDelete'),
         userDeleteTemplate = require('template!templates/user/userDelete'),
-        UsersSummaryView = require('views/user/summaryUserModalView'),
+        summaryUserModalTemplate = require('template!templates/user/userSummary'),
+        cookieManager = require('utilities/cookieManager'),
         globalSelected = [],
         checkCounter = 0;
 
@@ -26,7 +26,7 @@ define(function(require) {
 
         initialize: function() {
             Events.on("refreshView", this.render, this);
-            this.editUserModel = new EditModel();
+            this.createEditUserModel = new CreateEditModel();
         },
 
         el: '.page',
@@ -68,7 +68,7 @@ define(function(require) {
                 operationHTML = '<button class="btn btn-small btn-primary userEdit" type="button"><i class="icon-edit icon-white"></i> Edit</button>';
 
             _.each(Userlist, function(userlist) {
-                userlist.selectRows = "<input type='checkbox' class='selectrows' data-id=" + userlist.empid + ">";
+                userlist.selectRows = (parseInt(cookieManager.checkEmpid(), 10) !== userlist.empid)? "<input type='checkbox' class='selectrows' data-id=" + userlist.empid + ">" : "";
                 if (userlist.accesstype) {
                     userlist.access = "Admin";
                 } else {
@@ -154,9 +154,10 @@ define(function(require) {
                 id = targetRow$.find('td').eq(1).text(),
                 userEdit;
 
-            this.editUserModel.set('id', id);
+            this.createEditUserModel.set('id', id);
             userEdit = new UserEditView({
-                model: this.editUserModel
+                model: this.createEditUserModel,
+                id: id
             });
 
             this.$('.modal-container').html(userEdit.render().el);
@@ -191,9 +192,9 @@ define(function(require) {
                 Events.trigger("alert:success", [{
                     message: "User deleted successfully."
                 }]);
-            }).error(function() {
+            }).error(function(error) {
                 Events.trigger("alert:error", [{
-                    message: "Some service error occured during data fetching."
+                    message: error.statusText
                 }]);
             });
         },
@@ -201,9 +202,9 @@ define(function(require) {
         /*Create call*/
         create: function(e) {
             e.preventDefault();
-            this.editUserModel.clear();
-            var userCreate = new UserCreateView({
-                model: this.editUserModel
+            this.createEditUserModel.clear();
+            var userCreate = new UserEditView({
+                model: this.createEditUserModel
             });
             this.$('.modal-container').html(userCreate.render().el);
             this.$('.modal').modal({
@@ -213,8 +214,7 @@ define(function(require) {
 
         /*Summary handling*/
         userTblSummary: function() {
-            var usersSummary = new UsersSummaryView();
-            this.$('.modal-container').html(usersSummary.render().el);
+            this.$('.modal-container').html(summaryUserModalTemplate);
             this.$('.modal').modal({ backdrop: 'static'});
             this.summaryData(this.collection.toJSON());
             $('.container').siblings('.table-bordered').addClass('addPrint');
