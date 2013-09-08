@@ -3,7 +3,8 @@
     var sequelize = require('../dbconfig').sequelize,
         tbl_greetings = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetings'),
         tbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_users'),
-        tbl_response = sequelize.import(__dirname + '\\..\\models\\create\\tbl_response');
+        tbl_response = sequelize.import(__dirname + '\\..\\models\\create\\tbl_response'),
+        tbl_greetingstbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetingstbl_users');
 
     /* User-greeting */
     tbl_users.hasMany(tbl_greetings, {
@@ -42,9 +43,9 @@
         onDelete: 'cascade',
         onUpdate: 'cascade'
     });
-
     /* Export the models */
     exports.tbl_greetings = tbl_greetings;
     exports.tbl_users = tbl_users;
     exports.tbl_response = tbl_response;
+    exports.tbl_greetingstbl_users = tbl_greetingstbl_users;
 }());

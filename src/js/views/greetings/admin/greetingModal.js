@@ -24,7 +24,6 @@ define(function(require) {
             var postData = {}, self = this;
             /* remove file attribute */
             if (this.options.editMode) {
-                console.log("in the post of edited");
                 postData.empid = this.$('.user').val();
                 postData.id = this.model.get('id');
                 postData.url = this.model.get('url');
@@ -38,6 +37,12 @@ define(function(require) {
                     Events.trigger('alert:success', [{
                         message: "Greeting saved successfully"
                     }]);
+                    setTimeout(function() {
+                        self.$el.modal('hide');
+                    }, 1500);
+                    self.$el.on('hidden', function() {
+                        Events.trigger('refreshView');
+                    });
                 }
             });
         },

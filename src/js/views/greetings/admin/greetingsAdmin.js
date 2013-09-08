@@ -7,8 +7,10 @@ define(function(require) {
         globalSelected = [],
         checkCounter = 0,
         GreetingModal = require('views/greetings/admin/greetingModal'),
+        ConfirmModal = require('views/greetings/admin/confirmModal'),
         GreetingModel = require('models/greetings/greeting'),
-        UsersCollection = require('collections/user/userCollection');
+        UsersCollection = require('collections/user/userCollection'),
+        Events = require('events');
     /* Requires with no return */
     require('fueluxDataGrid');
     require('bootstrapDropdown');
@@ -25,24 +27,29 @@ define(function(require) {
                     self.render();
                 }
             });
+            Events.on('confirmedGreetingDelete', this.confirmedDelete, this);
+            Events.on('refreshView', this.refreshView, this);
         },
         render: function() {
             this.$el.html(greetingsAdminTemplate());
             this.createDataGrid(this.formatData(this.collection.toJSON()));
         },
-
+        refreshView: function() {
+            var self = this;
+            this.collection.fetch({
+                success: function() {
+                    self.render();
+                }
+            })
+        },
         events: {
             'click button.greetingEdit': 'greetingEdit',
             'click .greetingCreate': 'greetingCreate',
-            // 'click .greetingDelete': 'greetingDelete',
-            // 'mouseover .greetingDelete': 'rowSelectedDelete',
-            // 'mouseout .greetingDelete': 'rowSelectedNotDelete',
-            // 'click .greetingDelete': 'greetingDelete',
-            // 'click .summary': 'userTblSummary',
+            'click .greetingDelete': 'greetingDelete',
             // 'click .sendEmail': 'sendEmail',
-            // 'change #selectUsersAtOnce': 'gridCheckBox',
-            // //'loaded #MyGrid': 'gridCheckBox',
-            // 'click .selectrows': 'rowSelected'
+            'change .selectUsersAtOnce': 'gridCheckBox',
+            'loaded #MyGrid': 'cleanSelectAll',
+            'change .selectrows': 'rowSelected'
         },
         formatData: function(data) {
             var greetings = [],
@@ -50,7 +57,7 @@ define(function(require) {
                 selectRows = "",
                 operationHTML = "";
             _.each(data, function(greetingModel) {
-                var usersData = greetingModel.tblUsers.pop();
+                var usersData = greetingModel.tblUsers[0];
                 operationHTML = "<button class='btn btn-small btn-primary greetingEdit' type='button' data-id='" + greetingModel.id + "'><i class='icon-edit icon-white'></i> Edit</button>";
                 selectRows = "<input type='checkbox' class='selectrows' data-id=" + greetingModel.id + ">";
                 greeting = {};
@@ -83,7 +90,7 @@ define(function(require) {
             var DataSource = new FuelUxDataSource({
                 columns: [{
                     property: "selectrows",
-                    label: "<input type='checkbox' id='selectUsersAtOnce'>",
+                    label: "<input type='checkbox' class='selectUsersAtOnce'>",
                     sortable: false
                 }, {
                     property: "id",
@@ -124,7 +131,7 @@ define(function(require) {
             });
         },
         greetingEdit: function(e) {
-            var target = this.$(e.target),
+            var target = this.$(e.target).closest('button'),
                 greetingModel = new GreetingModel({
                     id: target.attr('data-id')
                 }),
@@ -139,28 +146,10 @@ define(function(require) {
                 usersCollection.fetch({
                     success: function() {
                         self.$('.modal-container').html(greetingModal.render(usersCollection.toJSON()).el);
-                        self.$('.modal').modal();
+                        self.$('.modal-container .modal').modal();
                     }
                 });
             });
-            // var self = this;
-            // var userEdit = new UserEditView();
-            // this.$('.modal-container').html(userEdit.render().el);
-            // this.$('#editModal').modal({
-            //     backdrop: 'static'
-            // });
-            // this.getUserModel.set({
-            //     id: 9901
-            // });
-            // this.getUserModel.save(self.getUserModel.toJSON(), {
-            //     success: function() {
-            //         console.log('success');
-            //     },
-            //     error: function() {
-            //         console.log('error');
-            //     }
-            // });
-
         },
         greetingCreate: function(e) {
             e.preventDefault();
@@ -174,97 +163,92 @@ define(function(require) {
             usersCollection.fetch({
                 success: function() {
                     self.$('.modal-container').html(greetingModal.render(usersCollection.toJSON()).el);
-                    self.$('.modal').modal();
+                    self.$('.modal-container .modal').modal();
                 }
             });
-
-        }
-        // userDelete: function() {
-        //     var userDelete = new UserDeleteView();
-        //     this.$('.modal-container').html(userDelete.render().el);
-        //     this.$('#deleteModal').modal({
-        //         backdrop: 'static'
-        //     });
-        // },
-
-        // userTblSummary: function() {
-        //     var usersSummary = new UsersSummaryView();
-        //     this.$('.modal-container').html(usersSummary.render().el);
-        //     this.$('#summaryModal').modal();
-        //     this.summaryData(this.collection.toJSON());
-        //     $('body').append($('#summaryModal').find('.summaryModal').html());
-        //     $('.container').siblings('.table-bordered').addClass('addPrint');
-        // },
-
+        },
+        greetingDelete: function() {
+            var confirmDelete = new ConfirmModal();
+            this.$('.modal-containerConfirm').html(confirmDelete.render().el);
+            this.$('.modal-containerConfirm .modal').modal('show');
+        },
+        confirmedDelete: function() {
+            var confirmModal$ = this.$('.modal-containerConfirm .modal'),
+                greetingModel = new GreetingModel();
+            greetingModel.set('id', globalSelected);
+            greetingModel.destroy({
+                success: function(model, responseText) {
+                    console.log(responseText);
+                    Events.trigger("alert:success", [{
+                        message: "Greeting deleted successfully."
+                    }]);
+                    setTimeout(function() {
+                        confirmModal$.modal('hide');
+                    }, 1500);
+                    confirmModal$.on('hidden', function() {
+                        Events.trigger('refreshView');
+                    });
+                }
+            });
+        },
         // sendEmail: function() {
         //     console.log("Send Email");
         // },
+        cleanSelectAll: function(e) {
+            this.$('.selectUsersAtOnce').prop('checked', false);
+        },
+        gridCheckBox: function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            globalSelected = [];
+            var greetingDelete$ = this.$('.greetingDelete'),
+                selectrows$ = this.$('.selectrows'),
+                tableRow$ = this.$('table[id="MyGrid"] tbody tr');
+            this.$('.selectUsersAtOnce').prop('checked', function() {
+                if (this.checked) {
+                    $(this).prop("checked", true);
+                    selectrows$.prop("checked", true);
+                    tableRow$.addClass('warning');
+                    tableRow$.each(function() {
+                        globalSelected.push(parseInt($(this).find('td').eq(1).text(), 10));
+                    });
+                    greetingDelete$.removeProp('disabled').removeClass('disabled');
+                } else {
+                    $(this).prop('checked', false);
+                    selectrows$.prop('checked', false);
+                    tableRow$.removeClass('warning');
+                    greetingDelete$.prop('disabled', true).addClass('disabled');
+                }
+            });
+        },
 
-        // gridCheckBox: function(e) {
-        //     e.preventDefault();
-        //     e.stopPropagation();
-        //     $('#selectUsersAtOnce').prop('checked', function() {
-        //         if (this.checked) {
-        //             $('.userDelete').removeProp('disabled').removeClass('disabled');
-        //             $(this).prop("checked", true);
-        //             $('.selectrows').prop("checked", true);
-        //             $('table[id="MyGrid"] tbody tr').addClass('warning')
-        //         } else {
-        //             $(this).prop('checked', false);
-        //             $('.selectrows').prop('checked', false);
-        //             $('table[id="MyGrid"] tbody tr').removeClass('warning');
-        //             $('.userDelete').prop('disabled', 'true');
-        //         }
-        //     });
-        // },
-
-        // rowSelected: function(e) {
-        //     //console.log($(e.target).closest('input[type="checkbox"]').attr('data-id'));
-        //     $($(e.target).closest('input[type="checkbox"]')).prop('checked', function() {
-        //         if (this.checked) {
-        //             $(e.target).closest('tr').addClass('warning selectedRow');
-        //             globalSelected.push($(e.target).closest('input[type="checkbox"]').attr('data-id'));
-        //             checkCounter++;
-        //             if (checkCounter > 0) {
-        //                 $('.userDelete').removeProp('disabled').removeClass('disabled');
-        //             }
-
-        //         } else {
-        //             checkCounter--;
-        //             if (checkCounter == 0) {
-        //                 $('.userDelete').prop('disabled', 'true');
-        //             }
-        //             $('.selectrows').prop('checked', function() {
-        //                 if ($(e.target).closest('tr').hasClass('error')) {
-        //                     $(e.target).closest('tr').removeClass('error selectedRow');
-        //                 } else {
-        //                     $(e.target).closest('tr').removeClass('warning selectedRow');
-        //                 }
-        //             });
-        //             globalSelected.pop($(e.target).closest('input[type="checkbox"]').attr('data-id'));
-        //         }
-        //     });
-        //     //console.log("Users Selected::-")
-        //     //console.log(globalSelected);
-        // },
-
-        // rowSelectedDelete: function() {
-        //     $('.selectrows').prop('checked', function() {
-        //         if (this.checked) {
-        //             $(this).parent().parent().removeClass('warning').addClass('error');
-        //             //$('.selectedRow').removeClass('warning').addClass('error');
-        //         }
-        //     });
-        // },
-
-        // rowSelectedNotDelete: function() {
-        //     $('.selectrows').prop('checked', function() {
-        //         if (this.checked) {
-        //             $(this).parent().parent().removeClass('error').addClass('warning');
-        //             //$('.selectedRow').removeClass('erro').addClass('warning');
-        //         }
-        //     });
-        // }
-
+        rowSelected: function(e) {
+            e.stopPropagation();
+            var target$ = this.$(e.target),
+                greetingDelete$ = this.$('.greetingDelete');
+            target$.prop('checked', function() {
+                if (this.checked) {
+                    target$.closest('tr').addClass('warning selectedRow');
+                    globalSelected.push(parseInt(target$.attr('data-id'), 10));
+                    checkCounter++;
+                    if (checkCounter > 0) {
+                        $('.greetingDelete').removeProp('disabled').removeClass('disabled');
+                    }
+                } else {
+                    checkCounter--;
+                    $('.selectrows').prop('checked', function() {
+                        if (target$.closest('tr').hasClass('error')) {
+                            target$.closest('tr').removeClass('error selectedRow');
+                        } else {
+                            target$.closest('tr').removeClass('warning selectedRow');
+                        }
+                    });
+                    globalSelected.pop(target$.attr('data-id'));
+                    if (checkCounter == 0) {
+                        greetingDelete$.prop('disabled', true).addClass('disabled');
+                    }
+                }
+            });
+        },
     });
 });

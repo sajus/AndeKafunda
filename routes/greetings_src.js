@@ -1,6 +1,7 @@
 (function(exports) {
     "use strict";
-    var associations = require('./associations');
+    var associations = require('./associations'),
+        _ = require('underscore');
 
     function errorHandler(error, res) {
         console.error(error.message);
@@ -39,9 +40,7 @@
     exports.getGreetingsList = function(req, res) {
         associations.tbl_greetings.findAll({
             include: [associations.tbl_users],
-            where: {
-                deletedAt: null
-            }
+            where: '`tbl_greetings`.`deletedAt` IS NULL AND `tbl_greetingstbl_users`.`deletedAt` IS NULL'
         }).on("success", function(greeting) {
             res.format({
                 json: function() {
@@ -56,21 +55,11 @@
     exports.getGreetingsById = function(req, res) {
         associations.tbl_greetings.find({
             include: [associations.tbl_users],
-            where: {
-                id: parseInt(req.params.id, 10),
-                deletedAt: null
-            }
+            where: '`tbl_greetingstbl_users`.`deletedAt` IS NULL AND `tbl_greetingstbl_users`.`greetingid`= ' + parseInt(req.params.id, 10)
         }).on("success", function(greeting) {
             res.format({
                 json: function() {
-                    if (greeting) {
-                        res.send(greeting);
-                    } else {
-                        res.send({
-                            status: 404,
-                            message: "No record found"
-                        });
-                    }
+                    res.send(greeting);
                 }
             });
         }).on("error", function(error) {
@@ -86,36 +75,34 @@
             id: parseInt(req.params.id, 10)
         }).on('success', function() {
             associations.tbl_greetings.find({
-                where: {
-                    id: parseInt(req.params.id, 10)
-                }
+                include: [associations.tbl_users],
+                where: '`tbl_greetingstbl_users`.`greetingid`= ' + parseInt(req.params.id, 10) + ' AND `tbl_greetingstbl_users`.`deletedAt` IS NULL'
             }).on('success', function(greeting) {
-                // console.log(greeting.hasTblUser());
-                greeting.getTblUsers().on('success', function(users) {
-                    if (users[0].get('id') === requestBody.empid) {
-                        res.format({
-                            json: function() {
-                                res.send(req.params.id);
+
+                if (greeting.tblUsers[0].get('id') === parseInt(requestBody.empid, 10)) {
+                    res.format({
+                        json: function() {
+                            res.send(req.params.id);
+                        }
+                    });
+                } else {
+                    greeting.removeTblUser(greeting.tblUsers[0]).on('success', function() {
+                        associations.tbl_users.find({
+                            where: {
+                                id: parseInt(requestBody.empid, 10)
                             }
-                        });
-                    } else {
-                        greeting.removeTblUser(users[0]).on('success', function() {
-                            associations.tbl_users.find({
-                                where: {
-                                    id: parseInt(requestBody.empid, 10)
-                                }
-                            }).on('success', function(newArtist) {
-                                greeting.addTblUser(newArtist).on('success', function() {
-                                    res.format({
-                                        json: function() {
-                                            res.send(req.params.id);
-                                        }
-                                    });
+                        }).on('success', function(newArtist) {
+                            greeting.addTblUser(newArtist).on('success', function() {
+                                res.format({
+                                    json: function() {
+                                        res.send(req.params.id);
+                                    }
                                 });
                             });
                         });
-                    }
-                });
+                    });
+                }
+
             });
         }).on("error", function(error) {
             errorHandler(error, res);
@@ -123,16 +110,24 @@
     };
 
     exports.delGreetingsById = function(req, res) {
-        associations.tbl_greetings.destroy({
-            id: parseInt(req.params.id, 10)
-        }).on("success", function() {
-            res.format({
-                json: function() {
-                    res.send(req.params.id);
-                }
+        var delIds = req.params.id.split(',');
+        delIds = _.map(delIds, function(val) {
+            return parseInt(val, 10);
+        });
+        associations.tbl_greetingstbl_users.destroy({
+            greetingid: delIds
+        }).on('success', function() {
+            associations.tbl_greetings.destroy({
+                id: delIds
+            }).on("success", function() {
+                res.format({
+                    json: function() {
+                        res.send(delIds);
+                    }
+                });
+            }).on("error", function(error) {
+                errorHandler(error, res);
             });
-        }).on("error", function(error) {
-            errorHandler(error, res);
         });
     };
 }(exports));

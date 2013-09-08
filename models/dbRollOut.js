@@ -7,6 +7,7 @@
         mapInsertSQL = [],
         csvDirectory = '/csv/',
         sequelize = require('../dbconfig').sequelize,
+        Sequelize = require('sequelize'),
         associations = require('../routes/associations'),
         parseHeader = function(row) {
             _.each(row, function(item) {
@@ -84,22 +85,22 @@
         addGreetingEntries = function() {
             var data = [{
                 empid: 7601,
-                url: '/uploads/google.png'
+                url: '/banner.png'
             }, {
                 empid: 10789,
-                url: '/uploads/chcha.png'
+                url: '/bike.png'
             }, {
                 empid: 10748,
-                url: '/uploads/budhao.png'
+                url: '/freeshipping-lower48.jpg'
             }, {
                 empid: 10368,
-                url: '/uploads/jj.png'
+                url: '/cull-Panda.jpg'
             }, {
                 empid: 10789,
-                url: '/uploads/dkjvhkxjh.png'
+                url: '/estore-left-banner-hm5now.jpg'
             }, {
                 empid: 7601,
-                url: '/uploads/cvnvbn.jpg'
+                url: '/bike1.png'
             }];
             data.forEach(function(value) {
                 associations.tbl_greetings
@@ -115,7 +116,6 @@
                         });
                     });
             });
-            addResponseEntries();
         },
         csvEngine = function(csvDirectory, tableName) {
             csv()
