@@ -36,33 +36,27 @@
         addResponseEntries = function() {
             var data = [{
                 empid: 7601,
-                greetingid: 1,
-                hasresponse: true
+                greetingid: 1
             }, {
                 empid: 7601,
-                greetingid: 2,
-                hasresponse: true
+                greetingid: 2
             }, {
                 empid: 7601,
-                greetingid: 3,
-                hasresponse: true
+                greetingid: 3
             }, {
                 empid: 10789,
-                greetingid: 1,
-                hasresponse: true
+                greetingid: 1
             }, {
                 empid: 10748,
-                greetingid: 2,
-                hasresponse: true
+                greetingid: 2
             }, {
                 empid: 10368,
-                greetingid: 1,
-                hasresponse: true
+                greetingid: 1
             }];
             data.forEach(function(value) {
                 associations.tbl_response
                     .create({
-                        hasresponse: value.hasresponse
+                        hasresponse: true
                     }).success(function(response) {
                         associations.tbl_users.find({
                             where: {
@@ -116,6 +110,7 @@
                         });
                     });
             });
+            addResponseEntries();
         },
         csvEngine = function(csvDirectory, tableName) {
             csv()

@@ -14,20 +14,43 @@
 
     exports.createResponse = function(req, res) {
         var requestBody = req.body;
-        associations.tbl_response.create(requestBody).on("success", function(response) {
-            res.format({
-                json: function() {
-                    res.send(response);
-                }
+        associations.tbl_response
+            .create({
+                hasresponse: true
+            }).on('success', function(response) {
+                associations.tbl_users.find({
+                    where: {
+                        id: requestBody.empid
+                    }
+                }).success(function(user) {
+                    response.addTblUser(user);
+                });
+
+                associations.tbl_greetings.find({
+                    where: {
+                        id: requestBody.greetingid
+                    }
+                }).success(function(greetings) {
+                    _.each(greetings, function(greeting) {
+                        response.addTblGreeting(greeting);
+                    });
+                    res.format({
+                        json: function() {
+                            res.send({
+                                responseid: response.id
+                            });
+                        }
+                    });
+                });
+            }).on('error', function(error) {
+                errorHandler(error, res);
             });
-        }).on("error", function(error) {
-            errorHandler(error, res);
-        });
     };
 
     exports.getResponsesList = function(req, res) {
         associations.tbl_response.findAll({
-            include: [associations.tbl_users, associations.tbl_greetings]
+            include: [associations.tbl_users, associations.tbl_greetings],
+            where: '`tbl_response`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_greetingstbl_response`.`deletedAt` IS NULL'
         }).on("success", function(response) {
             res.format({
                 json: function() {
@@ -117,7 +140,7 @@
                 i = 0,
                 j = arr.length,
                 gids = [];
-            for (;i<j;i++) {
+            for (; i < j; i++) {
                 if (obj[arr[i]]) {
                     obj[arr[i]]++;
                 } else {
