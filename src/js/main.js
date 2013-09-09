@@ -45,6 +45,7 @@ requirejs.config({
         'bootstrapAlert': 'vendors/bootstrap/js/bootstrap-alert',
         'bootstrapDropdown': 'vendors/bootstrap/js/bootstrap-dropdown',
         'bootstrapTransition': 'vendors/bootstrap/js/bootstrap-transition',
+        'bootstraplightbox': 'vendors/bootstrap/js/bootstrap.lightbox',
 
         /* List of jQuery plugins */
         'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',

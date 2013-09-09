@@ -7,7 +7,7 @@
         var email = req.body.email,
             password = req.body.password,
             authorization = null;
-        sequelize.query("SELECT email, firstname, lastname,accesstype FROM tbl_users WHERE email='" + email + "' AND password='" + password + "' LIMIT 1 ").success(function(rows) {
+        sequelize.query("SELECT id, email, firstname, lastname,accesstype FROM tbl_users WHERE email='" + email + "' AND password='" + password + "' LIMIT 1 ").success(function(rows) {
             if (rows.length === 0) {
                 authorization = _.object([
                     "isAuthenticated"
@@ -17,12 +17,14 @@
             } else {
                 authorization = _.object([
                     "isAuthenticated",
+                    "id",
                     "email",
                     "firstname",
                     "lastname",
                     "accesstype"
                 ], [
                     true,
+                    rows[0].id,
                     rows[0].email,
                     rows[0].firstname,
                     rows[0].lastname,

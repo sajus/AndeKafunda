@@ -10,7 +10,7 @@ define(function(require) {
         _ = require('underscore'),
         globals = {},
         views = {},
-        user = ['UserPage'],
+        user = ['UserPage','ReportsPage'],
         create = null;
 
     require('jqueryCookie');

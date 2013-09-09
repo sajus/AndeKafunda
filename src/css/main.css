@@ -27,3 +27,5 @@
 @import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-custom.css";
 /* Application Specific Modules */
 @import "modules/modules.css";
+/*Lightbox Css*/
+@import "../js/vendors/bootstrap/css/bootstrap.lightbox.css";

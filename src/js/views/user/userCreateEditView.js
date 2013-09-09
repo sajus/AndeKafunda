@@ -73,6 +73,7 @@ define(function(require) {
                     Events.trigger("alert:error", [{
                         message: error.responseText
                     }]);
+                    self.model.set('accesstype', self.model.get('accesstype') + '');
                 }
             });
         }

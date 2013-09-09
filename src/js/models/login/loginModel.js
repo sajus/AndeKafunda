@@ -12,12 +12,16 @@ define(function(require) {
         },
 
         validation: {
-            email: {
+            email: [{
                 required: true,
-                pattern: 'email'
-            },
+                msg: 'Email is required.'
+            }, {
+                pattern: 'email',
+                msg: 'Please enter valid email'
+            }],
             password: [{
-                required: true
+                required: true,
+                msg: 'Password is required.'
             }, {
                 pattern: '^[a-z0-9_-]{3,15}$',
                 msg: 'Password should contain min 3 and max 15 characters.'

@@ -1,0 +1,27 @@
+<div class="container">
+  <section id="overview">
+    <h2>
+        Overview
+    </h2>
+    <p>
+        Welcome to yet another lightbox plugin for Twitter Bootstrap. This plugin aims to enable your users to view larger, higher resolution images just by clicking on an image, or group of images and designed to be implemented in Bootstrap with minimal markup.
+    </p>
+    <h3>
+        Why
+    </h3>
+    <p>
+        I wanted a lightbox plugin that with minimal effort , would just work with the bootstrap framework. Unfortunately the existing <a href="http://jbutz.github.com/bootstrap-lightbox/">bootstrap-lightbox</a> plugin did not do that, requiring extra markup, buggy css and javascript, even setting up a collection of images to cycle through was complicated. Instead of messing around trying to get it to just work, I grabbed the original <a href="http://lokeshdhakar.com/projects/lightbox2/">Lightbox</a> plugin and with a little prodding, I had a lightbox up and running exactly how I wanted. This plugin is an extention of that effort, incorporating ideas from the exiting plugins and migrating it over to the Bootstrap framework.
+    </p>
+  </section>
+  <ul class="thumbnails" data-toggle="lightbox">
+    {{#each greetings}}
+    <li class="span3">
+      <a href="{{url}}" title="Image #1" class="thumbnail">
+        <img src="{{url}}" alt="" class="greetingImage"/>
+        <input type="checkbox" name="greetingCheck" class="greetingCheck" value="{{id}}">
+      </a>
+    </li>
+    {{/each}}
+  </ul>
+  <a class="btn btn-success submit"><i class="icon-ok-sign icon-white"></i>Submit</a>
+</div>

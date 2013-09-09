@@ -14,3 +14,7 @@
 		display:block !important;
 	}
 }
+.greetingImage {
+	height: 200px;
+	width: 260px;
+}

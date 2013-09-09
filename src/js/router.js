@@ -36,10 +36,11 @@ define(function(require) {
 
             routes: {
                 '(login)': 'login',
-                'logout': 'logout',
+                'dashboard': 'dashboard',
                 'users': 'users',
                 'greetings': 'greetings',
-                'dashboard': 'dashboard',
+                'reports': 'reports',
+                'logout': 'logout',
                 // Default - catch all
                 '*actions': 'defaultAction'
             }
@@ -60,26 +61,12 @@ define(function(require) {
                 loginPage.render();
             });
         });
-        /*Logout Routes*/
-        router.on('route:logout', function() {
-            $.removeCookie('isAuthenticated');
-            Events.trigger("view:navigate", {
-                path: "login",
-                options: {
-                    trigger: true,
-                    skipAuthCheck: true
-                }
-            });
-        });
 
-        /* Greetings Routes */
-        router.on('route:greetings', function() {
-            var greetingsViewPath = cookieManager.isAdmin() ? 'views/greetings/admin/greetingsAdmin' : 'views/greetings/greetingsUser';
-            require([greetingsViewPath, 'collections/greetings/greetings'], function(GreetingsView, GreetingsCollection) {
-                var greetingsCollection = new GreetingsCollection();
-                Core.create(appView, 'GreetingsView', GreetingsView, {
-                    collection: greetingsCollection
-                });
+        /* Dashboard admin */
+        router.on('route:dashboard', function() {
+            require(['views/dashboard/dashboardView'], function(DashboardPage) {
+                var dashboardPage = Core.create(appView, 'DashboardPage', DashboardPage);
+                dashboardPage.render();
             });
         });
 
@@ -94,11 +81,34 @@ define(function(require) {
             });
         });
 
-        /* Dashboard admin */
-        router.on('route:dashboard', function() {
-            require(['views/dashboard/dashboardView'], function(DashboardPage) {
-                var dashboardPage = Core.create(appView, 'DashboardPage', DashboardPage);
-                dashboardPage.render();
+        /* Greetings Routes */
+        router.on('route:greetings', function() {
+            var greetingsViewPath = cookieManager.isAdmin() ? 'views/greetings/admin/greetingsAdmin' : 'views/greetings/greetingsUser';
+            require([greetingsViewPath, 'collections/greetings/greetings'], function(GreetingsView, GreetingsCollection) {
+                var greetingsCollection = new GreetingsCollection();
+                Core.create(appView, 'GreetingsView', GreetingsView, {
+                    collection: greetingsCollection
+                });
+            });
+        });
+
+        /*Reports Admin*/
+        router.on('route:reports', function() {
+            require(['views/reports/reportsView'], function(ReportsPage) {
+                var reportsPage = Core.create(appView, 'ReportsPage', ReportsPage);
+                reportsPage.render();
+            });
+        });
+
+        /*Logout Routes*/
+        router.on('route:logout', function() {
+            $.removeCookie('isAuthenticated');
+            Events.trigger("view:navigate", {
+                path: "login",
+                options: {
+                    trigger: true,
+                    skipAuthCheck: true
+                }
             });
         });
 

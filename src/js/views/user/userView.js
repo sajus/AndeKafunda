@@ -68,7 +68,7 @@ define(function(require) {
                 operationHTML = '<button class="btn btn-small btn-primary userEdit" type="button"><i class="icon-edit icon-white"></i> Edit</button>';
 
             _.each(Userlist, function(userlist) {
-                userlist.selectRows = (parseInt(cookieManager.checkEmpid(), 10) !== userlist.empid)? "<input type='checkbox' class='selectrows' data-id=" + userlist.empid + ">" : "";
+                userlist.selectRows = (parseInt(cookieManager.checkEmpid(), 10) !== userlist.id)? "<input type='checkbox' class='selectrows'>" : "";
                 if (userlist.accesstype) {
                     userlist.access = "Admin";
                 } else {
@@ -84,7 +84,7 @@ define(function(require) {
                     "operations"
                 ], [
                     userlist.selectRows,
-                    userlist.empid,
+                    userlist.id,
                     userlist.firstname,
                     userlist.lastname,
                     userlist.email,
@@ -179,22 +179,23 @@ define(function(require) {
             e.preventDefault();
             var self = this,
                 deleteIndex = [];
-            this.deleteUser = new DeleteModal();
             $('.warning').each(function() {
                 deleteIndex.push($(this).find('td').eq(1).text());
             });
-            this.deleteUser.set({
+            this.createEditUserModel.set({
                 id: deleteIndex
             });
-            this.deleteUser.destroy().success(function() {
+            this.createEditUserModel.destroy().success(function(model,jqXhr) {
                 self.$('.modal').modal('hide');
                 self.render();
                 Events.trigger("alert:success", [{
-                    message: "User deleted successfully."
+                    message: jqXhr.responseText
                 }]);
-            }).error(function(error) {
+            }).error(function(model,error) {
+                console.log(model);
+                console.log(error);
                 Events.trigger("alert:error", [{
-                    message: error.statusText
+                    message: model.statusText
                 }]);
             });
         },
