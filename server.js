@@ -28,7 +28,6 @@
     app.post('/checkAuthorization', authorization.postAuthorization);
 
     /*Users Calls*/
-    app.post('/getUsers', users.createUser);
     app.get('/getUsers', users.getUsersList);
     app.get('/getDesigners', users.getDesignersList);
     app.get('/getUsers/:id', users.getUsersById);

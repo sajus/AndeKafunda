@@ -121,27 +121,38 @@
 
     exports.putUsersById = function(req, res) {
         var requestBody = req.body;
-        associations.tbl_users.update(requestBody, {
-            id: parseInt(req.params.id, 10)
-        }).success(function() {
-            associations.tbl_users.find({
-                where: {
+
+        associations.tbl_users.count({
+            where: {
+                id: parseInt(req.params.id, 10)
+            }
+        }).success(function(c) {
+            if(c>0){
+                associations.tbl_users.update(requestBody, {
                     id: parseInt(req.params.id, 10)
-                },
-                attributes: [
-                    'id',
-                    'email',
-                    'firstname',
-                    'lastname',
-                    'accesstype',
-                    'password'
-                ]
-            }).success(function(user) {
-                res.send(user);
-            });
-        }).on("error", function(error) {
-            errorHandler(error, res);
-        });
+                }).success(function() {
+                    associations.tbl_users.find({
+                        where: {
+                            id: parseInt(req.params.id, 10)
+                        },
+                        attributes: [
+                            'id',
+                            'email',
+                            'firstname',
+                            'lastname',
+                            'accesstype',
+                            'password'
+                        ]
+                    }).success(function(user) {
+                        res.send(user);
+                    });
+                }).on("error", function(error) {
+                    errorHandler(error, res);
+                });
+            } else {
+                exports.createUser(req, res);
+            }
+        })
     };
 
     exports.delUserById = function(req, res) {
