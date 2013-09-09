@@ -1,7 +1,11 @@
 define(function(require) {
     "use strict";
     var Backbone = require('backbone'),
-        greetingTemplate = require('template!templates/greetings/greetingsUser');
+        Events = require('events'),
+        greetingTemplate = require('template!templates/greetings/greetingsUser'),
+        greetingConfirmTemplate = require('template!templates/greetings/greetingConfirm'),
+        cookieManager = require('utilities/cookieManager'),
+        services = require('services');
 
     /* Requires with no return */
     require('bootstraplightbox');
@@ -11,8 +15,18 @@ define(function(require) {
         el: '.page',
 
         initialize: function() {
-            console.log("in user Greetings");
-            var self = this;
+            var self = this,
+                empid = cookieManager.checkEmpid();
+            this.response = false;
+            services.getResponseCountById({
+                id: empid
+            }).then(function(data){
+                if(data.count !== 0) {
+                    self.response = true;
+                }
+            }, function() {
+                console.error("error");
+            });
             this.collection.fetch({
                 success: function() {
                     self.data = self.collection.toJSON();
@@ -23,26 +37,58 @@ define(function(require) {
 
         events: {
             'click .greetingCheck': 'greetingCheck',
-            'click .submit': 'getResponse'
+            'click .submit': 'getResponse',
+            'click .confirmGreeting': 'confirmGreeting'
         },
 
         render: function() {
-            console.log(this.data);
             this.$el.html(greetingTemplate({
-                greetings:this.data
+                greetings:this.data,
+                response: this.response
             }));
         },
 
-        greetingCheck: function(e) {
-            e.stopPropagation();
-        },
-
-        getResponse: function() {
-            console.log("in response");
+        greetingCheck: function() {
             var responseValue = [];
             $('.greetingCheck:checked').each(function() {
                 responseValue.push($(this).val());
             });
+            if(responseValue.length === 0) {
+                $('.submit').prop('disabled', true).addClass('disabled');
+            } else {
+                $('.submit').removeProp('disabled').removeClass('disabled');
+            }
+        },
+
+        getResponse: function() {
+            this.$('.modal-container').html(greetingConfirmTemplate);
+            this.$('.modal').modal({
+                backdrop: 'static'
+            });
+        },
+
+        confirmGreeting: function() {
+            var self = this,
+                responseValue = [];
+            $('.greetingCheck:checked').each(function() {
+                responseValue.push($(this).val());
+            });
+            if(responseValue.length === 0) {
+                Events.trigger("alert:error", [{
+                    message: "No greetings selected"
+                }]);
+            } else {
+                var confirmModal$ = this.$('.modal-container .modal');
+                Events.trigger("alert:success", [{
+                    message: "Greeting submited successfully."
+                }]);
+                setTimeout(function() {
+                    confirmModal$.modal('hide');
+                }, 1500);
+                confirmModal$.on('hidden', function() {
+                    self.render();
+                });
+            }
             console.log(responseValue);
         }
     });

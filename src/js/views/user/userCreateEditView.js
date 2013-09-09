@@ -62,11 +62,16 @@ define(function(require) {
             }
             this.model.save(this.model.toJSON(), {
                 success: function() {
-                    self.$el.modal('hide');
-                    Events.trigger("refreshView");
+                    var confirmModal$ = self.$el;
                     Events.trigger("alert:success", [{
                         message: "User updated successfully."
                     }]);
+                    setTimeout(function() {
+                        confirmModal$.modal('hide');
+                    }, 1500);
+                    confirmModal$.on('hidden', function() {
+                        Events.trigger("refreshView");
+                    });
                 },
                 error: function(model, error) {
                     error.responseText = (error.responseText.length) ? error.responseText : self.responseText;
