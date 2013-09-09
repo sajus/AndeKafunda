@@ -4,7 +4,9 @@
         tbl_greetings = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetings'),
         tbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_users'),
         tbl_response = sequelize.import(__dirname + '\\..\\models\\create\\tbl_response'),
-        tbl_greetingstbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetingstbl_users');
+        tbl_greetingstbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetingstbl_users'),
+        tbl_greetingstbl_response = sequelize.import(__dirname + '\\..\\models\\create\\tbl_greetingstbl_response'),
+        tbl_responsetbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_responsetbl_users');
 
     /* User-greeting */
     tbl_users.hasMany(tbl_greetings, {
@@ -48,4 +50,6 @@
     exports.tbl_users = tbl_users;
     exports.tbl_response = tbl_response;
     exports.tbl_greetingstbl_users = tbl_greetingstbl_users;
+    exports.tbl_greetingstbl_response = tbl_greetingstbl_response;
+    exports.tbl_responsetbl_users = tbl_responsetbl_users;
 }());

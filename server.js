@@ -48,6 +48,7 @@
     app.post('/getResponses', responses.createResponse);
     app.get('/getResponses', responses.getResponsesList);
     app.get('/getResponses/:empid', responses.getResponsesByEmpId);
+    app.get('/getResponseCount/:empid', responses.getResponseCountByEmpId);
     app.get('/getResponses/greetings/:gid', responses.getResponsesByGreetId);
     app.get('/getResponses/greetingsCount/:gid', responses.getResponsesByGreetIdCount);
     app.get('/greetingsCountAll', responses.getResponsesByGreetIdCountAll);
@@ -66,7 +67,7 @@
                         res.redirect('#greetings');
                     } else {
                         console.log("file uploaded successfully");
-                        res.send('/'+req.files.file.name);
+                        res.send('/' + req.files.file.name);
                     }
 
                 });

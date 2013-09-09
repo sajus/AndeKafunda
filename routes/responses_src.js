@@ -64,9 +64,8 @@
 
     exports.getResponsesByEmpId = function(req, res) {
         associations.tbl_response.findAll({
-            where: {
-                empid: parseInt(req.params.empid, 10)
-            }
+            include: [associations.tbl_users, associations.tbl_greetings],
+            where: '`tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`empid`= ' + parseInt(req.params.empid, 10)
         }).on("success", function(response) {
             res.format({
                 json: function() {
@@ -85,11 +84,27 @@
         });
     };
 
+    exports.getResponseCountByEmpId = function(req, res) {
+        associations.tbl_response.findAll({
+            include: [associations.tbl_users],
+            where: '`tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`empid`= ' + parseInt(req.params.empid, 10)
+        }).on("success", function(response) {
+            res.format({
+                json: function() {
+                    res.send({
+                        count: response.length,
+                    });
+                }
+            });
+        }).on("error", function(error) {
+            errorHandler(error, res);
+        });
+    };
+
     exports.getResponsesByGreetId = function(req, res) {
         associations.tbl_response.findAll({
-            where: {
-                greetingid: parseInt(req.params.gid, 10)
-            }
+            include: [associations.tbl_users, associations.tbl_greetings],
+            where: '`tbl_greetingstbl_response`.`deletedAt` IS NULL AND `tbl_greetingstbl_response`.`greetingid`= ' + parseInt(req.params.gid, 10)
         }).on("success", function(response) {
             res.format({
                 json: function() {
