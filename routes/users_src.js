@@ -1,7 +1,7 @@
 (function(exports) {
-    "use strict";
-    var sequelize = require('../dbconfig').sequelize,
-        tbl_users = sequelize.import(__dirname + '\\..\\models\\create\\tbl_users');
+    'use strict';
+    var associations = require('./associations'),
+        _ = require('underscore');
 
     function errorHandler(error, res) {
         console.error(error.message);
@@ -14,7 +14,7 @@
 
     exports.createUser = function(req, res) {
         var requestBody = req.body;
-        tbl_users.create(requestBody).on("success", function(user) {
+        associations.tbl_users.create(requestBody).on("success", function(user) {
             res.format({
                 json: function() {
                     res.send(user);
@@ -25,8 +25,47 @@
         });
     };
 
+    exports.getDesignersList = function(req, res) {
+        associations.tbl_users.findAll({
+            where: {
+                deletedAt: null
+            },
+            attributes: [
+                'id',
+                'email',
+                'firstname',
+                'lastname',
+            ]
+        }).on("success", function(users) {
+            var designers = [],
+                counter = 0;
+            _.each(users, function(user) {
+                ++counter;
+                associations.tbl_greetingstbl_users.findAndCountAll({
+                    where: {
+                        empid: user.id
+                    }
+                }).on('success', function(result) {
+                    if (result.count !== 0) {
+                        designers.push(user);
+                    }
+                    --counter;
+                    if (counter === 0) {
+                        res.format({
+                            json: function() {
+                                res.send(designers);
+                            }
+                        });
+                    }
+                });
+            });
+        }).on("error", function(error) {
+            errorHandler(error, res);
+        });
+    };
+
     exports.getUsersList = function(req, res) {
-        tbl_users.findAll({
+        associations.tbl_users.findAll({
             where: {
                 deletedAt: null
             },
@@ -49,7 +88,7 @@
     };
 
     exports.getUsersById = function(req, res) {
-        tbl_users.find({
+        associations.tbl_users.find({
             where: {
                 id: parseInt(req.params.id, 10),
                 deletedAt: null
@@ -82,10 +121,10 @@
 
     exports.putUsersById = function(req, res) {
         var requestBody = req.body;
-        tbl_users.update(requestBody, {
+        associations.tbl_users.update(requestBody, {
             id: parseInt(req.params.id, 10)
         }).success(function() {
-            tbl_users.find({
+            associations.tbl_users.find({
                 where: {
                     id: parseInt(req.params.id, 10)
                 },
@@ -106,7 +145,7 @@
     };
 
     exports.delUserById = function(req, res) {
-        tbl_users.destroy({
+        associations.tbl_users.destroy({
             id: parseInt(req.params.id, 10)
         }).on("success", function() {
             res.format({
@@ -120,7 +159,7 @@
     };
 
     exports.getAdmins = function(req, res) {
-        tbl_users.findAll({
+        associations.tbl_users.findAll({
             where: {
                 accesstype: true
             },

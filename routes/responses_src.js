@@ -1,5 +1,5 @@
 (function(exports) {
-    "use strict";
+    'use strict';
     var associations = require('./associations'),
         _ = require('underscore');
 
@@ -124,23 +124,15 @@
     };
 
     exports.getResponsesByGreetIdCount = function(req, res) {
-        associations.tbl_response.count({
-            where: [
-                "greetingid = ?", parseInt(req.params.gid, 10)
-            ]
+        associations.tbl_response.findAll({
+            include: [associations.tbl_greetings],
+            where: '`tbl_greetingstbl_response`.`deletedAt` IS NULL AND `tbl_greetingstbl_response`.`greetingid`= ' + parseInt(req.params.gid, 10)
         }).on("success", function(response) {
             res.format({
                 json: function() {
-                    if (response) {
-                        res.send({
-                            count: response
-                        });
-                    } else {
-                        res.send({
-                            status: 404,
-                            message: "No record found"
-                        });
-                    }
+                    res.send({
+                        count: response.length,
+                    });
                 }
             });
         }).on("error", function(error) {

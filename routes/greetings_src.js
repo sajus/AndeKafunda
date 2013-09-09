@@ -1,5 +1,5 @@
 (function(exports) {
-    "use strict";
+    'use strict';
     var associations = require('./associations'),
         _ = require('underscore');
 
