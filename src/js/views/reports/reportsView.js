@@ -3,6 +3,8 @@ define(function(require) {
     var Backbone = require('backbone'),
         reportsTemplate = require('template!templates/reports/reportsView'),
         tooltipTemplate = require('template!templates/reports/tooltip'),
+        UsersCollection = require('collections/user/userCollection'),
+        UserNotVotedView = require('views/reports/userNotVotedView'),
         services = require('services');
 
     /*Google Pie charts*/
@@ -15,12 +17,33 @@ define(function(require) {
             var self = this;
             services.getResponsesByGreetIdCountAll().done(function(data) {
                 self.data = data;
-                self.render();
+                self.designersCollection = new UsersCollection({
+                    isDesigner: true
+                });
+                self.usersCollection = new UsersCollection({
+                    isDesigner: false
+                });
+                $.when(self.designersCollection.fetch(), self.usersCollection.fetch()).done(function() {
+                    self.render();
+                });
             });
         },
+        events: {
+            'change .users': 'userChanged',
+            'change .designers': 'designerChanged',
+            'click .usersNotVoted': 'usersNotVoted'
+        },
+        userChanged: function(e) {
+            console.log("User changed");
+        },
+        designerChanged: function(e) {
+            console.log("designer changed");
+        },
         render: function() {
-            console.log(this.data);
-            this.$el.html(reportsTemplate());
+            this.$el.html(reportsTemplate({
+                designers: this.designersCollection.toJSON(),
+                users: this.usersCollection.toJSON()
+            }));
             google.load('visualization', '1', {
                 'callback': this.drawChart.bind(this),
                 'packages': ['corechart']
@@ -31,7 +54,7 @@ define(function(require) {
         drawChart: function() {
             var dataTable = new google.visualization.DataTable(),
                 rows = [];
-            dataTable.addColumn('string', 'Greeting')
+            dataTable.addColumn('string', 'Greeting');
             dataTable.addColumn({
                 'type': 'string',
                 'role': 'tooltip',
@@ -53,23 +76,35 @@ define(function(require) {
                 rows.push(row);
             });
             dataTable.addRows(rows);
-            var chart = new google.visualization.BarChart(document.getElementById('chart'));
-            var options = {
-                title: "Summary of votes for all greetings",
-                width: 1000,
-                height: 600,
-                vAxis: {
-                    title: "Greetings"
-                },
-                focusTarget: 'category',
-                tooltip: {
-                    isHtml: true
-                },
-                hAxis: {
-                    title: "Counts"
-                }
-            };
+            var chart = new google.visualization.BarChart(document.getElementById('chart')),
+                options = {
+                    title: "Summary of votes for all greetings",
+                    width: 1000,
+                    height: 700,
+                    vAxis: {
+                        title: "Greetings [ Artist (Greeting Id) ]"
+                    },
+                    focusTarget: 'category',
+                    tooltip: {
+                        isHtml: true
+                    },
+                    hAxis: {
+                        title: "Votes"
+                    }
+                };
             chart.draw(dataTable, options);
+        },
+
+        usersNotVoted: function(e) {
+            e.preventDefault();
+            var userNotVotedView = new UserNotVotedView(),
+                self = this;
+            userNotVotedView.fetchData().done(function(data) {
+                self.$('.modal-container').html(userNotVotedView.render(data).el);
+                self.$('.modal').modal({
+                    backdrop: 'static'
+                });
+            });
         }
     });
 });

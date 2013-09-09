@@ -17,20 +17,20 @@
     <div class="span12">
         <div class="pull-right">
             Users:
-            <select name="users">
-                <option value="7601">Saju Sasidharan</option>
-                <option value="10789">Vinayak Patil</option>
-                <option value="10748">Ashwin Hegde</option>
-                <option value="10368">Jerin John</option>
+            <select name="users" class="users">
+                <option value="">Select User</option>
+                {{#each users}}
+                <option value="{{id}}">{{firstname}} {{lastname}}</option>
+                {{/each}}
             </select>
         </div>
         <div>
             Designers:
-            <select name="designers">
-                <option value="7601">Saju Sasidharan</option>
-                <option value="10789">Vinayak Patil</option>
-                <option value="10748">Ashwin Hegde</option>
-                <option value="10368">Jerin John</option>
+            <select name="designers" class="designers">
+                <option value="all">All</option>
+                {{#each designers}}
+                <option value="{{id}}">{{firstname}} {{lastname}}</option>
+                {{/each}}
             </select>
         </div>
     </div>
