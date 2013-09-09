@@ -95,8 +95,7 @@ define(function(require) {
         /*Reports Admin*/
         router.on('route:reports', function() {
             require(['views/reports/reportsView'], function(ReportsPage) {
-                var reportsPage = Core.create(appView, 'ReportsPage', ReportsPage);
-                reportsPage.render();
+                Core.create(appView, 'ReportsPage', ReportsPage);
             });
         });
 

@@ -1,4 +1,5 @@
 define(function(require) {
+    'use strict';
     var Backbone = require('backbone');
 
     var _ajax = function(url, data) {
@@ -9,12 +10,16 @@ define(function(require) {
     };
 
     /* Grreting Services */
-
     var _getResponseCountById = function(data) {
-        return _ajax('/getResponseCount/'+data.id,{});
+        return _ajax('/getResponseCount/' + data.id, {});
     };
 
+    /* Response services */
+    var _getResponsesByGreetIdCountAll = function() {
+        return _ajax('/greetingsCountAll');
+    };
     return {
-        getResponseCountById: _getResponseCountById
-    }
+        getResponseCountById: _getResponseCountById,
+        getResponsesByGreetIdCountAll: _getResponsesByGreetIdCountAll
+    };
 });

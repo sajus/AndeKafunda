@@ -141,20 +141,33 @@
     };
 
     exports.getResponsesByGreetIdCountAll = function(req, res) {
-        associations.tbl_response.findAll().on("success", function(response) {
-            var obj = {},
-                arr = _.pluck(response, 'greetingid'),
-                i = 0,
-                j = arr.length,
-                gids = [];
-            for (; i < j; i++) {
-                if (obj[arr[i]]) {
-                    obj[arr[i]]++;
-                } else {
-                    obj[arr[i]] = 1;
-                }
-            }
-            res.send(obj);
+        associations.tbl_greetings.findAll({
+            include: [associations.tbl_users],
+            where: '`tbl_greetings`.`deletedAt` IS NULL AND `tbl_greetingstbl_users`.`deletedAt` IS NULL'
+        }).on("success", function(greetings) {
+            var responsesByGreetings = [],
+                counter = 0;
+            _.each(greetings, function(greeting) {
+                ++counter;
+                associations.tbl_greetingstbl_response.findAndCountAll({
+                    where: {
+                        greetingid: greeting.id
+                    }
+                }).on('success', function(result) {
+                    var returnObj = greeting.selectedValues;
+                    returnObj.count = result.count;
+                    returnObj.tblUsers = greeting.tblUsers[0];
+                    responsesByGreetings.push(returnObj);
+                    --counter;
+                    if (counter === 0) {
+                        res.format({
+                            json: function() {
+                                res.send(responsesByGreetings);
+                            }
+                        });
+                    }
+                });
+            });
         }).on("error", function(error) {
             errorHandler(error, res);
         });
