@@ -21,6 +21,10 @@ define(function(require) {
         },
         _checkEmpid = function() {
             return $.cookie('empid');
+        },
+
+        _checkEmail = function() {
+            return $.cookie('email');
         };
 
     return {
@@ -28,6 +32,7 @@ define(function(require) {
         destroySessionCookie: _destroySessionCookie,
         isAuthenticated: _isAuthenticated,
         isAdmin: _isAdmin,
-        checkEmpid: _checkEmpid
+        checkEmpid: _checkEmpid,
+        checkEmail: _checkEmail
     };
 });

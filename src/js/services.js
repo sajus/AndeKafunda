@@ -18,8 +18,13 @@ define(function(require) {
     var _getResponsesByGreetIdCountAll = function() {
         return _ajax('/greetingsCountAll');
     };
+
+    var _getUsersNotVoted = function() {
+        return _ajax('/getUsersNotVoted');
+    };
     return {
         getResponseCountById: _getResponseCountById,
-        getResponsesByGreetIdCountAll: _getResponsesByGreetIdCountAll
+        getResponsesByGreetIdCountAll: _getResponsesByGreetIdCountAll,
+        getUsersNotVoted: _getUsersNotVoted
     };
 });
