@@ -64,6 +64,45 @@
         });
     };
 
+     exports.getUsersNotVoted = function(req, res) {
+        associations.tbl_users.findAll({
+            where: {
+                deletedAt: null
+            },
+            attributes: [
+                'id',
+                'email',
+                'firstname',
+                'lastname'
+            ]
+        }).on("success", function(users) {
+            var usersNotVoted = [],
+                counter = 0;
+            _.each(users, function(user) {
+                ++counter;
+                associations.tbl_responsetbl_users.findAndCountAll({
+                    where: {
+                        empid: user.id
+                    }
+                }).on('success', function(result) {
+                    if (result.count === 0) {
+                        usersNotVoted.push(user);
+                    }
+                    --counter;
+                    if (counter === 0) {
+                        res.format({
+                            json: function() {
+                                res.send(usersNotVoted);
+                            }
+                        });
+                    }
+                });
+            });
+        }).on("error", function(error) {
+            errorHandler(error, res);
+        });
+    };
+
     exports.getUsersList = function(req, res) {
         associations.tbl_users.findAll({
             where: {
