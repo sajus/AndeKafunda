@@ -53,6 +53,7 @@
     app.get('/getResponses/greetings/:gid', responses.getResponsesByGreetId);
     app.get('/getResponses/greetingsCount/:gid', responses.getResponsesByGreetIdCount);
     app.get('/greetingsCountAll', responses.getResponsesByGreetIdCountAll);
+    app.get('/greetingsCountAll/:empid', responses.getResponsesByGreetIdCountByEmpId);
 
     /* Upload image */
     app.post('/upload', function(req, res) {

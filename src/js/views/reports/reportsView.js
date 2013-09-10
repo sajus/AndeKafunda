@@ -37,7 +37,13 @@ define(function(require) {
             console.log("User changed");
         },
         designerChanged: function(e) {
-            console.log("designer changed");
+            var self = this;
+            services.getResponsesByGreetIdCountAll({
+                empid: parseInt(this.$(e.target).val(), 10)
+            }).done(function(data) {
+                self.data = data;
+                self.drawChart();
+            });
         },
         render: function() {
             this.$el.html(reportsTemplate({

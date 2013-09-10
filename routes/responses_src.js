@@ -141,11 +141,17 @@
     };
 
     exports.getResponsesByGreetIdCountAll = function(req, res) {
+        var whereCondition = '`tbl_greetings`.`deletedAt` IS NULL AND `tbl_greetingstbl_users`.`deletedAt` IS NULL',
+            parsedId = parseInt(req.params.empid, 10);
+        if (parsedId) {
+            whereCondition += ' AND `tbl_greetingstbl_users`.empid = ' + parsedId;
+        }
         associations.tbl_greetings.findAll({
             include: [associations.tbl_users],
-            where: '`tbl_greetings`.`deletedAt` IS NULL AND `tbl_greetingstbl_users`.`deletedAt` IS NULL'
+            where: whereCondition
         }).on("success", function(greetings) {
             var responsesByGreetings = [],
+                sortedResponse,
                 counter = 0;
             _.each(greetings, function(greeting) {
                 ++counter;
@@ -158,11 +164,14 @@
                     returnObj.count = result.count;
                     returnObj.tblUsers = greeting.tblUsers[0];
                     responsesByGreetings.push(returnObj);
+                    sortedResponse = _.sortBy(responsesByGreetings, function(g) {
+                        return -g.count;
+                    });
                     --counter;
                     if (counter === 0) {
                         res.format({
                             json: function() {
-                                res.send(responsesByGreetings);
+                                res.send(sortedResponse);
                             }
                         });
                     }
@@ -171,5 +180,8 @@
         }).on("error", function(error) {
             errorHandler(error, res);
         });
+    };
+    exports.getResponsesByGreetIdCountByEmpId = function(req, res) {
+        exports.getResponsesByGreetIdCountAll(req, res);
     };
 }(exports));

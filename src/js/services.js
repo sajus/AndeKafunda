@@ -15,8 +15,12 @@ define(function(require) {
     };
 
     /* Response services */
-    var _getResponsesByGreetIdCountAll = function() {
-        return _ajax('/greetingsCountAll');
+    var _getResponsesByGreetIdCountAll = function(data) {
+        var path = '/greetingsCountAll';
+        if (data) {
+            path += '/' + data.empid;
+        }
+        return _ajax(path);
     };
 
     var _getUsersNotVoted = function() {
