@@ -31,6 +31,7 @@
     app.get('/getUsers', users.getUsersList);
     app.get('/getDesigners', users.getDesignersList);
     app.get('/getUsersNotVoted', users.getUsersNotVoted);
+    app.get('/getUsersVoted', users.getUsersVoted);
     app.get('/getUsers/:id', users.getUsersById);
     app.put('/getUsers/:id', users.putUsersById);
     app.del('/getUsers/:id', users.delUserById);

@@ -23,12 +23,26 @@ define(function(require) {
         return _ajax(path);
     };
 
+    var _getResponsesGreetingsByEmpId = function(data) {
+        var path = '/greetingsCountAll/greeting';
+        if (data) {
+            path += '/' + data.empid;
+        }
+        return _ajax(path);
+    };
+
     var _getUsersNotVoted = function() {
         return _ajax('/getUsersNotVoted');
+    };
+
+    var _getUsersVoted = function() {
+        return _ajax('/getUsersVoted');
     };
     return {
         getResponseCountById: _getResponseCountById,
         getResponsesByGreetIdCountAll: _getResponsesByGreetIdCountAll,
-        getUsersNotVoted: _getUsersNotVoted
+        getResponsesGreetingsByEmpId: _getResponsesGreetingsByEmpId,
+        getUsersNotVoted: _getUsersNotVoted,
+        getUsersVoted: _getUsersVoted
     };
 });

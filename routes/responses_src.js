@@ -92,7 +92,7 @@
             res.format({
                 json: function() {
                     res.send({
-                        count: response.length,
+                        count: response.length
                     });
                 }
             });
@@ -131,7 +131,7 @@
             res.format({
                 json: function() {
                     res.send({
-                        count: response.length,
+                        count: response.length
                     });
                 }
             });
@@ -190,6 +190,8 @@
             include: [associations.tbl_users, associations.tbl_greetings],
             where: '`tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`empid`= ' + parseInt(req.params.empid, 10)
         }).on("success", function(responses) {
+            console.log("responses.length");
+            console.log(responses.length);
             var responsesGreetingsByEmpid = [],
                 sortedResponse,
                 counter = 0;
@@ -213,24 +215,33 @@
                                 id: users[0].dataValues.empid
                             }
                         }).on('success', function(userData) {
-                            console.log(userData);
-                            var returnObj = response.selectedValues;
-                            returnObj.tblGreetingDesigner = userData;
-                            returnObj.tblUsers = response.tblUsers[0];
-                            responsesGreetingsByEmpid.push(returnObj);
-                            sortedResponse = _.sortBy(responsesGreetingsByEmpid, function(g) {
-                                return -g.count;
-                            });
-                            --counter;
-                            if (counter === 0) {
-                                res.format({
-                                    json: function() {
-                                        res.send(sortedResponse);
-                                    }
+                            associations.tbl_greetings.findAll({
+                                where: {
+                                    id: greeting[0].dataValues.greetingid
+                                }
+                            }).on('success', function(greetingData) {
+                                // console.log(userData);
+                                console.log(greetingData[0].dataValues.url);
+                                var returnObj = response.selectedValues;
+                                returnObj.count = 1;
+                                returnObj.url = greetingData[0].dataValues.url;
+                                returnObj.tblGreetingDesigner = userData;
+                                returnObj.tblUsers = response.tblUsers[0];
+                                responsesGreetingsByEmpid.push(returnObj);
+                                sortedResponse = _.sortBy(responsesGreetingsByEmpid, function(g) {
+                                    return -g.count;
                                 });
-                            }
-                        })
-                    })
+                                --counter;
+                                if (counter === 0) {
+                                    res.format({
+                                        json: function() {
+                                            res.send(sortedResponse);
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    });
                 });
             });
         }).on("error", function(error) {

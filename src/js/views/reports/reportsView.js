@@ -21,10 +21,10 @@ define(function(require) {
                 self.designersCollection = new UsersCollection({
                     isDesigner: true
                 });
-                self.usersCollection = new UsersCollection({
-                    isDesigner: false
+                services.getUsersVoted().done(function(data) {
+                    self.userData = data;
                 });
-                $.when(self.designersCollection.fetch(), self.usersCollection.fetch()).done(function() {
+                $.when(self.designersCollection.fetch(), services.getUsersVoted()).done(function() {
                     self.render();
                 });
             });
@@ -35,7 +35,13 @@ define(function(require) {
             'click .usersNotVoted': 'usersNotVoted'
         },
         userChanged: function(e) {
-            console.log("User changed");
+            var self = this;
+            services.getResponsesGreetingsByEmpId({
+                empid: parseInt(this.$(e.target).val(), 10)
+            }).done(function(data) {
+                self.data = data;
+                self.drawChart();
+            });
         },
         designerChanged: function(e) {
             var self = this;
@@ -49,7 +55,7 @@ define(function(require) {
         render: function() {
             this.$el.html(reportsTemplate({
                 designers: this.designersCollection.toJSON(),
-                users: this.usersCollection.toJSON()
+                users: this.userData
             }));
             google.load('visualization', '1', {
                 'callback': this.drawChart.bind(this),
