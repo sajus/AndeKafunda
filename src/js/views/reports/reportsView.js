@@ -5,6 +5,7 @@ define(function(require) {
         tooltipTemplate = require('template!templates/reports/tooltip'),
         UsersCollection = require('collections/user/userCollection'),
         UserNotVotedView = require('views/reports/userNotVotedView'),
+        _ = require('underscore'),
         services = require('services');
 
     /*Google Pie charts*/
@@ -59,7 +60,9 @@ define(function(require) {
 
         drawChart: function() {
             var dataTable = new google.visualization.DataTable(),
-                rows = [];
+                rows = [],
+                chart = {},
+                options = {};
             dataTable.addColumn('string', 'Greeting');
             dataTable.addColumn({
                 'type': 'string',
@@ -82,22 +85,22 @@ define(function(require) {
                 rows.push(row);
             });
             dataTable.addRows(rows);
-            var chart = new google.visualization.BarChart(document.getElementById('chart')),
-                options = {
-                    title: "Summary of votes for all greetings",
-                    width: 1000,
-                    height: 700,
-                    vAxis: {
-                        title: "Greetings [ Artist (Greeting Id) ]"
-                    },
-                    focusTarget: 'category',
-                    tooltip: {
-                        isHtml: true
-                    },
-                    hAxis: {
-                        title: "Votes"
-                    }
-                };
+            chart = new google.visualization.BarChart(document.getElementById('chart'));
+            options = {
+                title: "Summary of votes for all greetings",
+                width: 1000,
+                height: 700,
+                vAxis: {
+                    title: "Greetings [ Artist (Greeting Id) ]"
+                },
+                focusTarget: 'category',
+                tooltip: {
+                    isHtml: true
+                },
+                hAxis: {
+                    title: "Votes"
+                }
+            };
             chart.draw(dataTable, options);
         },
 

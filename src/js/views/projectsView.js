@@ -1,19 +1,18 @@
-define(['jquery', 'underscore', 'backbone', 'models/projectsModel', 'modelForm'], function($, _, Backbone, Project){
-	
+define(['backbone', 'models/projectsModel', 'modelForm'], function(Backbone, Project) {
+    'use strict';
     var project = new Project();
 
     var form = new Backbone.Form({
         model: project
     }).render();
 
-    var projectsPage = Backbone.View.extend({
+    return Backbone.View.extend({
 
         el: '.page',
 
-        render: function () {
+        render: function() {
             this.$el.html(form.el);
         }
     });
 
-    return projectsPage;
 });

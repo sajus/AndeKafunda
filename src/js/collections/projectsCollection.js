@@ -1,10 +1,9 @@
 define(['backbone', 'models/projectsModel'], function(Backbone, ProjectsModel) {
+    'use strict';
+    return Backbone.Collection.extend({
 
-    var ProjectsCollection = Backbone.Collection.extend({
-
-        model: projectsModel
+        model: ProjectsModel
 
     });
 
-    return ProjectsCollection;
 });

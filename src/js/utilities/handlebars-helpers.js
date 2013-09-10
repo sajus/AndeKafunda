@@ -2,7 +2,7 @@
  * Set of generic handlebars helpers
  */
 define(['handlebars', 'moment'], function(Handlebars, moment) {
-
+    'use strict';
     /**
      * This helper provides a more fluent syntax for inline ifs. i.e. if
      * embedded in quoted strings and provide optional else support

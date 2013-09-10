@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-
+    'use strict';
     return sequelize.define("tbl_users", {
         email: {
             type: DataTypes.STRING(50),
@@ -30,9 +30,6 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             validate: {
                 len: [8, 40]
-                // isCustomValidation: function(value) {
-             //        // You custom validation code block
-             //    }
             }
         },
         accesstype: {

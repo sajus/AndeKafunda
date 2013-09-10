@@ -31,7 +31,6 @@ requirejs.config({
 
         /* List of custom files to be loaded in this architecture. */
         'template': 'utilities/handlebars-template-mapper',
-        'formHelpers': 'utilities/formHelpers',
         'handlebars_Helpers': 'utilities/handlebars-helpers',
         'templates': '../templates',
 

@@ -1,17 +1,17 @@
-define(['jquery', 'backbone', 'template!templates/users/deleteUserModal'],
-	function($, Backbone, deleteUserModalTemplate){
+define(['backbone', 'template!templates/users/deleteUserModal'],
+    function(Backbone, deleteUserModalTemplate) {
+        'use strict';
+        return Backbone.View.extend({
 
-	return Backbone.View.extend({
+            className: "modal hide fade",
 
-		className:"modal hide fade",
+            id: "deleteModal",
 
-		id:"deleteModal",
+            render: function() {
+                this.$el.html(deleteUserModalTemplate);
+                return this;
+            }
 
-		render: function(){
-			this.$el.html(deleteUserModalTemplate);
-			return this;
-		}
+        });
 
-	});
-
-});
+    });
