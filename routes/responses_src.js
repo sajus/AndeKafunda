@@ -184,4 +184,57 @@
     exports.getResponsesByGreetIdCountByEmpId = function(req, res) {
         exports.getResponsesByGreetIdCountAll(req, res);
     };
+
+    exports.getResponsesGreetingsByEmpId = function(req, res) {
+        associations.tbl_response.findAll({
+            include: [associations.tbl_users, associations.tbl_greetings],
+            where: '`tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`empid`= ' + parseInt(req.params.empid, 10)
+        }).on("success", function(responses) {
+            var responsesGreetingsByEmpid = [],
+                sortedResponse,
+                counter = 0;
+            _.each(responses, function(response) {
+                console.log(response.dataValues.id);
+                ++counter;
+                associations.tbl_greetingstbl_response.findAll({
+                    where: {
+                        responseid: response.dataValues.id
+                    }
+                }).on('success', function(greeting) {
+                    console.log(greeting[0].dataValues.greetingid);
+                    associations.tbl_greetingstbl_users.findAll({
+                        where: {
+                            greetingid: greeting[0].dataValues.greetingid
+                        }
+                    }).on('success', function(users) {
+                        console.log(users[0].dataValues.empid);
+                        associations.tbl_users.findAll({
+                            where: {
+                                id: users[0].dataValues.empid
+                            }
+                        }).on('success', function(userData) {
+                            console.log(userData);
+                            var returnObj = response.selectedValues;
+                            returnObj.tblGreetingDesigner = userData;
+                            returnObj.tblUsers = response.tblUsers[0];
+                            responsesGreetingsByEmpid.push(returnObj);
+                            sortedResponse = _.sortBy(responsesGreetingsByEmpid, function(g) {
+                                return -g.count;
+                            });
+                            --counter;
+                            if (counter === 0) {
+                                res.format({
+                                    json: function() {
+                                        res.send(sortedResponse);
+                                    }
+                                });
+                            }
+                        })
+                    })
+                });
+            });
+        }).on("error", function(error) {
+            errorHandler(error, res);
+        });
+    };
 }(exports));
