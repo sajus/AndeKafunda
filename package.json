@@ -20,6 +20,8 @@
   "engine": "node >= 0.8.0",
   "devDependencies": {
     "grunt": "~0.4.1",
-    "grunt-contrib-jshint": "~0.6.4"
+    "grunt-contrib-jshint": "~0.6.4",
+    "grunt-contrib-uglify": "~0.2.4",
+    "grunt-img": "~0.1.7"
   }
 }
