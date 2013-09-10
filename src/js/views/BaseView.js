@@ -2,8 +2,8 @@ define(function(require) {
 
     'use strict';
 
-    var Backbone = require('backbone');
-    var Events = require('events');
+    var Backbone = require('backbone'),
+        Events = require('events');
     require('jqueryCookie');
 
     return Backbone.View.extend({
@@ -25,8 +25,8 @@ define(function(require) {
             if ($(".help-inline").text().length !== 0) {
                 $(".help-inline").text("");
             }
-            this.$('[data-name=option]').slice(2).each(function(index) {
-                var targetParent$ = $(this).closest('.control-group')
+            this.$('[data-name=option]').slice(2).each(function() {
+                var targetParent$ = $(this).closest('.control-group');
                 if ($.trim($(this).val()) === '') {
                     targetParent$.remove();
                 }
@@ -44,12 +44,13 @@ define(function(require) {
             var targetView$ = view.$el,
                 targetSelector$ = targetView$.find("[name=" + attr + "]"),
                 targetParent$ = targetSelector$.closest(".control-group"),
-                inlineSpan = targetParent$.find('.help-inline');
+                inlineSpan = targetParent$.find('.help-inline'),
+                finalMessage = '';
             if ($.trim(inlineSpan.html()) === '') {
                 inlineSpan.append(error);
             } else {
                 if (!view.redundantError(inlineSpan.text(), error)) {
-                    var finalMessage = inlineSpan.text() + ", " + error;
+                    finalMessage = inlineSpan.text() + ", " + error;
                     inlineSpan.text(finalMessage);
                 }
             }
@@ -59,7 +60,7 @@ define(function(require) {
         redundantError: function(errorFullText, error) {
             var errorList = errorFullText.split(", "),
                 returnValue = false;
-            errorList.forEach(function(value, index) {
+            errorList.forEach(function(value) {
                 if (value.toLowerCase() === error.toLowerCase()) {
                     returnValue = true;
                 }

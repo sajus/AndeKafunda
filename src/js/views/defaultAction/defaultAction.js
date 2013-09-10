@@ -1,10 +1,10 @@
-define(['backbone','template!templates/defaultAction/404'], function(Backbone, defaultTemplate){
-
+define(['backbone', 'template!templates/defaultAction/404'], function(Backbone, defaultTemplate) {
+    'use strict';
     var DefaultPage = Backbone.View.extend({
 
         el: '.page',
-        render: function () {
-        	this.$el.html(defaultTemplate);
+        render: function() {
+            this.$el.html(defaultTemplate);
         }
     });
 

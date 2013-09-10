@@ -1,23 +1,21 @@
-define(['backbone', 'template!templates/header/menu','utilities/cookieManager'], function(Backbone, headerMenuTemplate, cookieManager){
-
-    var HeaderMenuView = Backbone.View.extend({
+define(['backbone', 'template!templates/header/menu', 'utilities/cookieManager'], function(Backbone, headerMenuTemplate, cookieManager) {
+    'use strict';
+    return Backbone.View.extend({
 
         el: '.main-menu-container',
 
-        initialize:function(){
-            if(cookieManager.isAuthenticated()) {
+        initialize: function() {
+            if (cookieManager.isAuthenticated()) {
                 this.email = cookieManager.checkEmail();
                 this.isAdmin = cookieManager.isAdmin();
             }
         },
 
-        render: function () {
+        render: function() {
             this.$el.html(headerMenuTemplate({
-                email:this.email,
+                email: this.email,
                 isAdmin: this.isAdmin
             }));
         }
-    })
-
-    return HeaderMenuView;
+    });
 });

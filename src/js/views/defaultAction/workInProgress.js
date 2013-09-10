@@ -1,10 +1,10 @@
-define(['backbone','template!templates/defaultAction/workInProgress'], function(Backbone, workInProgressTemplate){
-
+define(['backbone', 'template!templates/defaultAction/workInProgress'], function(Backbone, workInProgressTemplate) {
+    'use strict';
     var WorkInProgressPage = Backbone.View.extend({
 
         el: '.page',
-        render: function () {
-        	this.$el.html(workInProgressTemplate);
+        render: function() {
+            this.$el.html(workInProgressTemplate);
         }
     });
 

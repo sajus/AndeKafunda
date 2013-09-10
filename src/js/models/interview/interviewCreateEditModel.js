@@ -1,5 +1,4 @@
 define(function(require) {
-
     'use strict';
     var Backbone = require('backbone');
     require('modelValidator');
@@ -14,7 +13,7 @@ define(function(require) {
                 required: true
             },
             description: {
-            	required: true
+                required: true
             }
         }
     });

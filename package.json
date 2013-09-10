@@ -1,21 +1,25 @@
 {
-    "name": "Greeting",
-    "description": "greeting",
-    "version": "0.0.1",
-    "homepage": "http://localhost",
-    "author": {
-        "name": "cybage_ui_team",
-        "email": "cybage_ui_team@greeting.com"
-    },
-    "src": "src",
-    "dependencies": {
-        "express": "~3.x.x",
-        "path": "~0.4.9",
-        "require": "~0.5.0",
-        "underscore": "~1.5.1",
-        "sequelize": "*",
-        "mysql": "~2.0.0-alpha8",
-        "csv": "~0.3.6"
-    },
-    "engine": "node >= 0.8.0"
+  "name": "Greeting",
+  "description": "greeting",
+  "version": "0.0.1",
+  "homepage": "http://localhost",
+  "author": {
+    "name": "cybage_ui_team",
+    "email": "cybage_ui_team@greeting.com"
+  },
+  "src": "src",
+  "dependencies": {
+    "express": "~3.x.x",
+    "path": "~0.4.9",
+    "require": "~0.5.0",
+    "underscore": "~1.5.1",
+    "sequelize": "*",
+    "mysql": "~2.0.0-alpha8",
+    "csv": "~0.3.6"
+  },
+  "engine": "node >= 0.8.0",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.6.4"
+  }
 }

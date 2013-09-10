@@ -40,7 +40,7 @@ define(function(require) {
                 success: function() {
                     self.render();
                 }
-            })
+            });
         },
         events: {
             'click button.greetingEdit': 'greetingEdit',
@@ -194,7 +194,7 @@ define(function(require) {
         // sendEmail: function() {
         //     console.log("Send Email");
         // },
-        cleanSelectAll: function(e) {
+        cleanSelectAll: function() {
             this.$('.selectUsersAtOnce').prop('checked', false);
         },
         gridCheckBox: function(e) {
@@ -244,7 +244,7 @@ define(function(require) {
                         }
                     });
                     globalSelected.pop(target$.attr('data-id'));
-                    if (checkCounter == 0) {
+                    if (checkCounter === 0) {
                         greetingDelete$.prop('disabled', true).addClass('disabled');
                     }
                 }

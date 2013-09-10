@@ -1,10 +1,9 @@
-define(['backbone', 'models/dashboard/dashboardModel'], function(Backbone, dashboardModel) {
-
+define(['backbone'], function(Backbone) {
+    'use strict';
     var DashboardCollection = Backbone.Collection.extend({
-    	url: function() {
+        url: function() {
             return Backbone.Model.gateWayUrl + '/interviewList';
         }
     });
-
     return DashboardCollection;
 });

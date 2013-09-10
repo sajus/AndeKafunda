@@ -64,7 +64,7 @@
         });
     };
 
-     exports.getUsersNotVoted = function(req, res) {
+    exports.getUsersNotVoted = function(req, res) {
         associations.tbl_users.findAll({
             where: {
                 deletedAt: null
@@ -166,7 +166,7 @@
                 id: parseInt(req.params.id, 10)
             }
         }).success(function(c) {
-            if(c>0){
+            if (c > 0) {
                 associations.tbl_users.update(requestBody, {
                     id: parseInt(req.params.id, 10)
                 }).success(function() {
@@ -191,7 +191,7 @@
             } else {
                 exports.createUser(req, res);
             }
-        })
+        });
     };
 
     exports.delUserById = function(req, res) {

@@ -96,7 +96,7 @@ define(['handlebars', 'moment'], function(Handlebars, moment) {
         options.fn = options.inverse;
         options.inverse = fn;
 
-        return Handlebars.helpers['ifequals'].call(this, value1, value2, options);
+        return Handlebars.helpers.ifequals.call(this, value1, value2, options);
     });
 
     /**
@@ -116,11 +116,11 @@ define(['handlebars', 'moment'], function(Handlebars, moment) {
     Handlebars.registerHelper('for', function(start, end, options) {
         var fn = options.fn,
             inverse = options.inverse;
-        var isStartValid = (start !== undefined && !isNaN(parseInt(start,10)) && start >= 0);
-        var isEndValid = (end !== undefined && !isNaN(parseInt(end,10)) && end >= 0);
+        var isStartValid = (start !== undefined && !isNaN(parseInt(start, 10)) && start >= 0);
+        var isEndValid = (end !== undefined && !isNaN(parseInt(end, 10)) && end >= 0);
         var ret = "";
 
-        if (isStartValid && isEndValid && parseInt(start,10) <= parseInt(end,10)) {
+        if (isStartValid && isEndValid && parseInt(start, 10) <= parseInt(end, 10)) {
             for (var i = start; i <= end; i++) {
                 ret = ret + fn(i);
             }
