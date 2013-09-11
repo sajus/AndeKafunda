@@ -55,13 +55,41 @@ module.exports = function(grunt) {
                 src: 'src/imgs',
                 dest: 'build/images/src'
             }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    findNestedDependencies: true,
+                    baseUrl: "src/js",
+                    mainConfigFile: "src/js/main.js",
+                    dir: "build/requirejs",
+                    modules: [{
+                        name: "views/greetings/admin/greetingsAdmin",
+                        exclude: [
+                            'template!'
+                        ]
+                    }]
+                }
+            }
+        },
+        handlebars: {
+            compile: {
+                options: {
+                    namespace: "JST",
+                    amd: true
+                },
+                files: {
+                    "src/templates/templates.js": ["src/templates/**/*.html"]
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    // grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-img');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-handlebars');
     // Default task(s).
     grunt.registerTask('default', ['jshint']);
     grunt.registerTask('minify', ['uglify']);
