@@ -54,10 +54,10 @@ define(function(require) {
 
         postData: function() {
             var accesstype, accessLevel, self = this;
-            if (this.options.id !== undefined) {
                 accesstype = this.model.get("accesstype");
                 accessLevel = (accesstype === "true") ? true : false;
                 this.model.set('accesstype', accessLevel);
+            if (this.options.id !== undefined) {
                 this.responseText = "Some error in editing user. Please recheck the form!!";
             }
             this.model.save(this.model.toJSON(), {

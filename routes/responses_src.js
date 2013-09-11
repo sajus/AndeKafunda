@@ -4,7 +4,6 @@
         _ = require('underscore');
 
     function errorHandler(error, res) {
-        console.error(error.message);
         res.format({
             json: function() {
                 res.send(error.message);
@@ -23,23 +22,29 @@
                         id: requestBody.empid
                     }
                 }).success(function(user) {
-                    response.addTblUser(user);
-                });
-
-                associations.tbl_greetings.find({
-                    where: {
-                        id: requestBody.greetingid
-                    }
-                }).success(function(greetings) {
-                    _.each(greetings, function(greeting) {
-                        response.addTblGreeting(greeting);
-                    });
-                    res.format({
-                        json: function() {
-                            res.send({
-                                responseid: response.id
+                    response.addTblUser(user).on('success', function() {
+                        associations.tbl_greetings.findAll({
+                            where: {
+                                id: requestBody.greetingid
+                            }
+                        }).success(function(greetings) {
+                            var counter = 0;
+                            _.each(greetings, function(greeting) {
+                                ++counter;
+                                response.addTblGreeting(greeting).on('success', function() {
+                                    --counter;
+                                    if (counter === 0) {
+                                        res.format({
+                                            json: function() {
+                                                res.send({
+                                                    responseid: response.id
+                                                });
+                                            }
+                                        });
+                                    }
+                                });
                             });
-                        }
+                        });
                     });
                 });
             }).on('error', function(error) {
@@ -186,66 +191,51 @@
     };
 
     exports.getResponsesGreetingsByEmpId = function(req, res) {
-        associations.tbl_response.findAll({
-            include: [associations.tbl_users, associations.tbl_greetings],
-            where: '`tbl_responsetbl_users`.`deletedAt` IS NULL AND `tbl_responsetbl_users`.`empid`= ' + parseInt(req.params.empid, 10)
-        }).on("success", function(responses) {
-            console.log("responses.length");
-            console.log(responses.length);
-            var responsesGreetingsByEmpid = [],
-                sortedResponse,
-                counter = 0;
-            _.each(responses, function(response) {
-                console.log(response.dataValues.id);
-                ++counter;
-                associations.tbl_greetingstbl_response.findAll({
-                    where: {
-                        responseid: response.dataValues.id
-                    }
-                }).on('success', function(greeting) {
-                    console.log(greeting[0].dataValues.greetingid);
-                    associations.tbl_greetingstbl_users.findAll({
+        var responseMain = [];
+        associations.tbl_responsetbl_users.findAll({
+            where: {
+                empid: parseInt(req.params.empid, 10),
+                deletedAt: null
+            }
+        }).on('success', function(responseId) {
+            associations.tbl_greetingstbl_response.findAll({
+                where: {
+                    responseid: responseId[0].dataValues.responseid
+                }
+            }).on('success', function(responseList) {
+                var responseListCounter = responseList.length;
+                _.each(responseList, function(response) {
+                    associations.tbl_greetings.findAll({
                         where: {
-                            greetingid: greeting[0].dataValues.greetingid
+                            id: response.dataValues.greetingid
                         }
-                    }).on('success', function(users) {
-                        console.log(users[0].dataValues.empid);
-                        associations.tbl_users.findAll({
+                    }).on('success', function(greetingUrl) {
+                        associations.tbl_greetingstbl_users.findAll({
                             where: {
-                                id: users[0].dataValues.empid
+                                greetingid: response.dataValues.greetingid
                             }
-                        }).on('success', function(userData) {
-                            associations.tbl_greetings.findAll({
+                        }).on('success', function(greetingValues) {
+                            associations.tbl_users.findAll({
                                 where: {
-                                    id: greeting[0].dataValues.greetingid
+                                    id: greetingValues[0].dataValues.empid
                                 }
-                            }).on('success', function(greetingData) {
-                                // console.log(userData);
-                                console.log(greetingData[0].dataValues.url);
-                                var returnObj = response.selectedValues;
-                                returnObj.count = 1;
-                                returnObj.url = greetingData[0].dataValues.url;
-                                returnObj.tblGreetingDesigner = userData;
-                                returnObj.tblUsers = response.tblUsers[0];
-                                responsesGreetingsByEmpid.push(returnObj);
-                                sortedResponse = _.sortBy(responsesGreetingsByEmpid, function(g) {
-                                    return -g.count;
-                                });
-                                --counter;
-                                if (counter === 0) {
-                                    res.format({
-                                        json: function() {
-                                            res.send(sortedResponse);
-                                        }
-                                    });
+                            }).on('success', function(users) {
+                                var responseObj = {
+                                    id: response.dataValues.greetingid,
+                                    count: 1,
+                                    url: greetingUrl[0].dataValues.url
+                                };
+                                responseObj.tblUsers = users[0].dataValues;
+                                responseMain.push(responseObj);
+                                --responseListCounter;
+                                if (responseListCounter === 0) {
+                                    res.send(responseMain);
                                 }
                             });
                         });
                     });
                 });
             });
-        }).on("error", function(error) {
-            errorHandler(error, res);
         });
     };
 }(exports));

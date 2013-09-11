@@ -5,13 +5,22 @@ define(function(require) {
     var _ajax = function(url, data) {
         return $.ajax({
             url: Backbone.Model.gateWayUrl + url,
-            data: JSON.stringify(data),
+            data: JSON.stringify(data)
         });
     };
 
     /* Grreting Services */
     var _getResponseCountById = function(data) {
         return _ajax('/getResponseCount/' + data.id, {});
+    };
+
+    var _createResponse = function(data) {
+        return $.ajax({
+            url: Backbone.Model.gateWayUrl + '/getResponses',
+            data: JSON.stringify(data),
+            type: 'post',
+            contentType:'application/json'
+        });
     };
 
     /* Response services */
@@ -40,6 +49,7 @@ define(function(require) {
     };
     return {
         getResponseCountById: _getResponseCountById,
+        createResponse: _createResponse,
         getResponsesByGreetIdCountAll: _getResponsesByGreetIdCountAll,
         getResponsesGreetingsByEmpId: _getResponsesGreetingsByEmpId,
         getUsersNotVoted: _getUsersNotVoted,

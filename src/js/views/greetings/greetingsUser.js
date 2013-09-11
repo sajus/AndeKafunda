@@ -41,6 +41,13 @@ define(function(require) {
             'click .confirmGreeting': 'confirmGreeting'
         },
 
+        refreshView: function() {
+            this.$el.html(greetingTemplate({
+                greetings:this.data,
+                response: true
+            }));
+        },
+
         render: function() {
             this.$el.html(greetingTemplate({
                 greetings:this.data,
@@ -86,9 +93,15 @@ define(function(require) {
                     confirmModal$.modal('hide');
                 }, 1500);
                 confirmModal$.on('hidden', function() {
-                    self.render();
+                    self.refreshView();
                 });
             }
+            services.createResponse({
+                empid: cookieManager.checkEmpid(),
+                greetingid: responseValue
+            }).done(function(response) {
+                console.log(response);
+            });
             console.log(responseValue);
         }
     });
