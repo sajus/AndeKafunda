@@ -79,6 +79,23 @@
         });
     });
 
+    // app.get('/unload/:file', function(req, res) {
+    //     var imgPath = __dirname + '/uploads/' + req.params.file;
+    //     fs.readFile(imgPath, function(err, data) {
+    //         if (err) {
+    //             res.send('failed');
+    //         } else {
+    //             fs.unlink(imgPath, function(err) {
+    //                 if (err) {
+    //                     console.log("error in file deletion");
+    //                 } else {
+    //                     res.send('success');
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
+
     http.createServer(app).listen(app.get('port'), function() {
         console.log("\n\n\tNode (Express) server listening on port " + app.get('port'));
     });
