@@ -202,7 +202,8 @@
 
         associations.tbl_users.count({
             where: {
-                id: parseInt(req.params.id, 10)
+                id: parseInt(req.params.id, 10),
+                deletedAt: null
             }
         }).success(function(c) {
             if (c > 0) {
@@ -234,23 +235,36 @@
     };
 
     exports.delUserById = function(req, res) {
-        associations.tbl_users.destroy({
-            id: parseInt(req.params.id, 10)
-        }).on("success", function() {
-            res.format({
-                json: function() {
-                    res.send(req.params.id);
-                }
+        var delIds = req.params.id.split(',');
+        delIds = _.map(delIds, function(val) {
+            return parseInt(val, 10);
+        });
+        associations.tbl_greetingstbl_users.destroy({
+            empid: delIds
+        }).on('success', function() {
+            associations.tbl_responsetbl_users.destroy({
+                empid: delIds
+            }).on('success', function() {
+                associations.tbl_users.destroy({
+                    id: delIds
+                }).on("success", function() {
+                    res.format({
+                        json: function() {
+                            res.send(req.body);
+                        }
+                    });
+                }).on("error", function(error) {
+                    errorHandler(error, res);
+                });
             });
-        }).on("error", function(error) {
-            errorHandler(error, res);
         });
     };
 
     exports.getAdmins = function(req, res) {
         associations.tbl_users.findAll({
             where: {
-                accesstype: true
+                accesstype: true,
+                deletedAt: null
             },
             attributes: [
                 'id',

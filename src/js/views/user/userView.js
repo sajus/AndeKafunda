@@ -189,7 +189,7 @@ define(function(require) {
                 self.$('.modal').modal('hide');
                 self.render();
                 Events.trigger("alert:success", [{
-                    message: jqXhr.responseText
+                    message: "Delete successful."
                 }]);
             }).error(function(model,error) {
                 console.log(model);

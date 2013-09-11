@@ -204,24 +204,28 @@
             }).on('success', function(responseId) {
                 associations.tbl_greetingstbl_response.findAll({
                     where: {
-                        responseid: responseId[0].dataValues.responseid
+                        responseid: responseId[0].dataValues.responseid,
+                        deletedAt: null
                     }
                 }).on('success', function(responseList) {
                     var responseListCounter = responseList.length;
                     _.each(responseList, function(response) {
                         associations.tbl_greetings.findAll({
                             where: {
-                                id: response.dataValues.greetingid
+                                id: response.dataValues.greetingid,
+                                deletedAt: null
                             }
                         }).on('success', function(greetingUrl) {
                             associations.tbl_greetingstbl_users.findAll({
                                 where: {
-                                    greetingid: response.dataValues.greetingid
+                                    greetingid: response.dataValues.greetingid,
+                                    deletedAt: null
                                 }
                             }).on('success', function(greetingValues) {
                                 associations.tbl_users.findAll({
                                     where: {
-                                        id: greetingValues[0].dataValues.empid
+                                        id: greetingValues[0].dataValues.empid,
+                                        deletedAt: null
                                     }
                                 }).on('success', function(users) {
                                     var responseObj = {
