@@ -32,7 +32,13 @@ define(function(require) {
         events: {
             'change .users': 'userChanged',
             'change .designers': 'designerChanged',
-            'click .usersNotVoted': 'usersNotVoted'
+            'click .usersNotVoted': 'usersNotVoted',
+            'click .printReport': 'printReport'
+        },
+        printReport: function(e) {
+            e.preventDefault();
+            window.print();
+            return false;
         },
         userChanged: function(e) {
             var self = this;
