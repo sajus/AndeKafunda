@@ -192,50 +192,55 @@
 
     exports.getResponsesGreetingsByEmpId = function(req, res) {
         var responseMain = [];
-        associations.tbl_responsetbl_users.findAll({
-            where: {
-                empid: parseInt(req.params.empid, 10),
-                deletedAt: null
-            }
-        }).on('success', function(responseId) {
-            associations.tbl_greetingstbl_response.findAll({
+        console.log(req.params.empid === "NaN");
+        if (req.params.empid === "NaN") {
+            exports.getResponsesByGreetIdCountAll(req, res);
+        } else {
+            associations.tbl_responsetbl_users.findAll({
                 where: {
-                    responseid: responseId[0].dataValues.responseid
+                    empid: parseInt(req.params.empid, 10),
+                    deletedAt: null
                 }
-            }).on('success', function(responseList) {
-                var responseListCounter = responseList.length;
-                _.each(responseList, function(response) {
-                    associations.tbl_greetings.findAll({
-                        where: {
-                            id: response.dataValues.greetingid
-                        }
-                    }).on('success', function(greetingUrl) {
-                        associations.tbl_greetingstbl_users.findAll({
+            }).on('success', function(responseId) {
+                associations.tbl_greetingstbl_response.findAll({
+                    where: {
+                        responseid: responseId[0].dataValues.responseid
+                    }
+                }).on('success', function(responseList) {
+                    var responseListCounter = responseList.length;
+                    _.each(responseList, function(response) {
+                        associations.tbl_greetings.findAll({
                             where: {
-                                greetingid: response.dataValues.greetingid
+                                id: response.dataValues.greetingid
                             }
-                        }).on('success', function(greetingValues) {
-                            associations.tbl_users.findAll({
+                        }).on('success', function(greetingUrl) {
+                            associations.tbl_greetingstbl_users.findAll({
                                 where: {
-                                    id: greetingValues[0].dataValues.empid
+                                    greetingid: response.dataValues.greetingid
                                 }
-                            }).on('success', function(users) {
-                                var responseObj = {
-                                    id: response.dataValues.greetingid,
-                                    count: 1,
-                                    url: greetingUrl[0].dataValues.url
-                                };
-                                responseObj.tblUsers = users[0].dataValues;
-                                responseMain.push(responseObj);
-                                --responseListCounter;
-                                if (responseListCounter === 0) {
-                                    res.send(responseMain);
-                                }
+                            }).on('success', function(greetingValues) {
+                                associations.tbl_users.findAll({
+                                    where: {
+                                        id: greetingValues[0].dataValues.empid
+                                    }
+                                }).on('success', function(users) {
+                                    var responseObj = {
+                                        id: response.dataValues.greetingid,
+                                        count: 1,
+                                        url: greetingUrl[0].dataValues.url
+                                    };
+                                    responseObj.tblUsers = users[0].dataValues;
+                                    responseMain.push(responseObj);
+                                    --responseListCounter;
+                                    if (responseListCounter === 0) {
+                                        res.send(responseMain);
+                                    }
+                                });
                             });
                         });
                     });
                 });
             });
-        });
+        }
     };
 }(exports));
