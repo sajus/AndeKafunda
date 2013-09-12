@@ -279,14 +279,37 @@
                         associations.tbl_greetingstbl_response.destroy({
                             greetingid: greeting.id
                         }).on('success', function() {
-                            greeting.destroy().on('success', function() {
-                                --greetingCounter;
-                                console.log('greeting is itself deleted now');
-                                if (greetingCounter === 0) {
-                                    promise.resolve("Greeting references for the user deleted successfully");
-                                }
+                            deleteGreetingReponses(greeting).then(function() {
+                                greeting.destroy().on('success', function() {
+                                    --greetingCounter;
+                                    console.log('greeting is itself deleted now');
+                                    if (greetingCounter === 0) {
+                                        promise.resolve("Greeting references for the user deleted successfully");
+                                    }
+                                });
                             });
                         });
+                    });
+                });
+            }
+        });
+        return promise;
+    }
+
+    function deleteGreetingReponses(greeting) {
+        var promise = new Promise(),
+            responseCounter = 0;
+        greeting.getTblResponses().on('success', function(responses) {
+            if (responses.length === 0) {
+                promise.resolve("All the reponses for the greeting has been deleted");
+            } else {
+                _.each(responses, function(response) {
+                    ++responseCounter;
+                    greeting.removeTblResponse(response).on('success', function() {
+                        --responseCounter;
+                        if (responseCounter === 0) {
+                            promise.resolve("All the reponses for the greeting has been deleted");
+                        }
                     });
                 });
             }

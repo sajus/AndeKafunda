@@ -38,19 +38,13 @@
                 empid: 7601,
                 greetingid: 1
             }, {
-                empid: 7601,
-                greetingid: 2
-            }, {
-                empid: 7601,
-                greetingid: 3
-            }, {
                 empid: 10789,
-                greetingid: 1
-            }, {
-                empid: 10748,
                 greetingid: 2
             }, {
                 empid: 10368,
+                greetingid: 3
+            }, {
+                empid: 10748,
                 greetingid: 1
             }];
             data.forEach(function(value) {
@@ -63,15 +57,17 @@
                                 id: value.empid
                             }
                         }).success(function(user) {
-                            response.addTblUser(user);
-                        });
-
-                        associations.tbl_greetings.find({
-                            where: {
-                                id: value.greetingid
-                            }
-                        }).success(function(greeting) {
-                            response.addTblGreeting(greeting);
+                            response.addTblUser(user).on('success', function() {
+                                associations.tbl_greetings.find({
+                                    where: {
+                                        id: value.greetingid
+                                    }
+                                }).success(function(greeting) {
+                                    response.addTblGreeting(greeting).on('success',function(){
+                                        console.log("reponse entries are added successfully");
+                                    });
+                                });
+                            });
                         });
                     });
             });
