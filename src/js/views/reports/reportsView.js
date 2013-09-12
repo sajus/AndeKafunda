@@ -35,10 +35,8 @@ define(function(require) {
             'click .usersNotVoted': 'usersNotVoted',
             'click .printReport': 'printReport'
         },
-        printReport: function(e) {
-            e.preventDefault();
+        printReport: function() {
             window.print();
-            return false;
         },
         userChanged: function(e) {
             var self = this;
