@@ -44,7 +44,8 @@
                 ++counter;
                 associations.tbl_greetingstbl_users.findAndCountAll({
                     where: {
-                        empid: user.id
+                        empid: user.id,
+                        deletedAt: null
                     }
                 }).on('success', function(result) {
                     if (result.count !== 0) {
