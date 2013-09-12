@@ -83,7 +83,8 @@
                 ++counter;
                 associations.tbl_responsetbl_users.findAndCountAll({
                     where: {
-                        empid: user.id
+                        empid: user.id,
+                        deletedAt: null
                     }
                 }).on('success', function(result) {
                     if (result.count !== 0) {
@@ -122,7 +123,8 @@
                 ++counter;
                 associations.tbl_responsetbl_users.findAndCountAll({
                     where: {
-                        empid: user.id
+                        empid: user.id,
+                        deletedAt: null
                     }
                 }).on('success', function(result) {
                     if (result.count === 0) {
@@ -306,10 +308,16 @@
                 _.each(responses, function(response) {
                     ++responseCounter;
                     greeting.removeTblResponse(response).on('success', function() {
-                        --responseCounter;
-                        if (responseCounter === 0) {
-                            promise.resolve("All the reponses for the greeting has been deleted");
-                        }
+                        associations.tbl_responsetbl_users.destroy({
+                            responseid: response.id
+                        }).on('success', function() {
+                            response.destroy().on('success', function() {
+                                --responseCounter;
+                                if (responseCounter === 0) {
+                                    promise.resolve("All the reponses for the greeting has been deleted");
+                                }
+                            });
+                        });
                     });
                 });
             }
