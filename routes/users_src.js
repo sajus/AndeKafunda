@@ -1,7 +1,8 @@
 (function(exports) {
     'use strict';
     var associations = require('./associations'),
-        _ = require('underscore');
+        _ = require('underscore'),
+        Promise = require("node-promise").Promise;
 
     function errorHandler(error, res) {
         console.error(error.message);
@@ -235,30 +236,87 @@
     };
 
     exports.delUserById = function(req, res) {
-        var delIds = req.params.id.split(',');
+        var delIds = req.params.id.split(','),
+            userCounter = 0;
         delIds = _.map(delIds, function(val) {
             return parseInt(val, 10);
         });
-        associations.tbl_greetingstbl_users.destroy({
-            empid: delIds
-        }).on('success', function() {
-            associations.tbl_responsetbl_users.destroy({
-                empid: delIds
-            }).on('success', function() {
-                associations.tbl_users.destroy({
-                    id: delIds
-                }).on("success", function() {
-                    res.format({
-                        json: function() {
-                            res.send(req.body);
-                        }
+        associations.tbl_users.findAll({
+            where: {
+                id: delIds
+            }
+        }).on('success', function(users) {
+            _.each(users, function(user) {
+                userCounter++;
+                deleteGreetingReferences(user).then(function() {
+                    deleteResponseReferences(user).then(function() {
+                        user.destroy().on('success', function() {
+                            --userCounter;
+                            if (userCounter === 0) {
+                                res.format({
+                                    json: function() {
+                                        res.send(delIds);
+                                    }
+                                });
+                            }
+                        });
                     });
-                }).on("error", function(error) {
-                    errorHandler(error, res);
                 });
             });
         });
     };
+
+    function deleteGreetingReferences(user) {
+        var greetingCounter = 0,
+            promise = new Promise();
+        user.getTblGreetings().on('success', function(greetings) {
+            if (greetings.length === 0) {
+                promise.resolve("Greeting references for the user deleted successfully");
+            } else {
+                _.each(greetings, function(greeting) {
+                    ++greetingCounter;
+                    user.removeTblGreeting(greeting).on('success', function() {
+                        associations.tbl_greetingstbl_response.destroy({
+                            greetingid: greeting.id
+                        }).on('success', function() {
+                            greeting.destroy().on('success', function() {
+                                --greetingCounter;
+                                console.log('greeting is itself deleted now');
+                                if (greetingCounter === 0) {
+                                    promise.resolve("Greeting references for the user deleted successfully");
+                                }
+                            });
+                        });
+                    });
+                });
+            }
+        });
+        return promise;
+    }
+
+    function deleteResponseReferences(user) {
+        var responseCounter = 0,
+            promise = new Promise();
+        user.getTblResponses().on('success', function(responses) {
+            if (responses.length === 0) {
+                promise.resolve("Greeting references for the user deleted successfully");
+            } else {
+                _.each(responses, function(response) {
+                    ++responseCounter;
+                    user.removeTblResponse(response).on('success', function() {
+                        response.destroy().on('success', function() {
+                            console.log("response itself is deleted");
+                            --responseCounter;
+                            if (responseCounter === 0) {
+                                promise.resolve("Greeting references for the user deleted successfully");
+                            }
+                        });
+                    });
+                });
+            }
+        });
+        return promise;
+    }
 
     exports.getAdmins = function(req, res) {
         associations.tbl_users.findAll({

@@ -1,7 +1,8 @@
 (function(exports) {
     'use strict';
     var associations = require('./associations'),
-        _ = require('underscore');
+        _ = require('underscore'),
+        Promise = require("node-promise").Promise;
 
     function errorHandler(error, res) {
         console.error(error.message);
@@ -110,24 +111,79 @@
     };
 
     exports.delGreetingsById = function(req, res) {
-        var delIds = req.params.id.split(',');
+        // Remove the responses for this greeting
+        // Remove the designer mapping 
+        var delIds = req.params.id.split(','),
+            greetingCounter = 0;
         delIds = _.map(delIds, function(val) {
             return parseInt(val, 10);
         });
-        associations.tbl_greetingstbl_users.destroy({
-            greetingid: delIds
-        }).on('success', function() {
-            associations.tbl_greetings.destroy({
+        associations.tbl_greetings.findAll({
+            where: {
                 id: delIds
-            }).on("success", function() {
-                res.format({
-                    json: function() {
-                        res.send(delIds);
-                    }
+            }
+        }).on('success', function(greetings) {
+            _.each(greetings, function(greeting) {
+                greetingCounter++;
+                deleteGreetingReferences(greeting).then(function() {
+                    deleteResponseReferences(greeting).then(function() {
+                        greeting.destroy().on('success', function() {
+                            --greetingCounter;
+                            if (greetingCounter === 0) {
+                                res.format({
+                                    json: function() {
+                                        res.send(delIds);
+                                    }
+                                });
+                            }
+                        });
+                    });
                 });
-            }).on("error", function(error) {
-                errorHandler(error, res);
             });
         });
     };
+
+    function deleteGreetingReferences(greeting) {
+        var promise = new Promise();
+        greeting.getTblUsers().on('success', function(users) {
+            if (users.length === 0) {
+                promise.resolve('greeting references for greeting deleted successfully');
+            } else {
+                _.each(users, function(user) {
+                    greeting.removeTblUser(user).on('success', function() {
+                        promise.resolve('greeting references for greeting deleted successfully');
+                    });
+                });
+            }
+        });
+        return promise;
+    }
+
+    function deleteResponseReferences(greeting) {
+        var responseCounter = 0,
+            promise = new Promise();
+        greeting.getTblResponses().on('success', function(responses) {
+            if (responses.length === 0) {
+                promise.resolve("Response references for the greeting deleted successfully");
+            } else {
+                _.each(responses, function(response) {
+                    ++responseCounter;
+                    greeting.removeTblResponse(response).on('success', function() {
+                        associations.tbl_responsetbl_users.destroy({
+                            responseid: response.id
+                        }).on('success', function() {
+                            response.destroy().on('success', function() {
+                                console.log("response itself is deleted");
+                                --responseCounter;
+                                if (responseCounter === 0) {
+                                    promise.resolve("Response references for the greeting deleted successfully");
+                                }
+                            });
+                        });
+                    });
+                });
+            }
+        });
+        return promise;
+    }
 }(exports));

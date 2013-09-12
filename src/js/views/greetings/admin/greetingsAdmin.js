@@ -36,6 +36,7 @@ define(function(require) {
         },
         refreshView: function() {
             var self = this;
+            globalSelected = [];
             this.collection.fetch({
                 success: function() {
                     self.render();
