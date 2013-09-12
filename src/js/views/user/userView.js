@@ -237,7 +237,9 @@ define(function(require) {
                     $('.userDelete').removeProp('disabled').removeClass('disabled');
                     $(this).prop("checked", true);
                     $('.selectrows').prop("checked", true);
-                    $('table[id="MyGrid"] tbody tr').addClass('warning');
+                    $('tr .selectrows:checked').each(function() {
+                        $(this).closest('tr').addClass('warning');
+                    });
                 } else {
                     $(this).prop('checked', false);
                     $('.selectrows').prop('checked', false);
