@@ -251,5 +251,9 @@ define(function(require) {
                 }
             });
         },
+
+        onClose: function() {
+            Events.off(null, null, this);
+        }
     });
 });

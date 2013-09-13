@@ -36,7 +36,13 @@ define(function(require) {
             'click .printReport': 'printReport'
         },
         printReport: function() {
-            window.print();
+            var DocumentContainer = document.getElementById('chart'),
+                WindowObject = window.open('', 'PrintWindow', 'width=1000,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+            WindowObject.document.writeln(DocumentContainer.innerHTML);
+            WindowObject.document.close();
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
         },
         userChanged: function(e) {
             var self = this;

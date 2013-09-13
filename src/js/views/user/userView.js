@@ -294,6 +294,10 @@ define(function(require) {
                     $(this).parent().parent().removeClass('error').addClass('warning');
                 }
             });
+        },
+
+        onClose: function() {
+            Events.off(null, null, this);
         }
 
     });
