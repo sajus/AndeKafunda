@@ -2,6 +2,11 @@
     <div class="navbar-inner">
         <div class="container">
             <a class="brand" href="{{#if isAdmin}}#dashboard {{else}} #greetings{{/if}}">Cybage UI - Greetings</a>
+            {{#if isAdmin}}
+                <a class="brand" href="#users">Users</a>
+                <a class="brand" href="#greetings">Greetings</a>
+                <a class="brand" href="#reports">Reports</a>
+            {{/if}}
             <div class="nav-collapse collapse">
                 <div class="pull-right">
                     <ul class="nav pull-right">
