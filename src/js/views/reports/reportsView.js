@@ -130,6 +130,7 @@ define(function(require) {
                     backdrop: 'static'
                 });
             });
+            $('.container').siblings('.table-bordered').addClass('addPrint');
         }
     });
 });

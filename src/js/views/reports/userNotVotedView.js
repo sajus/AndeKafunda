@@ -20,6 +20,21 @@ define(function(require) {
             console.log("initialize");
         },
 
+        events: {
+            'click .printUserNotVoted': 'printUserNotVoted'
+        },
+
+        printUserNotVoted: function() {
+            var DocumentContainer = this.$('.fuelux'),
+                WindowObject = window.open('', 'PrintWindow', 'width=1000,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+            WindowObject.document.writeln(DocumentContainer.html());
+            console.log(DocumentContainer.html());
+            WindowObject.document.close();
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
+        },
+
         fetchData: function() {
             return services.getUsersNotVoted();
         },

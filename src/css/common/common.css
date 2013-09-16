@@ -13,6 +13,10 @@
 	.addPrint.table.table-bordered{
 		display:block !important;
 	}
+	.fuelux .datagrid-stretch-footer{
+		display:none;
+		visibility: hidden;
+	}
 }
 .greetingImage {
 	height: 200px;
