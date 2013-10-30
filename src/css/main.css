@@ -6,7 +6,8 @@
 /*
     Default stylesheet included.
 */
-@import "../js/vendors/bootstrap/css/bootstrap.min.css";
+/*@import "../js/vendors/bootstrap/css/bootstrap.min.css";*/
+@import "../bower_components/greetingBootstrap/bootstrap.css";
 /*
     Default responsive stylesheet included with Twitter Bootstrap Framework.
     This stylesheet included for adding responsive nature of Bootstrap framework
@@ -14,7 +15,7 @@
 
     NOTE: You can remove this stylesheet; If there is no requirement for responsive website.
 */
-@import "../js/vendors/bootstrap/css/bootstrap-responsive.min.css";
+/*@import "../js/vendors/bootstrap/css/bootstrap-responsive.min.css";*/
 
 /*
     This stylesheet included for overrite the default styles of Bootstrap framework.

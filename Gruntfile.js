@@ -82,10 +82,20 @@ module.exports = function(grunt) {
                     "src/templates/templates.js": ["src/templates/**/*.html"]
                 }
             }
+        },
+        recess: {
+            dist: {
+                src: ['src/bower_components/greetingBootstrap/bootstrap.less'],
+                dest: 'src/bower_components/greetingBootstrap/bootstrap.css',
+                options: {
+                    compile: true
+                }
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-img');
     grunt.loadNpmTasks('grunt-contrib-requirejs');

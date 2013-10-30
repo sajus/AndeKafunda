@@ -25,6 +25,7 @@
     "grunt-img": "~0.1.7",
     "grunt-contrib-requirejs": "~0.4.1",
     "grunt-contrib-handlebars": "~0.5.10",
-    "node-promise": "~0.5.8"
+    "node-promise": "~0.5.8",
+    "grunt-recess": "~0.4.0"
   }
 }
