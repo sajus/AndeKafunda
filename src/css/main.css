@@ -6,7 +6,6 @@
 /*
     Default stylesheet included.
 */
-/*@import "../js/vendors/bootstrap/css/bootstrap.min.css";*/
 @import "../bower_components/greetingBootstrap/bootstrap.css";
 /*
     Default responsive stylesheet included with Twitter Bootstrap Framework.
@@ -15,13 +14,10 @@
 
     NOTE: You can remove this stylesheet; If there is no requirement for responsive website.
 */
-/*@import "../js/vendors/bootstrap/css/bootstrap-responsive.min.css";*/
 
 /*
     This stylesheet included for overrite the default styles of Bootstrap framework.
 */
-@import "../js/vendors/bootstrap/css/bootstrap-custom.css";
-@import "../js/vendors/bootstrap/css/bootstrap-responsive-custom.css";
 
 @import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux.min.css";
 @import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-responsive.min.css";

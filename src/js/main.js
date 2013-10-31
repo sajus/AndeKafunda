@@ -27,7 +27,6 @@ requirejs.config({
         'backbone': 'vendors/backbone/backbone',
         'handlebars': 'vendors/handlebars/handlebars',
         'moment': 'vendors/moment/moment',
-        'bootstrap': 'vendors/bootstrap/js/bootstrap.min',
 
         /* List of custom files to be loaded in this architecture. */
         'template': 'utilities/handlebars-template-mapper',
@@ -40,11 +39,20 @@ requirejs.config({
         /* List of Require plugins */
         'text': 'vendors/require/plugins/text',
 
-        /* List of Bootstrap plugins */
-        'bootstrapAlert': 'vendors/bootstrap/js/bootstrap-alert',
-        'bootstrapDropdown': 'vendors/bootstrap/js/bootstrap-dropdown',
-        'bootstrapTransition': 'vendors/bootstrap/js/bootstrap-transition',
+        /* List of Bootstrap js plugins */
+        'bootstrapAlert': '../bower_components/bootstrap/js/alert',
+        'bootstrapDropdown': '../bower_components/bootstrap/js/dropdown',
+        'bootstrapTransition': '../bower_components/bootstrap/js/transition',
         'bootstraplightbox': 'vendors/bootstrap/js/bootstrap.lightbox',
+        'bootstrapModal': '../bower_components/bootstrap/js/modal',
+        'bootstrapCarousel': '../bower_components/bootstrap/js/carousel',
+        'bootstrapAffix': '../bower_components/bootstrap/js/affix',
+        'bootstrapButton': '../bower_components/bootstrap/js/button',
+        'bootstrapCollapse': '../bower_components/bootstrap/js/collapse',
+        'bootstrapPopOver': '../bower_components/bootstrap/js/popover',
+        'bootstrapScrollSpy': '../bower_components/bootstrap/js/scrollspy',
+        'bootstrapTab': '../bower_components/bootstrap/js/tab',
+        'bootstrapTooltip': '../bower_components/bootstrap/js/tooltip',
 
         /* List of jQuery plugins */
         'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',

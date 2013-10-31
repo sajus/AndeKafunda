@@ -16,6 +16,7 @@ define(function(require) {
         checkCounter = 0;
 
     /* Requires with no return */
+    require('bootstrapModal');
     require('fueluxDataGrid');
     require('bootstrapDropdown');
     require('fueluxComboBox');

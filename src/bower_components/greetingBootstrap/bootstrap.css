@@ -1,3 +1,5 @@
+/* Main bootstrap less */
+
 /*!
  * Bootstrap v3.0.0
  *
@@ -6802,4 +6804,60 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+
+/* Custom less files  */
+
+/* ==========================================================================
+   HTML ELEMENTS
+   ========================================================================== */
+
+textarea {
+  width: 275px;
+}
+
+.main-menu-container {
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.control-group.error .help-block {
+  color: inherit;
+}
+
+.menubar a {
+  color: #000;
+}
+
+.addCategory {
+  cursor: pointer;
+}
+
+.loginContainer {
+  width: 700px;
+  margin: 200px auto;
+}
+
+.loginLegend {
+  line-height: 53px;
+  text-align: center;
+  background-image: url('../../../../imgs/favicon.png');
+  background-repeat: no-repeat;
+  background-position-x: 170px;
+}
+
+.alignCenter {
+  text-align: center;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+}
+
+/* thumbPreview */
+
+.customThumbPreview ul {
+  float: none;
+  margin: 0 auto;
 }
