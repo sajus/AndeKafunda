@@ -11,6 +11,16 @@ define(['backbone', 'template!templates/header/menu', 'utilities/cookieManager']
             }
         },
 
+        events:{
+            'click .mainNav li a': 'toggleActive'
+        },
+
+        toggleActive:function(e){
+            var target$ = this.$(e.target);
+            target$.closest('.mainNav').find('li.active').removeClass('active');
+            target$.closest('li').toggleClass('active');
+        },
+
         render: function() {
             this.$el.html(headerMenuTemplate({
                 email: this.email,

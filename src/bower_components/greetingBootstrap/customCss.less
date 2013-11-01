@@ -44,3 +44,124 @@ textarea{
     float: none;
     margin: 0 auto;
 }
+
+/* ==========================================================================
+   Custom mixins
+   ========================================================================== */
+.navBorderRadius(@top, @right){
+    -webkit-border-top-left-radius: @top;
+    -webkit-border-top-right-radius: @right;
+    -moz-border-radius-topleft: @top;
+    -moz-border-radius-topright: @right;
+    border-top-left-radius: @top;
+    border-top-right-radius: @right;
+}
+
+/* ==========================================================================
+   Header Styles
+   ========================================================================== */
+
+.container{
+    // Container overrides
+    .page{
+        margin-top: 100px;
+    }
+}
+
+header{
+    .navbar{
+        min-height: 125px;
+        border-bottom: 5px solid @blue;
+
+        .container{
+            .navbar-brand{
+                margin-left: 0;
+                font-weight: bold;
+                font-size: 36px;
+            }
+        }
+
+        .nav.mainNav{
+            position: absolute;
+            bottom: 0;
+            left: 85px;
+
+            li{
+                .navBorderRadius(18px, 18px);
+                background-color: @white;
+
+                // position all content pseudos as absolute
+                &:before,&:after,a:before,a:after{
+                    position: absolute;
+                    bottom: 0px;
+                }
+
+                // Squares
+                &:before,&:after{
+                    background-color: @white;
+                    left: -10px;
+                    .size(10px, 10px);
+                }
+
+                // Only first child , last child and active elements need content if all
+                &:first-child:before, &:first-child a:before, &:last-child:after, &:last-child a:after,
+                &.active:before, &.active:after, &.active a:before, &.active a:after{
+                    content: ""
+                }
+
+                &.active:after, &.active a:after, &:last-child:after, &:last-child a:after{
+                    left: 100%;
+                }
+
+                &.active{
+                    z-index: 3;
+                    &:before, &:after{
+                        z-index: 1;
+                        background: @blue;
+                    }
+                    a{
+                        background: @blue;
+                        color: @white;
+                        &:before, &:after{
+                            background: @white;
+                        }
+                    }
+                }
+
+                &:first-child.active a:before, &:last-child.active a:after{
+                    background: @navbar-default-bg;
+                }
+
+                a{
+                    text-transform: uppercase;
+                    font-weight: bold;
+                    .navBorderRadius(18px, 18px);
+                    color: black;
+                    // Circles
+                    &:before,&:after{
+                        .size(20px, 20px);
+                        border-radius: 10px;
+                        z-index: 20;
+                        background: @navbar-default-bg;
+                        left: -20px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+
+
+/* ==========================================================================
+   Footer styles
+   ========================================================================== */
+footer {
+    color: @white;
+    p{
+        text-align: right;
+        margin-top: 15px;
+    }
+}
+

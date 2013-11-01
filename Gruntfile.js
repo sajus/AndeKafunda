@@ -91,10 +91,15 @@ module.exports = function(grunt) {
                     compile: true
                 }
             }
+        },
+        watch: {
+            files: "src/bower_components/greetingBootstrap/*",
+            tasks: ["recess"]
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-recess');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-img');
