@@ -2,19 +2,23 @@
     <table id="MyGrid" class="table table-bordered datagrid">
         <thead>
             <tr>
-                <th>
+                <th class="searchSummaryheader">
                     <div class="datagrid-header-left">
                         <div class="input-append search datagrid-search">
-                            <input type="text" class="input-medium" placeholder="Search">
+                            <input type="text" class="input-medium tableSearch" placeholder="Search">
                             <button type="button" class="btn"><i class="icon-search"></i></button>
                         </div>
                     </div>
-                    <div class="rows pull-right">
-                        <div class="btn-group">
-                            <button class="btn create">Create User</button>
-                            <button class="btn btn-danger userDelete disabled" disabled="true"><i class="icon-trash icon-white"></i> Delete</button>
-                            <button class="btn btn-inverse summary"><i class="icon-list-alt icon-white"></i> Summary</button>
-                        </div>
+                    <div class="pull-right">
+                        <button class="btn summary"><i class="icon-list-alt icon-white"></i> Summary</button>
+                    </div>
+                </th>
+            </tr>
+            <tr>
+                <th class="createDeleteheader">
+                    <div class="pull-left">
+                            <button class="btn create">Add New User</button>
+                            <button class="btn btn-danger userDelete disabled" disabled="true">Delete</button>
                     </div>
                 </th>
             </tr>

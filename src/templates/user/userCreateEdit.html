@@ -1,72 +1,65 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3 class="lead">{{button}} User</h3>
-</div>
-<div class="modal-body">
-    <div class="alert-container"></div>
-    <form class="form-horizontal" id="userForm">
-		<!-- Employee Id -->
-        <div class="control-group">
-            <label class="control-label" for="id">Employee Id</label>
-            <div class="controls">
-                <input type="text" id="id" name="id" class="input-xlarge" placeholder="eg. Abc" />
-                <span class="help-inline"></span>
-            </div>
-        </div>
+<div class="modal fade" role="dialog" aria-labelledby="userCreateEditLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h3 class="modal-title" id="userCreateEditLabel">{{button}} User</h3>
+			</div>
+			<div class="modal-body">
+				<div class="alert-container"></div>
+				<form class="form-horizontal" id="userForm">
+					<table class="table">
+					  <tr>
+						<td class="field-label col-md-6">
+						  <label for="firstname">First Name: </label>
+							<input type="text" id="firstname" name="firstname" class="input-xlarge" placeholder="eg. sachin" />
+							<span class="help-inline"></span>
+						</td>
+						<td class="col-md-6">
+						  <label for="lastname">Last Name: </label>
+							<input type="text" id="lastname" name="lastname" class="input-xlarge" placeholder="eg. tendulkar" />
+							<span class="help-inline"></span>
+						</td>
+					  </tr>
+					  <tr>
+						<td class="field-label col-md-6">
+						  <label class="control-label" for="id">Employee Id: </label>
+						   <input type="text" id="id" name="id" class="input-xlarge" placeholder="eg. 1234" />
+							<span class="help-inline"></span>
+						</td>
+						<td class="col-md-6">
+						   <label class="control-label" for="email">Email Id: </label>
+							<input type="text" id="email" name="email" class="input-xlarge" placeholder="eg. abc@cybage.com" />
+							<span class="help-inline"></span>
+						</td>
+					  </tr>
+					  <tr>
+						<td class="field-label col-md-6">
+						  <label for="accesstype">Access Level: </label>
+							<label class="radio">
+								<input type="radio" id="accessAdmin" value="true" name="accesstype" /> Admin
+							</label>
+												<label class="radio">
+													<input type="radio" id="accessUser" value="false" name="accesstype" /> User
+												</label>
+							<span class="help-inline"></span>
+						</td>
+						{{#if create}}
+						<td class="col-md-6">
+						   <label for="password">Password: </label>
+							<input type="password" id="password" name="password" class="input-xlarge" placeholder="eg. Xyz" />
+							<span class="help-inline"></span>
+						</td>
+						{{/if}}
+					  </tr>
+					</table>
 
-        <!-- First Name -->
-        <div class="control-group">
-            <label class="control-label" for="firstname">First Name</label>
-            <div class="controls">
-                <input type="text" id="firstname" name="firstname" class="input-xlarge" placeholder="eg. Abc" />
-                <span class="help-inline"></span>
-            </div>
-        </div>
-
-        <!-- Last Name -->
-        <div class="control-group">
-            <label class="control-label" for="lastname">Last Name</label>
-            <div class="controls">
-                <input type="text" id="lastname" name="lastname" class="input-xlarge" placeholder="eg. Xyz" />
-                <span class="help-inline"></span>
-            </div>
-        </div>
-
-         <!-- Email Id -->
-        <div class="control-group">
-            <label class="control-label" for="email">Email id</label>
-            <div class="controls">
-                <input type="text" id="email" name="email" class="input-xlarge" placeholder="eg. Xyz" />
-                <span class="help-inline"></span>
-            </div>
-        </div>
-
-        <!-- Access Level -->
-        <div class="control-group">
-            <label class="control-label" for="accesstype">Access Level</label>
-            <div class="controls">
-                <label class="radio inline">
-                  <input type="radio" id="accessAdmin" value="true" name="accesstype"> Admin
-                </label>
-                <label class="radio inline">
-                  <input type="radio" id="accessUser" value="false" name="accesstype"> User
-                </label>
-            </div>
-        </div>
-
-        <!-- Password -->
-        {{#if create}}
-            <div class="control-group">
-                <label class="control-label" for="password">password</label>
-                <div class="controls">
-                    <input type="password" id="password" name="password" class="input-xlarge" placeholder="eg. Xyz" />
-                    <span class="help-inline"></span>
-                </div>
-            </div>
-        {{/if}}
-    </form>
-</div>
-<div class="modal-footer">
-    <a href="#" class="btn btn-success createEditUser"><i class="icon-ok-sign icon-white"></i>{{button}}</a>
-    <a href="#" class="btn" data-dismiss="modal"><i class="icon-remove-sign"></i> Cancel</a>
-</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary createEditUser"><i class="icon-ok-sign icon-white"></i>{{button}}</button>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-remove-sign"></i> Cancel</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

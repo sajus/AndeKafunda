@@ -10,6 +10,7 @@ define(function(require) {
 
     /*Google Pie charts*/
     require('https://www.google.com/jsapi');
+    require('bootstrapModal');
 
     return Backbone.View.extend({
 
@@ -126,9 +127,7 @@ define(function(require) {
                 self = this;
             userNotVotedView.fetchData().done(function(data) {
                 self.$('.modal-container').html(userNotVotedView.render(data).el);
-                self.$('.modal').modal({
-                    backdrop: 'static'
-                });
+                self.$('.modal').modal('show');
             });
             $('.container').siblings('.table-bordered').addClass('addPrint');
         }

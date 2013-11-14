@@ -14,7 +14,7 @@ define(function(require) {
 
     return Backbone.View.extend({
 
-        className: "modal hide fade",
+        className: "modal fade",
 
         initialize: function() {
             console.log("initialize");
@@ -42,6 +42,7 @@ define(function(require) {
         render: function(data) {
             console.log("render");
             this.$el.html(usersNotVotedTemplate());
+            console.log(this.$el.html(usersNotVotedTemplate()).html());
             this.createDataGrid(data);
             return this;
         },

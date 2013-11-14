@@ -8,10 +8,9 @@ define(function(require) {
         userCreateEditTemplate = require('template!templates/user/userCreateEdit');
 
     require('modelBinder');
+    require('bootstrapModal');
 
     return BaseView.extend({
-
-        className: "modal hide fade",
 
         events: {
             'change input[type=text],textarea,select': 'processField',
@@ -22,11 +21,13 @@ define(function(require) {
             var self = this;
             this.responseText = "Some error in creating new user. Please recheck the form!!";
             this._modelBinder = new Backbone.ModelBinder();
-            this.model.fetch({
-                success: function() {
-                    self.render();
-                }
-            });
+            if (this.options.id !== undefined) {
+                this.model.fetch({
+                    success: function() {
+                        self.model.set('accesstype', self.model.get('accesstype') + '');
+                    }
+                });
+            }
         },
 
         render: function() {
@@ -62,16 +63,14 @@ define(function(require) {
             }
             this.model.save(this.model.toJSON(), {
                 success: function() {
-                    var confirmModal$ = self.$el;
+                    var confirmModal$ = self.$('.modal');
                     Events.trigger("alert:success", [{
                         message: "User updated successfully."
                     }]);
                     setTimeout(function() {
                         confirmModal$.modal('hide');
-                    }, 1500);
-                    confirmModal$.on('hidden', function() {
                         Events.trigger("refreshView");
-                    });
+                    }, 1500);
                 },
                 error: function(model, error) {
                     error.responseText = (error.responseText.length) ? error.responseText : self.responseText;

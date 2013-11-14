@@ -46,10 +46,12 @@ define(function(require) {
             /*Create handler*/
             'click .create': 'create',
             /*Summary handler*/
-            'click .summary': 'userTblSummary'
+            'click .summary': 'userTblSummary',
+            'click .printUserSummary': 'printUserSummary'
         },
 
         render: function() {
+            console.log('in refresh view');
             this.$el.html(userTemplate({
                 isAdmin: true
             }));
@@ -153,26 +155,27 @@ define(function(require) {
             var target$ = this.$(e.target),
                 targetRow$ = target$.closest('tr'),
                 id = targetRow$.find('td').eq(1).text(),
+                firstname = targetRow$.find('td').eq(2).text(),
+                lastname = targetRow$.find('td').eq(3).text(),
+                email = targetRow$.find('td').eq(4).text(),
+                accesstype = (targetRow$.find('td').eq(5).text() === 'Admin')? true : false,
                 userEdit;
 
             this.createEditUserModel.set('id', id);
+            this.createEditUserModel.set('accesstype', accesstype);
             userEdit = new UserEditView({
                 model: this.createEditUserModel,
                 id: id
             });
 
             this.$('.modal-container').html(userEdit.render().el);
-            this.$('.modal').modal({
-                backdrop: 'static'
-            });
+            this.$('.modal').modal('show');
         },
 
         /*Delete call*/
         userDelete: function() {
             this.$('.modal-container').html(userDeleteTemplate);
-            this.$('.modal').modal({
-                backdrop: 'static'
-            });
+            this.$('.modal').modal('show');
         },
 
         /*Delete confimation*/
@@ -193,8 +196,6 @@ define(function(require) {
                     message: "Delete successful."
                 }]);
             }).error(function(model,error) {
-                console.log(model);
-                console.log(error);
                 Events.trigger("alert:error", [{
                     message: model.statusText
                 }]);
@@ -227,6 +228,18 @@ define(function(require) {
             $('#normal').html((_.where(userlistData, {accesstype: false})).length);
 
             $('#totalUsers').html(userlistData.length);
+        },
+
+        /*Summary print handling*/
+        printUserSummary: function() {
+            var DocumentContainer = this.$('.summaryModal'),
+                WindowObject = window.open('', 'PrintWindow', 'width=1000,height=650,top=50,left=50,toolbars=no,scrollbars=yes,status=no,resizable=yes');
+            WindowObject.document.writeln(DocumentContainer.html());
+            console.log(DocumentContainer.html());
+            WindowObject.document.close();
+            WindowObject.focus();
+            WindowObject.print();
+            WindowObject.close();
         },
 
         /*Checkbox handling*/

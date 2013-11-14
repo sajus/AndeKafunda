@@ -7,3 +7,16 @@
 #MyGrid td {
 	/*cursor: pointer;*/
 }
+.fuelux .table-bordered td {
+	border-left: none;
+}
+.fuelux .datagrid tfoot {
+	background-color: #E0E1E4;
+}
+.fuelux .table th, .fuelux .table-bordered th {
+	border: none;
+}
+.fuelux .btn, .fuelux .btn:hover {
+	background-image: none;
+	color: white;
+}
