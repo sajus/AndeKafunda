@@ -33,6 +33,7 @@ define(function(require) {
         render: function() {
             this.$el.html(greetingsAdminTemplate());
             this.createDataGrid(this.formatData(this.collection.toJSON()));
+            Events.trigger('refreshActiveState');
         },
         refreshView: function() {
             var self = this;

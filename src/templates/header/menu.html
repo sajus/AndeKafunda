@@ -11,16 +11,16 @@
         <div class="navbar-collapse collapse">
             {{#if isAdmin}}
                 <ul class="nav navbar-nav mainNav">
-                    <li class="active"><a href="#dashboard">Dashboard</a></li>
-                    <li><a href="#users">Users</a></li>
-                    <li><a href="#greetings">Greetings</a></li>
-                    <li><a href="#reports">Reports</a></li>
+                    <li {{#activateClass bbFragment 'dashboard'}}{{/activateClass}}><a href="#dashboard">Dashboard</a></li>
+                    <li {{#activateClass bbFragment 'users'}}{{/activateClass}}><a href="#users">Users</a></li>
+                    <li {{#activateClass bbFragment 'greetings'}}{{/activateClass}}><a href="#greetings">Greetings</a></li>
+                    <li {{#activateClass bbFragment 'reports'}}{{/activateClass}}><a href="#reports">Reports</a></li>
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
                 <li>
                     <img src="../../../../imgs/avator.jpg" alt="Avator" class="col-md-3">
-                    <a href="#" title="Edit Profile">{{email}}</a>
+                    <a href="#reports" title="Edit Profile">{{email}}</a>
                 </li>
 
                 <li>

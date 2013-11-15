@@ -53,6 +53,7 @@ define(function(require) {
                 greetings:this.data,
                 response: this.response
             }));
+            Events.trigger('refreshActiveState');
         },
 
         greetingCheck: function() {

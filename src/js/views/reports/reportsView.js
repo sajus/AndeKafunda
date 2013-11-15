@@ -6,6 +6,7 @@ define(function(require) {
         UsersCollection = require('collections/user/userCollection'),
         UserNotVotedView = require('views/reports/userNotVotedView'),
         _ = require('underscore'),
+        Events = require('events'),
         services = require('services');
 
     /*Google Pie charts*/
@@ -68,6 +69,7 @@ define(function(require) {
                 designers: this.designersCollection.toJSON(),
                 users: this.userData
             }));
+            Events.trigger('refreshActiveState');
             google.load('visualization', '1', {
                 'callback': this.drawChart.bind(this),
                 'packages': ['corechart']

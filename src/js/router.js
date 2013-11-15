@@ -67,6 +67,7 @@ define(function(require) {
             require(['views/dashboard/dashboardView'], function(DashboardPage) {
                 var dashboardPage = Core.create(appView, 'DashboardPage', DashboardPage);
                 dashboardPage.render();
+                Events.trigger('refreshActiveState');
             });
         });
 
@@ -78,6 +79,7 @@ define(function(require) {
                     collection: userCollection
                 });
                 userPage.render();
+                Events.trigger('refreshActiveState');
             });
         });
 

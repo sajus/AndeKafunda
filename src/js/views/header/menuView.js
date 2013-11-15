@@ -1,5 +1,11 @@
-define(['backbone', 'template!templates/header/menu', 'utilities/cookieManager'], function(Backbone, headerMenuTemplate, cookieManager) {
+define(['backbone', 'events', 'template!templates/header/menu', 'utilities/cookieManager','handlebars'],
+function(Backbone, Events, headerMenuTemplate, cookieManager, Handlebars) {
     'use strict';
+
+    Handlebars.registerHelper('activateClass',function(x,y){
+        return x===y?'class=\"active\"':'';
+    });
+
     return Backbone.View.extend({
 
         el: '.main-menu-container',
@@ -9,6 +15,7 @@ define(['backbone', 'template!templates/header/menu', 'utilities/cookieManager']
                 this.email = cookieManager.checkEmail();
                 this.isAdmin = cookieManager.isAdmin();
             }
+            Events.on('refreshActiveState', this.refreshState, this);
         },
 
         events:{
@@ -21,11 +28,23 @@ define(['backbone', 'template!templates/header/menu', 'utilities/cookieManager']
             target$.closest('li').toggleClass('active');
         },
 
+        refreshState:function(){
+            var anchor$ = this.$('.mainNav').find('a[href=#'+ Backbone.history.fragment +']'),
+                li$= anchor$.closest('li');
+            if(!li$.hasClass('active')){
+                li$.addClass('active');
+                li$.siblings('li').removeClass('active');
+            }
+        },
+
         render: function() {
             this.$el.html(headerMenuTemplate({
                 email: this.email,
-                isAdmin: this.isAdmin
+                isAdmin: this.isAdmin,
+                bbFragment: Backbone.history.fragment
             }));
         }
     });
+
+
 });
