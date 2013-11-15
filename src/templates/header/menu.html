@@ -18,11 +18,21 @@
                 </ul>
             {{/if}}
             <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Welcome, {{email}} <b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#logout">Logout</a></li>
-                    </ul>
+                <li>
+                    <img src="../../../../imgs/avator.jpg" alt="Avator" class="col-md-3">
+                    <a href="#" title="Edit Profile">{{email}}</a>
                 </li>
+
+                <li>
+                    <a href="#" title="Help"><span class="glyphicon glyphicon-question-sign"></span></a>
+                </li>
+                <li>
+                    <a href="#" title="Settings"><span class="glyphicon glyphicon-cog"></span></a>
+                </li>
+                <li>
+                    <a href="#logout" title="Logout"><span class="glyphicon glyphicon-off"></span></a>
+                </li>
+
             </ul>
         </div><!--/.nav-collapse -->
     </div>

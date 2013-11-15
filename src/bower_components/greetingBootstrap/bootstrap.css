@@ -2387,8 +2387,8 @@ input[type="button"].btn-block {
 
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url('../fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+  src: url('../bootstrap/fonts/glyphicons-halflings-regular.eot');
+  src: url('../bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('../bootstrap/fonts/glyphicons-halflings-regular.woff') format('woff'), url('../bootstrap/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('../bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 
 .glyphicon {
@@ -6820,6 +6820,10 @@ textarea {
   width: 275px;
 }
 
+/* ==========================================================================
+   BASE CSS
+   ========================================================================== */
+
 .main-menu-container {
   height: 50px;
   margin-bottom: 20px;
@@ -6897,12 +6901,12 @@ header .navbar .nav.mainNav {
 
 header .navbar .nav.mainNav li {
   background-color: #ffffff;
-  -webkit-border-top-right-radius: 18px;
-          border-top-right-radius: 18px;
-  -webkit-border-top-left-radius: 18px;
-          border-top-left-radius: 18px;
-  -moz-border-radius-topright: 18px;
-  -moz-border-radius-topleft: 18px;
+  -webkit-border-top-right-radius: 25px;
+          border-top-right-radius: 25px;
+  -webkit-border-top-left-radius: 25px;
+          border-top-left-radius: 25px;
+  -moz-border-radius-topright: 25px;
+  -moz-border-radius-topleft: 25px;
 }
 
 header .navbar .nav.mainNav li:before,
@@ -6965,15 +6969,17 @@ header .navbar .nav.mainNav li:last-child.active a:after {
 }
 
 header .navbar .nav.mainNav li a {
+  padding-right: 25px;
+  padding-left: 25px;
   font-weight: bold;
   color: black;
   text-transform: uppercase;
-  -webkit-border-top-right-radius: 18px;
-          border-top-right-radius: 18px;
-  -webkit-border-top-left-radius: 18px;
-          border-top-left-radius: 18px;
-  -moz-border-radius-topright: 18px;
-  -moz-border-radius-topleft: 18px;
+  -webkit-border-top-right-radius: 25px;
+          border-top-right-radius: 25px;
+  -webkit-border-top-left-radius: 25px;
+          border-top-left-radius: 25px;
+  -moz-border-radius-topright: 25px;
+  -moz-border-radius-topleft: 25px;
 }
 
 header .navbar .nav.mainNav li a:before,
@@ -6984,6 +6990,37 @@ header .navbar .nav.mainNav li a:after {
   height: 20px;
   background: #3e3e3e;
   border-radius: 10px;
+}
+
+header .navbar .navbar-right {
+  margin-top: 10px;
+}
+
+header .navbar .navbar-right .glyphicon {
+  font-size: 25px;
+  color: white;
+}
+
+header .navbar .navbar-right li {
+  height: 35px;
+  margin-right: 10px;
+}
+
+header .navbar .navbar-right li a {
+  padding: 0;
+}
+
+header .navbar .navbar-right li a:hover .glyphicon {
+  color: #f19238;
+}
+
+header .navbar .navbar-right li:first-child {
+  border-right: 1px ridge #313131;
+}
+
+header .navbar .navbar-right li:first-child a {
+  float: left;
+  line-height: 35px;
 }
 
 /* ==========================================================================

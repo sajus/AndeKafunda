@@ -6,6 +6,9 @@ textarea{
 }
 
 
+/* ==========================================================================
+   BASE CSS
+   ========================================================================== */
 .main-menu-container{
   height: 50px;
   margin-bottom:20px;
@@ -110,7 +113,7 @@ header{
             left: 85px;
 
             li{
-                .navBorderRadius(18px, 18px);
+                .navBorderRadius(25px, 25px);
                 background-color: @white;
 
                 // position all content pseudos as absolute
@@ -157,8 +160,10 @@ header{
 
                 a{
                     text-transform: uppercase;
+                    padding-right: 25px;
+                    padding-left: 25px;
                     font-weight: bold;
-                    .navBorderRadius(18px, 18px);
+                    .navBorderRadius(25px, 25px);
                     color: black;
                     // Circles
                     &:before,&:after{
@@ -168,6 +173,33 @@ header{
                         background: @navbar-default-bg;
                         left: -20px;
                     }
+                }
+            }
+        }
+
+        .navbar-right{
+            margin-top: 10px;
+            .glyphicon{
+                color: white;
+                font-size: 25px;
+            }
+            li{
+                height: 35px;
+                margin-right: 10px;
+                a{
+                    padding: 0px;
+                    &:hover{
+                        .glyphicon{
+                            color: @orange;
+                        }
+                    }
+                }
+                &:first-child{
+                    a{
+                        float: left;
+                        line-height: 35px;
+                    }
+                    border-right: 1px ridge darken(@navbar-default-bg, 5%);
                 }
             }
         }
