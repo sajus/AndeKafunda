@@ -15,7 +15,7 @@ define(function (require) {
             title: 'Success!'
         },
         'error': {
-            typeClass: 'alert-error',
+            typeClass: 'alert-danger',
             title: 'Error!'
         },
         'warning': {

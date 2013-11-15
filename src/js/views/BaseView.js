@@ -11,7 +11,7 @@ define(function(require) {
         processField: function(e) {
             var target$ = $(e.target),
                 fieldNameAttr = target$.attr('name'),
-                errorText = target$.closest(".controls").find("span.help-inline");
+                errorText = target$.closest(".form-group").find("span.help-inline");
             if (errorText.text().length !== 0) {
                 errorText.text("");
             }
@@ -26,7 +26,7 @@ define(function(require) {
                 $(".help-inline").text("");
             }
             this.$('[data-name=option]').slice(2).each(function() {
-                var targetParent$ = $(this).closest('.control-group');
+                var targetParent$ = $(this).closest('.form-group');
                 if ($.trim($(this).val()) === '') {
                     targetParent$.remove();
                 }
@@ -43,7 +43,7 @@ define(function(require) {
         showError: function(view, attr, error) {
             var targetView$ = view.$el,
                 targetSelector$ = targetView$.find("[name=" + attr + "]"),
-                targetParent$ = targetSelector$.closest(".control-group"),
+                targetParent$ = targetSelector$.closest(".form-group"),
                 inlineSpan = targetParent$.find('.help-inline'),
                 finalMessage = '';
             if ($.trim(inlineSpan.html()) === '') {
@@ -71,7 +71,7 @@ define(function(require) {
         removeError: function(view, attr) {
             var targetView$ = view.$el,
                 targetSelector$ = targetView$.find("[name=" + attr + "]"),
-                targetParent$ = targetSelector$.closest(".control-group");
+                targetParent$ = targetSelector$.closest(".form-group");
             targetParent$.find(".help-inline").html("");
             targetParent$.removeClass("error");
         }

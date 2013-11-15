@@ -5,56 +5,71 @@
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 				<h3 class="modal-title" id="userCreateEditLabel">{{button}} User</h3>
 			</div>
-			<div class="modal-body">
+			<div class="modal-body clearfix">
 				<div class="alert-container"></div>
-				<form class="form-horizontal" id="userForm">
-					<table class="table">
-					  <tr>
-						<td class="field-label col-md-6">
-						  <label for="firstname">First Name: </label>
-							<input type="text" id="firstname" name="firstname" class="input-xlarge" placeholder="eg. sachin" />
-							<span class="help-inline"></span>
-						</td>
-						<td class="col-md-6">
-						  <label for="lastname">Last Name: </label>
-							<input type="text" id="lastname" name="lastname" class="input-xlarge" placeholder="eg. tendulkar" />
-							<span class="help-inline"></span>
-						</td>
-					  </tr>
-					  <tr>
-						<td class="field-label col-md-6">
-						  <label class="control-label" for="id">Employee Id: </label>
-						   <input type="text" id="id" name="id" class="input-xlarge" placeholder="eg. 1234" />
-							<span class="help-inline"></span>
-						</td>
-						<td class="col-md-6">
-						   <label class="control-label" for="email">Email Id: </label>
-							<input type="text" id="email" name="email" class="input-xlarge" placeholder="eg. abc@cybage.com" />
-							<span class="help-inline"></span>
-						</td>
-					  </tr>
-					  <tr>
-						<td class="field-label col-md-6">
-						  <label for="accesstype">Access Level: </label>
-							<label class="radio">
-								<input type="radio" id="accessAdmin" value="true" name="accesstype" /> Admin
-							</label>
-												<label class="radio">
-													<input type="radio" id="accessUser" value="false" name="accesstype" /> User
-												</label>
-							<span class="help-inline"></span>
-						</td>
-						{{#if create}}
-						<td class="col-md-6">
-						   <label for="password">Password: </label>
-							<input type="password" id="password" name="password" class="input-xlarge" placeholder="eg. Xyz" />
-							<span class="help-inline"></span>
-						</td>
-						{{/if}}
-					  </tr>
-					</table>
-
-				</form>
+				<div class="col-md-12">
+					<span class="col-md-6">
+						<form class="form-horizontal">
+							<form action="" method="POST" class="form-horizontal" role="form">
+								<div class="form-group">
+									<div class="col-md-10">
+										<label class="col-md-5 control-label" for="firstname">First Name: </label>
+										<input type="text" id="firstname" name="firstname" class="input-xlarge" placeholder="eg. sachin" />
+										<span class="help-inline"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-10">
+										<label class="col-md-5 control-label" for="id">Employee Id: </label>
+									   	<input type="text" id="id" name="id" class="input-xlarge" placeholder="eg. 1234" />
+										<span class="help-inline"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-10 form-inline">
+										<label class="col-md-5 control-label" for="accesstype">Access Level: </label>
+										<label class="radio inline">
+											<input type="radio" id="accessAdmin" value="true" name="accesstype" /> Admin
+										</label>
+										<label class="radio inline">
+											<input type="radio" id="accessUser" value="false" name="accesstype" /> User
+										</label>
+										<span class="help-inline"></span>
+									</div>
+								</div>
+							</form>
+						</form>
+					</span>
+					<span class="col-md-6">
+						<form class="form-horizontal">
+							<form action="" method="POST" class="form-horizontal" role="form">
+								<div class="form-group">
+									<div class="col-md-10">
+										<label class="col-md-5 control-label" for="lastname">Last Name: </label>
+										<input type="text" id="lastname" name="lastname" class="input-xlarge" placeholder="eg. tendulkar" />
+										<span class="help-inline"></span>
+									</div>
+								</div>
+								<div class="form-group">
+									<div class="col-md-10">
+										<label class="col-md-5 control-label" for="email">Email Id: </label>
+										<input type="text" id="email" name="email" class="input-xlarge" placeholder="eg. abc@cybage.com" />
+										<span class="help-inline"></span>
+									</div>
+								</div>
+								{{#if create}}
+									<div class="form-group">
+										<div class="col-md-10">
+											<label class="col-md-5 control-label" for="password">Password: </label>
+											<input type="password" id="password" name="password" class="input-xlarge" placeholder="eg. Xyz" />
+											<span class="help-inline"></span>
+										</div>
+									</div>
+								{{/if}}
+							</form>
+						</form>
+					</span>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary createEditUser"><i class="icon-ok-sign icon-white"></i>{{button}}</button>
