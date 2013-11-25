@@ -1,308 +1,251 @@
-/* ==========================================================================
-   HTML ELEMENTS
-   ========================================================================== */
-textarea{
-    width: 275px;
-}
-
-
-/* ==========================================================================
-   BASE CSS
-   ========================================================================== */
-.main-menu-container{
-  height: 50px;
-  margin-bottom:20px;
-}
-.control-group.error .help-block{
-    color: inherit;
-}
-
-.menubar a{
-    color: #000;
-}
-.addCategory{
-    cursor: pointer;
-}
-.loginContainer{
-    margin: 200px auto;
-    width: 700px;
-}
-.loginLegend {
-    background-image: url('../../../../imgs/favicon.png');
-    background-repeat: no-repeat;
-    text-align: center;
-    background-position-x: 170px;
-    line-height: 53px;
-}
-.alignCenter {
-    text-align: center;
-}
-.footer {
-    position: fixed;
-    bottom: 0;
-}
-
-/* thumbPreview */
-.customThumbPreview ul{
-    float: none;
-    margin: 0 auto;
-}
-
-/* ==========================================================================
-   Custom mixins
-   ========================================================================== */
-.navBorderRadius(@top, @right){
-    -webkit-border-top-left-radius: @top;
-    -webkit-border-top-right-radius: @right;
-    -moz-border-radius-topleft: @top;
-    -moz-border-radius-topright: @right;
-    border-top-left-radius: @top;
-    border-top-right-radius: @right;
-}
-
-/* ==========================================================================
-   Header Styles
-   ========================================================================== */
-
-.container{
-    // Container overrides
-    .page{
-        margin-top: 100px;
+/*------- HTML ELEMENTS -------*/
+    textarea{
+        width: 275px;
     }
-}
 
-header{
-    .navbar{
-        min-height: 125px;
-        border-bottom: 5px solid @blue;
+/*------- Base Styles -------*/
+    .main-menu-container{
+      height: 50px;
+      margin-bottom:20px;
+    }
+    .control-group.error .help-block{
+        color: inherit;
+    }
 
-        .container{
-            .navbar-brand{
-                margin-left: 0;
-                font-weight: bold;
-                font-size: 36px;
-            }
+    .menubar a{
+        color: #000;
+    }
+    .addCategory{
+        cursor: pointer;
+    }
+    .loginContainer{
+        margin: 200px auto;
+        width: 700px;
+    }
+    .loginLegend {
+        background-image: url('../../../../imgs/favicon.png');
+        background-repeat: no-repeat;
+        text-align: center;
+        background-position-x: 170px;
+        line-height: 53px;
+    }
+    .alignCenter {
+        text-align: center;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+    }
+
+    /* thumbPreview */
+    .customThumbPreview ul{
+        float: none;
+        margin: 0 auto;
+    }
+
+/*------- Header Styles -------*/
+    .container{
+        // Container overrides
+        .page{
+            margin-top: 100px;
         }
+    }
 
-        .nav.mainNav{
-            position: absolute;
-            bottom: 0;
-            left: 85px;
+    header{
+        .navbar{
+            min-height: 125px;
+            border-bottom: 5px solid @blue;
 
-            li{
-                .navBorderRadius(25px, 25px);
-                background-color: @white;
-
-                // position all content pseudos as absolute
-                &:before,&:after,a:before,a:after{
-                    position: absolute;
-                    bottom: 0px;
-                }
-
-                // Squares
-                &:before,&:after{
-                    background-color: @white;
-                    left: -10px;
-                    .size(10px, 10px);
-                }
-
-                // Only first child , last child and active elements need content if all
-                &:first-child:before, &:first-child a:before, &:last-child:after, &:last-child a:after,
-                &.active:before, &.active:after, &.active a:before, &.active a:after{
-                    content: ""
-                }
-
-                &.active:after, &.active a:after, &:last-child:after, &:last-child a:after{
-                    left: 100%;
-                }
-
-                &.active{
-                    z-index: 3;
-                    &:before, &:after{
-                        z-index: 1;
-                        background: @blue;
-                    }
-                    a{
-                        background: @blue;
-                        color: @white;
-                        &:before, &:after{
-                            background: @white;
-                        }
-                    }
-                }
-
-                &:first-child.active a:before, &:last-child.active a:after{
-                    background: @navbar-default-bg;
-                }
-
-                a{
-                    text-transform: uppercase;
-                    padding-right: 25px;
-                    padding-left: 25px;
+            .container{
+                .navbar-brand{
+                    margin-left: 0;
                     font-weight: bold;
-                    .navBorderRadius(25px, 25px);
-                    color: black;
-                    // Circles
-                    &:before,&:after{
-                        .size(20px, 20px);
-                        border-radius: 10px;
-                        z-index: 20;
-                        background: @navbar-default-bg;
-                        left: -20px;
-                    }
+                    font-size: 36px;
                 }
             }
-        }
 
-        .navbar-right{
-            margin-top: 10px;
-            .glyphicon{
-                color: white;
-                font-size: 25px;
-            }
-            li{
-                height: 35px;
-                margin-right: 10px;
-                a{
-                    padding: 0px;
-                    &:hover{
-                        .glyphicon{
-                            color: @orange;
+            .nav.mainNav{
+                position: absolute;
+                bottom: 0;
+                left: 85px;
+
+                li{
+                    .navBorderRadius(25px, 25px);
+                    background-color: @white;
+
+                    // position all content pseudos as absolute
+                    &:before,&:after,a:before,a:after{
+                        position: absolute;
+                        bottom: 0px;
+                    }
+
+                    // Squares
+                    &:before,&:after{
+                        background-color: @white;
+                        left: -10px;
+                        .size(10px, 10px);
+                    }
+
+                    // Only first child , last child and active elements need content if all
+                    &:first-child:before, &:first-child a:before, &:last-child:after, &:last-child a:after,
+                    &.active:before, &.active:after, &.active a:before, &.active a:after{
+                        content: ""
+                    }
+
+                    &.active:after, &.active a:after, &:last-child:after, &:last-child a:after{
+                        left: 100%;
+                    }
+
+                    &.active{
+                        z-index: 3;
+                        &:before, &:after{
+                            z-index: 1;
+                            background: @blue;
+                        }
+                        a{
+                            background: @blue;
+                            color: @white;
+                            &:before, &:after{
+                                background: @white;
+                            }
+                        }
+                    }
+
+                    &:first-child.active a:before, &:last-child.active a:after{
+                        background: @navbar-default-bg;
+                    }
+
+                    a{
+                        text-transform: uppercase;
+                        padding-right: 25px;
+                        padding-left: 25px;
+                        font-weight: bold;
+                        .navBorderRadius(25px, 25px);
+                        color: black;
+                        // Circles
+                        &:before,&:after{
+                            .size(20px, 20px);
+                            border-radius: 10px;
+                            z-index: 20;
+                            background: @navbar-default-bg;
+                            left: -20px;
                         }
                     }
                 }
-                &:first-child{
+            }
+
+            .navbar-right{
+                margin-top: 10px;
+                .glyphicon{
+                    color: white;
+                    font-size: 25px;
+                }
+                li{
+                    height: 35px;
+                    margin-right: 10px;
                     a{
-                        float: left;
-                        line-height: 35px;
+                        padding: 0px;
+                        &:hover{
+                            .glyphicon{
+                                color: @orange;
+                            }
+                        }
                     }
-                    border-right: 1px ridge darken(@navbar-default-bg, 5%);
-                }
-            }
-        }
-    }
-}
-
-
-/* ==========================================================================
-   Modal styles
-   ========================================================================== */
-.modal {
-    .modal-dialog {
-        width: 950px;
-
-        .modal-content {
-            border: 7px solid #2c539e;
-            padding-left: 10px;
-            padding-right: 10px;
-
-            .modal-header {
-                color: @blue;
-            }
-
-            .modal-body {
-                .form-group{
-                    .help-inline {
-                        color: #B94A48;
-                        font-weight: bolder;
-                        font-size: 12px;
+                    &:first-child{
+                        a{
+                            float: left;
+                            line-height: 35px;
+                        }
+                        border-right: 1px ridge darken(@navbar-default-bg, 5%);
                     }
                 }
             }
+        }
+    }
 
-            .modal-footer {
-                background-color: #eae8e8;
-                margin-bottom: 10px;
-                border-radius: 5px;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-right: 15px;
-
-                button {
-                    #gradient.vertical(#cccccc, #eeeeee, 0%, 100%);
+/*------- Table styles -------*/
+    .table-bordered, .table {
+        thead {
+            tr {
+                th {
+                    border: none;
+                    background-color: #8495ae;
                 }
+                th.searchSummaryheader {
+                    #gradient.vertical(#fdfdfd, #f4f4f4, 0%, 100%);
 
-                .createEditUser, .printUserSummary, .confirmDelete, .printUserNotVoted {
-                    #gradient.vertical(#3a90d1, #50acf1, 0%, 100%);
+                    .summary {
+                        background-color: #2a5099;
+                    }
+
+                    .tableSearch {
+                        width: 290px;
+                        height: 30px;
+                    }
+                }
+                th.createDeleteheader {
+                    #gradient.vertical(#7a889c, #5c6777, 0%, 100%);
+
+                    .create {
+                        background-image: url('../../imgs/addUser.gif');
+                        background-repeat: no-repeat;
+                        background-color: #4ba5e9;
+                        width: 140px;
+                        height: 35px;
+                        background-position: 7px;
+                        padding-left: 40px;
+                    }
+
+                    .userDelete {
+                        #gradient.vertical(#cccccc, #eeeeee, 0%, 100%);
+                        width: 55px;
+                        height: 35px;
+                        margin-left: 15px;
+                        padding: 5px;
+                        color: #8f8d8d;
+                    }
+                }
+            }
+        }
+        tbody {
+            tr:nth-child(odd){
+                background: #c6c6c8;
+                background: -moz-linear-gradient(top,  #c6c6c8 0%, #edeef1 5%, #fafafb 98%, #d9d9dc 100%);
+                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c6c6c8), color-stop(5%,#edeef1), color-stop(98%,#fafafb), color-stop(100%,#d9d9dc));
+                background: -webkit-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
+                background: -o-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
+                background: -ms-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
+                background: linear-gradient(to bottom,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c6c6c8', endColorstr='#d9d9dc',GradientType=0 );
+            }
+
+            tr {
+                td {
+                    border: none;
                 }
             }
         }
     }
-}
 
-/* ==========================================================================
-   Table styles
-   ========================================================================== */
-.table-bordered, .table {
-    thead {
-        tr {
-            th {
-                border: none;
-                background-color: #8495ae;
-            }
-            th.searchSummaryheader {
-                #gradient.vertical(#fdfdfd, #f4f4f4, 0%, 100%);
-
-                .summary {
-                    background-color: #2a5099;
-                }
-
-                .tableSearch {
-                    width: 290px;
-                    height: 30px;
-                }
-            }
-            th.createDeleteheader {
-                #gradient.vertical(#7a889c, #5c6777, 0%, 100%);
-
-                .create {
-                    background-image: url('../../imgs/addUser.gif');
-                    background-repeat: no-repeat;
-                    background-color: #4ba5e9;
-                    width: 140px;
-                    height: 35px;
-                    background-position: 7px;
-                    padding-left: 40px;
-                }
-
-                .userDelete {
-                    #gradient.vertical(#cccccc, #eeeeee, 0%, 100%);
-                    width: 55px;
-                    height: 35px;
-                    margin-left: 15px;
-                    padding: 5px;
-                    color: #8f8d8d;
-                }
-            }
+/*------- Footer Styles -------*/
+    footer {
+        color: @white;
+        p{
+            text-align: right;
+            margin-top: 15px;
         }
     }
-    tbody {
-        tr:nth-child(odd){
-            background: #c6c6c8;
-            background: -moz-linear-gradient(top,  #c6c6c8 0%, #edeef1 5%, #fafafb 98%, #d9d9dc 100%);
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c6c6c8), color-stop(5%,#edeef1), color-stop(98%,#fafafb), color-stop(100%,#d9d9dc));
-            background: -webkit-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-            background: -o-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-            background: -ms-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-            background: linear-gradient(to bottom,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c6c6c8', endColorstr='#d9d9dc',GradientType=0 );
-        }
 
-        tr {
-            td {
-                border: none;
-            }
-        }
+/*------- Text Styles -------*/
+    .txt-greeting{
+        color: @green;
     }
-}
-/* ==========================================================================
-   Footer styles
-   ========================================================================== */
-footer {
-    color: @white;
-    p{
-        text-align: right;
-        margin-top: 15px;
+
+    .txt-user{
+        color: @blue;
     }
-}
+
+    .txt-report{
+        color: @orange;
+    }
 

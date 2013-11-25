@@ -1,4 +1,4 @@
-/* Main bootstrap less */
+/*------- Main bootstrap less -------*/
 
 /*!
  * Bootstrap v3.0.0
@@ -6806,23 +6806,148 @@ td.visible-print {
   }
 }
 
-/* Custom less files  */
+/*------- Custom less files -------*/
 
-/* ==========================================================================
-   Custom Colors
-   ========================================================================== */
+/*------- Custom Colors -------*/
 
-/* ==========================================================================
-   HTML ELEMENTS
-   ========================================================================== */
+/*------- Custom mixins -------*/
+
+/*------- Bootstrap Components -------*/
+
+.modal .modal-dialog {
+  width: 950px;
+}
+
+.modal .modal-dialog .modal-content {
+  padding-right: 10px;
+  padding-left: 10px;
+  border: 7px solid #2c539e;
+}
+
+.modal .modal-dialog .modal-content .modal-header {
+  color: #01aef0;
+}
+
+.modal .modal-dialog .modal-content .modal-body .form-group .help-inline {
+  font-size: 12px;
+  font-weight: bolder;
+  color: #B94A48;
+}
+
+.modal .modal-dialog .modal-content .modal-footer {
+  padding-top: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  background-color: #eae8e8;
+  border-radius: 5px;
+}
+
+.modal .modal-dialog .modal-content .modal-footer button {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#cccccc), to(#eeeeee));
+  background-image: -webkit-linear-gradient(top, #cccccc, 0%, #eeeeee, 100%);
+  background-image: -moz-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
+  background-image: linear-gradient(to bottom, #cccccc 0%, #eeeeee 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffcccccc', endColorstr='#ffeeeeee', GradientType=0);
+}
+
+.modal .modal-dialog .modal-content .modal-footer .createEditUser,
+.modal .modal-dialog .modal-content .modal-footer .printUserSummary,
+.modal .modal-dialog .modal-content .modal-footer .confirmDelete,
+.modal .modal-dialog .modal-content .modal-footer .printUserNotVoted {
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#3a90d1), to(#50acf1));
+  background-image: -webkit-linear-gradient(top, #3a90d1, 0%, #50acf1, 100%);
+  background-image: -moz-linear-gradient(top, #3a90d1 0%, #50acf1 100%);
+  background-image: linear-gradient(to bottom, #3a90d1 0%, #50acf1 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a90d1', endColorstr='#ff50acf1', GradientType=0);
+}
+
+.btn-secondary {
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #2c539e;
+  border-color: #00236f;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus,
+.btn-secondary:active,
+.btn-secondary.active,
+.open .dropdown-toggle.btn-secondary {
+  color: #ffffff;
+  background-color: #23427e;
+  border-color: #001032;
+}
+
+.btn-secondary:active,
+.btn-secondary.active,
+.open .dropdown-toggle.btn-secondary {
+  background-image: none;
+}
+
+.btn-secondary.disabled,
+.btn-secondary[disabled],
+fieldset[disabled] .btn-secondary,
+.btn-secondary.disabled:hover,
+.btn-secondary[disabled]:hover,
+fieldset[disabled] .btn-secondary:hover,
+.btn-secondary.disabled:focus,
+.btn-secondary[disabled]:focus,
+fieldset[disabled] .btn-secondary:focus,
+.btn-secondary.disabled:active,
+.btn-secondary[disabled]:active,
+fieldset[disabled] .btn-secondary:active,
+.btn-secondary.disabled.active,
+.btn-secondary[disabled].active,
+fieldset[disabled] .btn-secondary.active {
+  background-color: #2c539e;
+  border-color: #00236f;
+}
+
+/*------- Custom UI components -------*/
+
+.box {
+  padding: 18px;
+  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#ffffff), to(#ececec));
+  background-image: -webkit-linear-gradient(top, #ffffff, 0%, #ececec, 100%);
+  background-image: -moz-linear-gradient(top, #ffffff 0%, #ececec 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #ececec 100%);
+  background-repeat: repeat-x;
+  border: 1px solid #a9a9a9;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffececec', GradientType=0);
+  -webkit-box-shadow: 0px 1px 5px -5px #000000;
+          box-shadow: 0px 1px 5px -5px #000000;
+}
+
+.box:before,
+.box:after {
+  display: table;
+  content: " ";
+}
+
+.box:after {
+  clear: both;
+}
+
+.box:before,
+.box:after {
+  display: table;
+  content: " ";
+}
+
+.box:after {
+  clear: both;
+}
+
+/*------- HTML ELEMENTS -------*/
 
 textarea {
   width: 275px;
 }
 
-/* ==========================================================================
-   BASE CSS
-   ========================================================================== */
+/*------- Base Styles -------*/
 
 .main-menu-container {
   height: 50px;
@@ -6870,13 +6995,7 @@ textarea {
   margin: 0 auto;
 }
 
-/* ==========================================================================
-   Custom mixins
-   ========================================================================== */
-
-/* ==========================================================================
-   Header Styles
-   ========================================================================== */
+/*------- Header Styles -------*/
 
 .container .page {
   margin-top: 100px;
@@ -7023,63 +7142,7 @@ header .navbar .navbar-right li:first-child a {
   line-height: 35px;
 }
 
-/* ==========================================================================
-   Modal styles
-   ========================================================================== */
-
-.modal .modal-dialog {
-  width: 950px;
-}
-
-.modal .modal-dialog .modal-content {
-  padding-right: 10px;
-  padding-left: 10px;
-  border: 7px solid #2c539e;
-}
-
-.modal .modal-dialog .modal-content .modal-header {
-  color: #01aef0;
-}
-
-.modal .modal-dialog .modal-content .modal-body .form-group .help-inline {
-  font-size: 12px;
-  font-weight: bolder;
-  color: #B94A48;
-}
-
-.modal .modal-dialog .modal-content .modal-footer {
-  padding-top: 10px;
-  padding-right: 15px;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-  background-color: #eae8e8;
-  border-radius: 5px;
-}
-
-.modal .modal-dialog .modal-content .modal-footer button {
-  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#cccccc), to(#eeeeee));
-  background-image: -webkit-linear-gradient(top, #cccccc, 0%, #eeeeee, 100%);
-  background-image: -moz-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #cccccc 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffcccccc', endColorstr='#ffeeeeee', GradientType=0);
-}
-
-.modal .modal-dialog .modal-content .modal-footer .createEditUser,
-.modal .modal-dialog .modal-content .modal-footer .printUserSummary,
-.modal .modal-dialog .modal-content .modal-footer .confirmDelete,
-.modal .modal-dialog .modal-content .modal-footer .printUserNotVoted {
-  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#3a90d1), to(#50acf1));
-  background-image: -webkit-linear-gradient(top, #3a90d1, 0%, #50acf1, 100%);
-  background-image: -moz-linear-gradient(top, #3a90d1 0%, #50acf1 100%);
-  background-image: linear-gradient(to bottom, #3a90d1 0%, #50acf1 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a90d1', endColorstr='#ff50acf1', GradientType=0);
-}
-
-/* ==========================================================================
-   Table styles
-   ========================================================================== */
+/*------- Table styles -------*/
 
 .table-bordered thead tr th,
 .table thead tr th {
@@ -7161,9 +7224,7 @@ header .navbar .navbar-right li:first-child a {
   border: none;
 }
 
-/* ==========================================================================
-   Footer styles
-   ========================================================================== */
+/*------- Footer Styles -------*/
 
 footer {
   color: #ffffff;
@@ -7173,3 +7234,19 @@ footer p {
   margin-top: 15px;
   text-align: right;
 }
+
+/*------- Text Styles -------*/
+
+.txt-greeting {
+  color: #4aae63;
+}
+
+.txt-user {
+  color: #01aef0;
+}
+
+.txt-report {
+  color: #f19238;
+}
+
+/*------- Module specic styles -------*/

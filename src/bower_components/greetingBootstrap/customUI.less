@@ -1,0 +1,59 @@
+/*------- Bootstrap Components -------*/
+    .modal {
+        .modal-dialog {
+            width: 950px;
+
+            .modal-content {
+                border: 7px solid #2c539e;
+                padding-left: 10px;
+                padding-right: 10px;
+
+                .modal-header {
+                    color: @blue;
+                }
+
+                .modal-body {
+                    .form-group{
+                        .help-inline {
+                            color: #B94A48;
+                            font-weight: bolder;
+                            font-size: 12px;
+                        }
+                    }
+                }
+
+                .modal-footer {
+                    background-color: #eae8e8;
+                    margin-bottom: 10px;
+                    border-radius: 5px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    padding-right: 15px;
+
+                    button {
+                        #gradient.vertical(#cccccc, #eeeeee, 0%, 100%);
+                    }
+
+                    .createEditUser, .printUserSummary, .confirmDelete, .printUserNotVoted {
+                        #gradient.vertical(#3a90d1, #50acf1, 0%, 100%);
+                    }
+                }
+            }
+        }
+    }
+
+    .btn-secondary{
+        .button-variant(@white, #2c539e, #00236f);
+        // #gradient.horizontal(#244386, #2c539e, 0%, 100%);
+        font-weight: bold;
+    }
+
+
+/*------- Custom UI components -------*/
+    .box{
+        border: 1px solid @border;
+        #gradient.vertical(#fff, #ececec, 0%, 100%);
+        padding: 18px;
+        .clearfix();
+        .box-shadow(0px 1px 5px -5px #000);
+    }
