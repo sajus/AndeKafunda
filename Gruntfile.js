@@ -85,15 +85,16 @@ module.exports = function(grunt) {
         },
         recess: {
             dist: {
-                src: ['src/bower_components/greetingBootstrap/bootstrap.less'],
-                dest: 'src/bower_components/greetingBootstrap/bootstrap.css',
+                files:{
+                    'src/bower_components/greetingBootstrap/bootstrap.css':['src/bower_components/greetingBootstrap/bootstrap.less']
+                },
                 options: {
                     compile: true
                 }
             }
         },
         watch: {
-            files: "src/bower_components/greetingBootstrap/*",
+            files: "src/bower_components/greetingBootstrap/*.less",
             tasks: ["recess"]
         }
     });

@@ -8,7 +8,7 @@ define(function(require) {
     require('modelBinder');
     require('jqueryAjaxForm');
     return BaseView.extend({
-        className: "modal hide fade",
+        className: "modal fade",
         initialize: function() {
             this._greetingBinder = new Backbone.ModelBinder();
         },
@@ -20,7 +20,6 @@ define(function(require) {
             return this.model.fetch();
         },
         postData: function() {
-            console.log("in the saveGreeting");
             var postData = {}, self = this;
             /* remove file attribute */
             if (this.options.editMode) {

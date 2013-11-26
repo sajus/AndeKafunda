@@ -12,11 +12,14 @@ define(function(require) {
         UsersCollection = require('collections/user/userCollection'),
         Events = require('events');
     /* Requires with no return */
+    require('bootstrapModal');
     require('fueluxDataGrid');
     require('bootstrapDropdown');
     require('fueluxComboBox');
     require('fueluxSelectBox');
     require('fueluxSearchBox');
+    require('bootstrapTooltip');
+    require('bootstrapPopOver');
     return Backbone.View.extend({
 
         el: '.page',
@@ -45,22 +48,29 @@ define(function(require) {
             });
         },
         events: {
-            'click button.greetingEdit': 'greetingEdit',
+            'mouseover .greetingDelete': 'rowSelectedDelete',
+            'mouseout .greetingDelete': 'rowSelectedNotDelete',
+            'click .greetingEdit': 'greetingEdit',
             'click .greetingCreate': 'greetingCreate',
             'click .greetingDelete': 'greetingDelete',
             // 'click .sendEmail': 'sendEmail',
+            'click .cancelDelete': 'cancelDelete',
             'change .selectUsersAtOnce': 'gridCheckBox',
             'loaded #MyGrid': 'cleanSelectAll',
-            'change .selectrows': 'rowSelected'
+            'change .selectrows': 'rowSelected',
+            // Tooltip
+            'click .imgTooltip':'preventDefault'
         },
         formatData: function(data) {
             var greetings = [],
                 greeting,
                 selectRows = "",
-                operationHTML = "";
+                operationHTML = "",
+                editOp = '<a href="#" title="Edit" class="greetingEdit"><span class="glyphicon glyphicon-edit"></span></a> &nbsp; &nbsp;',
+                delOp = '<a href="#" title="Delete" class="greetingDelete"><span class="glyphicon glyphicon-remove txt-danger"></span></a>';
             _.each(data, function(greetingModel) {
                 var usersData = greetingModel.tblUsers[0];
-                operationHTML = "<button class='btn btn-small btn-primary greetingEdit' type='button' data-id='" + greetingModel.id + "'><i class='icon-edit icon-white'></i> Edit</button>";
+                operationHTML = editOp+delOp;
                 selectRows = "<input type='checkbox' class='selectrows' data-id=" + greetingModel.id + ">";
                 greeting = {};
                 greeting = _.object([
@@ -77,10 +87,10 @@ define(function(require) {
                     usersData.firstname,
                     usersData.lastname,
                     usersData.email,
-                    greetingModel.url,
+                    "<a href=\"#\" class=\"imgTooltip\" data-img=\"" + greetingModel.url + "\" >"+ greetingModel.url+ "</a>",
                     operationHTML
                 ]);
-
+                // "<img src=\""+ greetingModel.url +"\" class=\"col-sm-2\" />",
                 greetings.push(greeting);
             });
             return greetings;
@@ -133,9 +143,10 @@ define(function(require) {
             });
         },
         greetingEdit: function(e) {
-            var target = this.$(e.target).closest('button'),
+            e.preventDefault();
+            var target = this.$(e.target),
                 greetingModel = new GreetingModel({
-                    id: target.attr('data-id')
+                    id: target.closest('tr').find('td').first().find('input').attr('data-id')
                 }),
                 greetingModal = new GreetingModal({
                     editMode: true,
@@ -143,12 +154,14 @@ define(function(require) {
                 }),
                 usersCollection = new UsersCollection(),
                 self = this;
-            console.log(target.attr('data-id'));
             greetingModal.fetchData().done(function() {
+                console.log(greetingModal.model);
                 usersCollection.fetch({
                     success: function() {
                         self.$('.modal-container').html(greetingModal.render(usersCollection.toJSON()).el);
-                        self.$('.modal-container .modal').modal();
+                        self.$('.modal-container .modal').modal({
+                            backdrop: 'static'
+                        });
                     }
                 });
             });
@@ -165,14 +178,27 @@ define(function(require) {
             usersCollection.fetch({
                 success: function() {
                     self.$('.modal-container').html(greetingModal.render(usersCollection.toJSON()).el);
-                    self.$('.modal-container .modal').modal();
+                    self.$('.modal-container .modal').modal({
+                        backdrop: 'static'
+                    });
                 }
             });
         },
-        greetingDelete: function() {
+        greetingDelete: function(e) {
+            e.preventDefault();
+            var target$ = this.$(e.target);
+            if(target$[0].tagName.toLowerCase() === 'span' || target$[0].tagName.toLowerCase() === 'a'){
+                target$.closest('tr').addClass('warning').find('td').first().find('input').attr('checked', true);
+            }
             var confirmDelete = new ConfirmModal();
             this.$('.modal-containerConfirm').html(confirmDelete.render().el);
-            this.$('.modal-containerConfirm .modal').modal('show');
+            this.$('.modal-containerConfirm .modal').modal({
+                backdrop: 'static'
+            });
+            // this.$('.modal-containerConfirm .modal').on('hidden',function(){
+            //     console.log("in event");
+            //     this.cancelDelete();
+            // });
         },
         confirmedDelete: function() {
             var confirmModal$ = this.$('.modal-containerConfirm .modal'),
@@ -180,7 +206,6 @@ define(function(require) {
             greetingModel.set('id', globalSelected);
             greetingModel.destroy({
                 success: function(model, responseText) {
-                    console.log(responseText);
                     Events.trigger("alert:success", [{
                         message: "Greeting deleted successfully."
                     }]);
@@ -193,11 +218,24 @@ define(function(require) {
                 }
             });
         },
-        // sendEmail: function() {
-        //     console.log("Send Email");
-        // },
+        cancelDelete:function(e){
+            this.$('#MyGrid').find('tr.warning').each(function(){
+                $(this).removeClass('warning');
+                $(this).find('td').first().find('input').attr('checked', false);
+            });
+            this.$('.selectUsersAtOnce').attr('checked', false);
+            this.$('thead').find('.createDeleteheader button.greetingDelete').attr('disabled', true);
+        },
         cleanSelectAll: function() {
             this.$('.selectUsersAtOnce').prop('checked', false);
+            this.$('.imgTooltip').popover({
+                html: true,
+                placement:'right',
+                trigger: 'hover',
+                content: function () {
+                    return '<img width=\"150\" src="'+$(this).data('img') + '" />';
+                }
+            });
         },
         gridCheckBox: function(e) {
             e.preventDefault();
@@ -223,7 +261,9 @@ define(function(require) {
                 }
             });
         },
-
+        preventDefault:function(e){
+            e.preventDefault();
+        },
         rowSelected: function(e) {
             e.stopPropagation();
             var target$ = this.$(e.target),
@@ -253,6 +293,21 @@ define(function(require) {
             });
         },
 
+        rowSelectedDelete: function() {
+            $('.selectrows').prop('checked', function() {
+                if (this.checked) {
+                    $(this).parent().parent().removeClass('warning').addClass('error');
+                }
+            });
+        },
+
+        rowSelectedNotDelete: function() {
+            $('.selectrows').prop('checked', function() {
+                if (this.checked) {
+                    $(this).parent().parent().removeClass('error').addClass('warning');
+                }
+            });
+        },
         onClose: function() {
             Events.off(null, null, this);
         }

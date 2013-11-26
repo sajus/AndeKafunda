@@ -8,6 +8,12 @@
                 padding-left: 10px;
                 padding-right: 10px;
 
+                .glyphicon{
+                    font-size: 55px;
+                    color: @modal-orange;
+                    .pull-left();
+                }
+
                 .modal-header {
                     color: @blue;
                 }
@@ -18,6 +24,11 @@
                             color: #B94A48;
                             font-weight: bolder;
                             font-size: 12px;
+                        }
+                    }
+                    .controls{
+                        label{
+                            line-height: 55px;
                         }
                     }
                 }
@@ -42,9 +53,15 @@
         }
     }
 
+    .btn-primary{
+        .button-variant(@white, @blue, #3686c3);
+        font-size: 15px;
+        font-weight: bold;
+    }
+
     .btn-secondary{
         .button-variant(@white, #2c539e, #00236f);
-        // #gradient.horizontal(#244386, #2c539e, 0%, 100%);
+        font-size: 15px;
         font-weight: bold;
     }
 

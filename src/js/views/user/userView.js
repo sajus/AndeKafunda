@@ -36,13 +36,14 @@ define(function(require) {
             /*Row handler*/
             'mouseover .userDelete': 'rowSelectedDelete',
             'mouseout .userDelete': 'rowSelectedNotDelete',
-            'change #selectUsersAtOnce': 'gridCheckBox',
+            'change .selectUsersAtOnce': 'gridCheckBox',
             'click .selectrows': 'rowSelected',
             /*Edit handler*/
             'click .userEdit': 'userEdit',
             /*Delete handler*/
             'click .userDelete': 'userDelete',
             'click .confirmDelete': 'confirmDelete',
+            'click .cancelDelete': 'cancelDelete',
             /*Create handler*/
             'click .create': 'create',
             /*Summary handler*/
@@ -51,7 +52,6 @@ define(function(require) {
         },
 
         render: function() {
-            console.log('in refresh view');
             this.$el.html(userTemplate({
                 isAdmin: true
             }));
@@ -68,10 +68,18 @@ define(function(require) {
         usersData: function(Userlist) {
             var userlistObj = {},
                 userslistObj = [],
-                operationHTML = '<button class="btn btn-small btn-primary userEdit" type="button"><i class="icon-edit icon-white"></i> Edit</button>';
+                operationHTML = '',
+                editOp = '<a href="#" title="Edit" class="userEdit"><span class="glyphicon glyphicon-edit"></span></a> &nbsp; &nbsp;',
+                delOp = '<a href="#" title="Delete" class="userDelete"><span class="glyphicon glyphicon-remove txt-danger"></span></a>';
 
             _.each(Userlist, function(userlist) {
-                userlist.selectRows = (parseInt(cookieManager.checkEmpid(), 10) !== userlist.id)? "<input type='checkbox' class='selectrows'>" : "";
+                var isSelf = parseInt(cookieManager.checkEmpid(), 10) === userlist.id;
+                if(!isSelf){
+                    operationHTML = editOp + delOp;
+                }else{
+                    operationHTML = editOp;
+                }
+                userlist.selectRows = !isSelf ? "<input type='checkbox' class='selectrows'>" : "";
                 if (userlist.accesstype) {
                     userlist.access = "Admin";
                 } else {
@@ -106,7 +114,7 @@ define(function(require) {
             var DataSource = new FuelUxDataSource({
                 columns: [{
                     property: "selectrows",
-                    label: "<input type='checkbox' id='selectUsersAtOnce'>",
+                    label: "<input type='checkbox' class='selectUsersAtOnce'>",
                     sortable: false
                 }, {
                     property: "empid",
@@ -169,13 +177,22 @@ define(function(require) {
             });
 
             this.$('.modal-container').html(userEdit.render().el);
-            this.$('.modal').modal('show');
+            this.$('.modal').modal({
+                backdrop: 'static'
+            });
         },
 
         /*Delete call*/
-        userDelete: function() {
+        userDelete: function(e) {
+            e.preventDefault();
+            var target$ = this.$(e.target);
+            if(target$[0].tagName.toLowerCase() === 'span' || target$[0].tagName.toLowerCase() === 'a'){
+                target$.closest('tr').addClass('warning').find('td').first().find('input').attr('checked', true);
+            }
             this.$('.modal-container').html(userDeleteTemplate);
-            this.$('.modal').modal('show');
+            this.$('.modal').modal({
+                backdrop: 'static'
+            });
         },
 
         /*Delete confimation*/
@@ -200,6 +217,15 @@ define(function(require) {
                     message: model.statusText
                 }]);
             });
+        },
+
+        cancelDelete:function(e){
+            this.$('#MyGrid').find('tr.warning').each(function(){
+                $(this).removeClass('warning');
+                $(this).find('td').first().find('input').attr('checked', false);
+            });
+            this.$('.selectUsersAtOnce').attr('checked', false);
+            this.$('thead').find('.createDeleteheader button.userDelete').attr('disabled', true);
         },
 
         /*Create call*/
@@ -246,7 +272,7 @@ define(function(require) {
         gridCheckBox: function(e) {
             e.preventDefault();
             e.stopPropagation();
-            $('#selectUsersAtOnce').prop('checked', function() {
+            $('.selectUsersAtOnce').prop('checked', function() {
                 if (this.checked) {
                     $('.userDelete').removeProp('disabled').removeClass('disabled');
                     $(this).prop("checked", true);
@@ -258,7 +284,7 @@ define(function(require) {
                     $(this).prop('checked', false);
                     $('.selectrows').prop('checked', false);
                     $('table[id="MyGrid"] tbody tr').removeClass('warning');
-                    $('.userDelete').prop('disabled', 'true');
+                    $('.userDelete').prop('disabled', 'true').addClass('disabled');
                 }
             });
         },
@@ -267,7 +293,8 @@ define(function(require) {
         rowSelected: function(e) {
             var target$ = this.$(e.target),
                 closestCheckbox = target$.closest('input[type="checkbox"]'),
-                closestTr = target$.closest('tr');
+                closestTr = target$.closest('tr'),
+                userDelete$ = this.$('.userDelete');
             $(closestCheckbox).prop('checked', function() {
                 if (this.checked) {
                     closestTr.addClass('warning selectedRow');
@@ -290,6 +317,9 @@ define(function(require) {
                         }
                     });
                     globalSelected.pop(closestCheckbox.attr('data-id'));
+                    if (checkCounter === 0) {
+                        userDelete$.prop('disabled', true).addClass('disabled');
+                    }
                 }
             });
         },

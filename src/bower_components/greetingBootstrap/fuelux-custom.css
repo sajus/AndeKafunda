@@ -1,0 +1,30 @@
+/*------- DataGrid Colors -------*/
+
+/*------- HTML Elements -------*/
+
+.fuelux textarea {
+  width: 275px;
+}
+
+.fuelux .table-bordered td {
+  border-left: none;
+}
+
+.fuelux .datagrid tfoot {
+  background-color: #E0E1E4;
+}
+
+.fuelux .table th,
+.fuelux .table-bordered th {
+  border: none;
+}
+
+.fuelux .btn,
+.fuelux .btn:hover {
+  color: white;
+  background-image: none;
+}
+
+.fuelux .datagrid thead .sortable:hover {
+  background-color: #8495ae;
+}

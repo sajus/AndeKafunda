@@ -163,70 +163,6 @@
         }
     }
 
-/*------- Table styles -------*/
-    .table-bordered, .table {
-        thead {
-            tr {
-                th {
-                    border: none;
-                    background-color: #8495ae;
-                }
-                th.searchSummaryheader {
-                    #gradient.vertical(#fdfdfd, #f4f4f4, 0%, 100%);
-
-                    .summary {
-                        background-color: #2a5099;
-                    }
-
-                    .tableSearch {
-                        width: 290px;
-                        height: 30px;
-                    }
-                }
-                th.createDeleteheader {
-                    #gradient.vertical(#7a889c, #5c6777, 0%, 100%);
-
-                    .create {
-                        background-image: url('../../imgs/addUser.gif');
-                        background-repeat: no-repeat;
-                        background-color: #4ba5e9;
-                        width: 140px;
-                        height: 35px;
-                        background-position: 7px;
-                        padding-left: 40px;
-                    }
-
-                    .userDelete {
-                        #gradient.vertical(#cccccc, #eeeeee, 0%, 100%);
-                        width: 55px;
-                        height: 35px;
-                        margin-left: 15px;
-                        padding: 5px;
-                        color: #8f8d8d;
-                    }
-                }
-            }
-        }
-        tbody {
-            tr:nth-child(odd){
-                background: #c6c6c8;
-                background: -moz-linear-gradient(top,  #c6c6c8 0%, #edeef1 5%, #fafafb 98%, #d9d9dc 100%);
-                background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c6c6c8), color-stop(5%,#edeef1), color-stop(98%,#fafafb), color-stop(100%,#d9d9dc));
-                background: -webkit-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-                background: -o-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-                background: -ms-linear-gradient(top,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-                background: linear-gradient(to bottom,  #c6c6c8 0%,#edeef1 5%,#fafafb 98%,#d9d9dc 100%);
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c6c6c8', endColorstr='#d9d9dc',GradientType=0 );
-            }
-
-            tr {
-                td {
-                    border: none;
-                }
-            }
-        }
-    }
-
 /*------- Footer Styles -------*/
     footer {
         color: @white;
@@ -247,5 +183,9 @@
 
     .txt-report{
         color: @orange;
+    }
+
+    .txt-danger{
+        color: @modal-red;
     }
 

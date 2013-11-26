@@ -1,3 +1,5 @@
+@import "../../js/vendors/bootstrap/plugins/fuelux/css/fuelux.min.css";
+
 /*------- Main bootstrap less -------*/
 
 /*!
@@ -6824,6 +6826,12 @@ td.visible-print {
   border: 7px solid #2c539e;
 }
 
+.modal .modal-dialog .modal-content .glyphicon {
+  float: left !important;
+  font-size: 55px;
+  color: #e55b2b;
+}
+
 .modal .modal-dialog .modal-content .modal-header {
   color: #01aef0;
 }
@@ -6832,6 +6840,10 @@ td.visible-print {
   font-size: 12px;
   font-weight: bolder;
   color: #B94A48;
+}
+
+.modal .modal-dialog .modal-content .modal-body .controls label {
+  line-height: 55px;
 }
 
 .modal .modal-dialog .modal-content .modal-footer {
@@ -6864,7 +6876,51 @@ td.visible-print {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a90d1', endColorstr='#ff50acf1', GradientType=0);
 }
 
+.btn-primary {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #01aef0;
+  border-color: #3686c3;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  color: #ffffff;
+  background-color: #0191c7;
+  border-color: #296593;
+}
+
+.btn-primary:active,
+.btn-primary.active,
+.open .dropdown-toggle.btn-primary {
+  background-image: none;
+}
+
+.btn-primary.disabled,
+.btn-primary[disabled],
+fieldset[disabled] .btn-primary,
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled:active,
+.btn-primary[disabled]:active,
+fieldset[disabled] .btn-primary:active,
+.btn-primary.disabled.active,
+.btn-primary[disabled].active,
+fieldset[disabled] .btn-primary.active {
+  background-color: #01aef0;
+  border-color: #3686c3;
+}
+
 .btn-secondary {
+  font-size: 15px;
   font-weight: bold;
   color: #ffffff;
   background-color: #2c539e;
@@ -7142,13 +7198,38 @@ header .navbar .navbar-right li:first-child a {
   line-height: 35px;
 }
 
-/*------- Table styles -------*/
+/*------- Footer Styles -------*/
 
-.table-bordered thead tr th,
-.table thead tr th {
-  background-color: #8495ae;
-  border: none;
+footer {
+  color: #ffffff;
 }
+
+footer p {
+  margin-top: 15px;
+  text-align: right;
+}
+
+/*------- Text Styles -------*/
+
+.txt-greeting {
+  color: #4aae63;
+}
+
+.txt-user {
+  color: #01aef0;
+}
+
+.txt-report {
+  color: #f19238;
+}
+
+.txt-danger {
+  color: #a40b0b;
+}
+
+/*------- FuelUx -------*/
+
+/*------- Table styles -------*/
 
 .table-bordered thead tr th.searchSummaryheader,
 .table thead tr th.searchSummaryheader {
@@ -7181,32 +7262,6 @@ header .navbar .navbar-right li:first-child a {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff7a889c', endColorstr='#ff5c6777', GradientType=0);
 }
 
-.table-bordered thead tr th.createDeleteheader .create,
-.table thead tr th.createDeleteheader .create {
-  width: 140px;
-  height: 35px;
-  padding-left: 40px;
-  background-color: #4ba5e9;
-  background-image: url('../../imgs/addUser.gif');
-  background-position: 7px;
-  background-repeat: no-repeat;
-}
-
-.table-bordered thead tr th.createDeleteheader .userDelete,
-.table thead tr th.createDeleteheader .userDelete {
-  width: 55px;
-  height: 35px;
-  padding: 5px;
-  margin-left: 15px;
-  color: #8f8d8d;
-  background-image: -webkit-gradient(linear, left 0%, left 100%, from(#cccccc), to(#eeeeee));
-  background-image: -webkit-linear-gradient(top, #cccccc, 0%, #eeeeee, 100%);
-  background-image: -moz-linear-gradient(top, #cccccc 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #cccccc 0%, #eeeeee 100%);
-  background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffcccccc', endColorstr='#ffeeeeee', GradientType=0);
-}
-
 .table-bordered tbody tr:nth-child(odd),
 .table tbody tr:nth-child(odd) {
   background: #c6c6c8;
@@ -7224,29 +7279,168 @@ header .navbar .navbar-right li:first-child a {
   border: none;
 }
 
-/*------- Footer Styles -------*/
+/*------- Custom -------*/
 
-footer {
+.fuelux textarea {
+  width: 275px;
+}
+
+.fuelux .table-bordered td {
+  border-left: none;
+}
+
+.fuelux .datagrid tfoot {
+  background-color: #E0E1E4;
+}
+
+.fuelux .table th,
+.fuelux .table-bordered th {
+  border: none;
+}
+
+.fuelux table.datagrid thead tr {
+  background-color: #8495ae;
+}
+
+.fuelux table.datagrid thead tr th {
   color: #ffffff;
 }
 
-footer p {
-  margin-top: 15px;
-  text-align: right;
+.fuelux table.datagrid thead .sortable:hover,
+.fuelux table.datagrid thead .sortable.sorted {
+  background: #7588a4 !important;
+  background-image: none;
 }
 
-/*------- Text Styles -------*/
-
-.txt-greeting {
-  color: #4aae63;
+.fuelux table.datagrid tbody .glyphicon {
+  font-size: 25px;
 }
 
-.txt-user {
-  color: #01aef0;
+.fuelux table.datagrid .btn-primary {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #428bca;
+  background-color: #01aef0;
+  background-image: none;
+  border-color: #357ebd;
+  border-color: #3686c3;
 }
 
-.txt-report {
-  color: #f19238;
+.fuelux table.datagrid .btn-primary:hover,
+.fuelux table.datagrid .btn-primary:focus,
+.fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-primary {
+  color: #ffffff;
+  background-color: #3276b1;
+  border-color: #285e8e;
+}
+
+.fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-primary {
+  background-image: none;
+}
+
+.fuelux table.datagrid .btn-primary.disabled,
+.fuelux table.datagrid .btn-primary[disabled],
+fieldset[disabled] .fuelux table.datagrid .btn-primary,
+.fuelux table.datagrid .btn-primary.disabled:hover,
+.fuelux table.datagrid .btn-primary[disabled]:hover,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:hover,
+.fuelux table.datagrid .btn-primary.disabled:focus,
+.fuelux table.datagrid .btn-primary[disabled]:focus,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:focus,
+.fuelux table.datagrid .btn-primary.disabled:active,
+.fuelux table.datagrid .btn-primary[disabled]:active,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.disabled.active,
+.fuelux table.datagrid .btn-primary[disabled].active,
+fieldset[disabled] .fuelux table.datagrid .btn-primary.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+
+.fuelux table.datagrid .btn-primary:hover,
+.fuelux table.datagrid .btn-primary:focus,
+.fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-primary {
+  color: #ffffff;
+  background-color: #0191c7;
+  border-color: #296593;
+}
+
+.fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-primary {
+  background-image: none;
+}
+
+.fuelux table.datagrid .btn-primary.disabled,
+.fuelux table.datagrid .btn-primary[disabled],
+fieldset[disabled] .fuelux table.datagrid .btn-primary,
+.fuelux table.datagrid .btn-primary.disabled:hover,
+.fuelux table.datagrid .btn-primary[disabled]:hover,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:hover,
+.fuelux table.datagrid .btn-primary.disabled:focus,
+.fuelux table.datagrid .btn-primary[disabled]:focus,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:focus,
+.fuelux table.datagrid .btn-primary.disabled:active,
+.fuelux table.datagrid .btn-primary[disabled]:active,
+fieldset[disabled] .fuelux table.datagrid .btn-primary:active,
+.fuelux table.datagrid .btn-primary.disabled.active,
+.fuelux table.datagrid .btn-primary[disabled].active,
+fieldset[disabled] .fuelux table.datagrid .btn-primary.active {
+  background-color: #01aef0;
+  border-color: #3686c3;
+}
+
+.fuelux table.datagrid .btn-secondary {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: none;
+  background-color: #2c539e;
+  background-image: none;
+  border-color: #00236f;
+}
+
+.fuelux table.datagrid .btn-secondary:hover,
+.fuelux table.datagrid .btn-secondary:focus,
+.fuelux table.datagrid .btn-secondary:active,
+.fuelux table.datagrid .btn-secondary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-secondary {
+  color: #ffffff;
+  background-color: #23427e;
+  border-color: #001032;
+}
+
+.fuelux table.datagrid .btn-secondary:active,
+.fuelux table.datagrid .btn-secondary.active,
+.open .dropdown-toggle.fuelux table.datagrid .btn-secondary {
+  background-image: none;
+}
+
+.fuelux table.datagrid .btn-secondary.disabled,
+.fuelux table.datagrid .btn-secondary[disabled],
+fieldset[disabled] .fuelux table.datagrid .btn-secondary,
+.fuelux table.datagrid .btn-secondary.disabled:hover,
+.fuelux table.datagrid .btn-secondary[disabled]:hover,
+fieldset[disabled] .fuelux table.datagrid .btn-secondary:hover,
+.fuelux table.datagrid .btn-secondary.disabled:focus,
+.fuelux table.datagrid .btn-secondary[disabled]:focus,
+fieldset[disabled] .fuelux table.datagrid .btn-secondary:focus,
+.fuelux table.datagrid .btn-secondary.disabled:active,
+.fuelux table.datagrid .btn-secondary[disabled]:active,
+fieldset[disabled] .fuelux table.datagrid .btn-secondary:active,
+.fuelux table.datagrid .btn-secondary.disabled.active,
+.fuelux table.datagrid .btn-secondary[disabled].active,
+fieldset[disabled] .fuelux table.datagrid .btn-secondary.active {
+  background-color: #2c539e;
+  border-color: #00236f;
 }
 
 /*------- Module specic styles -------*/

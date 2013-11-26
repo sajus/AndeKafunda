@@ -5,7 +5,7 @@ define(function(require) {
         Events = require('events');
     /* Requires with no assignment */
     return Backbone.View.extend({
-        className: "modal hide fade",
+        className: "modal fade",
         events: {
             'click .confirmDelete': 'confirmed',
         },

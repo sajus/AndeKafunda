@@ -15,13 +15,6 @@
     NOTE: You can remove this stylesheet; If there is no requirement for responsive website.
 */
 
-/*
-    This stylesheet included for overrite the default styles of Bootstrap framework.
-*/
-
-@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux.min.css";
-@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-responsive.min.css";
-@import "../js/vendors/bootstrap/plugins/fuelux/css/fuelux-custom.css";
 /* Application Specific Modules */
 @import "modules/modules.css";
 /*Lightbox Css*/
