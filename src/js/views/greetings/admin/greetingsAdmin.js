@@ -59,7 +59,7 @@ define(function(require) {
             'loaded #MyGrid': 'cleanSelectAll',
             'change .selectrows': 'rowSelected',
             // Tooltip
-            'click .imgTooltip':'preventDefault'
+            'click .imgTooltip': 'preventDefault'
         },
         formatData: function(data) {
             var greetings = [],
@@ -70,7 +70,7 @@ define(function(require) {
                 delOp = '<a href="#" title="Delete" class="greetingDelete"><span class="glyphicon glyphicon-remove txt-danger"></span></a>';
             _.each(data, function(greetingModel) {
                 var usersData = greetingModel.tblUsers[0];
-                operationHTML = editOp+delOp;
+                operationHTML = editOp + delOp;
                 selectRows = "<input type='checkbox' class='selectrows' data-id=" + greetingModel.id + ">";
                 greeting = {};
                 greeting = _.object([
@@ -87,7 +87,7 @@ define(function(require) {
                     usersData.firstname,
                     usersData.lastname,
                     usersData.email,
-                    "<a href=\"#\" class=\"imgTooltip\" data-img=\"" + greetingModel.url + "\" >"+ greetingModel.url+ "</a>",
+                    "<a href=\"#\" class=\"imgTooltip\" data-img=\"" + greetingModel.url + "\" >" + greetingModel.url + "</a>",
                     operationHTML
                 ]);
                 // "<img src=\""+ greetingModel.url +"\" class=\"col-sm-2\" />",
@@ -187,7 +187,7 @@ define(function(require) {
         greetingDelete: function(e) {
             e.preventDefault();
             var target$ = this.$(e.target);
-            if(target$[0].tagName.toLowerCase() === 'span' || target$[0].tagName.toLowerCase() === 'a'){
+            if (target$[0].tagName.toLowerCase() === 'span' || target$[0].tagName.toLowerCase() === 'a') {
                 target$.closest('tr').addClass('warning').find('td').first().find('input').attr('checked', true);
             }
             var confirmDelete = new ConfirmModal();
@@ -218,8 +218,8 @@ define(function(require) {
                 }
             });
         },
-        cancelDelete:function(e){
-            this.$('#MyGrid').find('tr.warning').each(function(){
+        cancelDelete: function(e) {
+            this.$('#MyGrid').find('tr.warning').each(function() {
                 $(this).removeClass('warning');
                 $(this).find('td').first().find('input').attr('checked', false);
             });
@@ -227,15 +227,19 @@ define(function(require) {
             this.$('thead').find('.createDeleteheader button.greetingDelete').attr('disabled', true);
         },
         cleanSelectAll: function() {
+            var images = this.$('.imgTooltip'),
+                self = this;
             this.$('.selectUsersAtOnce').prop('checked', false);
-            this.$('.imgTooltip').popover({
-                html: true,
-                placement:'right',
-                trigger: 'hover',
-                content: function () {
-                    return '<img width=\"150\" src="'+$(this).data('img') + '" />';
-                }
-            });
+            setTimeout(function() {
+                self.$('.imgTooltip').popover({
+                    html: true,
+                    placement: 'right',
+                    trigger: 'hover',
+                    content: function() {
+                        return '<img width=\"150\" src="' + $(this).data('img') + '" />';
+                    }
+                });
+            }, 200);
         },
         gridCheckBox: function(e) {
             e.preventDefault();
@@ -261,7 +265,7 @@ define(function(require) {
                 }
             });
         },
-        preventDefault:function(e){
+        preventDefault: function(e) {
             e.preventDefault();
         },
         rowSelected: function(e) {

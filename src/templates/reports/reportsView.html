@@ -1,37 +1,36 @@
-<div class="col-md-12">
-    <div class="panel panel-default">
-        <div class="pull-right">
-            <button class="btn printReport" ><i class="icon-print"></i> Print</button> &nbsp;
-            <button class="btn usersNotVoted" data-dismiss="modal"><i class="icon-thumbs-down"></i> Users not voted</button>
-        </div>
-        <div class="panel-heading">
-            <h6 class="panel-title lead">Designer Report</h6>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="pull-right">
-                    Users:
-                    <select name="users" class="users">
-                        <option value="">All</option>
-                        {{#each users}}
-                        <option value="{{id}}">{{firstname}} {{lastname}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-                <div>
-                    Designers:
-                    <select name="designers" class="designers">
-                        <option value="all">All</option>
-                        {{#each designers}}
-                        <option value="{{id}}">{{firstname}} {{lastname}}</option>
-                        {{/each}}
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div class="panel-body">
-            <div id="chart"></div>
-        </div>
+<!-- <div class="pull-right">
+    <button class="btn printReport" ><i class="icon-print"></i> Print</button> &nbsp;
+    <button class="btn usersNotVoted" data-dismiss="modal"><i class="icon-thumbs-down"></i> Users not voted</button>
+</div> -->
+<div class="row">
+    <div class="alert alert-info">
+        <a class="close" data-dismiss="alert">&times;</a>
+        <strong>Info!</strong> &nbsp;Generate graph individually by clicking on list menu of their respective sections.
+    </div>
+    <div class="col-md-4">
+        <h3 class="txt-report">Generate Designers Report</h3>
+        Designers:
+        <select name="designers" class="designers chosen-select">
+            <option value="all">All</option>
+            {{#each designers}}
+            <option value="{{id}}">{{firstname}} {{lastname}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="col-md-2">
+        <h1 style="text-align:center; vertical-align:middle;">OR</h1>
+    </div>
+    <div class="col-md-4 col-md-offset-1">
+        <h3 class="txt-report">Generate Users Report</h3>
+        Voted Users:
+        <select name="users" class="users chosen-select">
+            <option value="">All</option>
+            {{#each users}}
+            <option value="{{id}}">{{firstname}} {{lastname}}</option>
+            {{/each}}
+        </select>
+        <p>Please <a href="#" class="txt-danger usersNotVoted" data-dismiss="modal">Click Here</a> to view users who <strong>have not voted</strong></p>
     </div>
 </div>
+<div id="chart"></div>
 <div class="modal-container"></div>

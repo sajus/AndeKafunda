@@ -19,3 +19,5 @@
 @import "modules/modules.css";
 /*Lightbox Css*/
 @import "../js/vendors/bootstrap/css/bootstrap.lightbox.css";
+/*------- Chosen Css -------*/
+@import "../bower_components/chosen/public/chosen.css";

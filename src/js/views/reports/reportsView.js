@@ -12,6 +12,7 @@ define(function(require) {
     /*Google Pie charts*/
     require('https://www.google.com/jsapi');
     require('bootstrapModal');
+    require('chosen');
 
     return Backbone.View.extend({
 
@@ -106,21 +107,27 @@ define(function(require) {
             dataTable.addRows(rows);
             chart = new google.visualization.BarChart(document.getElementById('chart'));
             options = {
-                title: "Summary of votes for all greetings",
+                title: "",
                 width: 1000,
-                height: 700,
+                height: 500,
                 vAxis: {
-                    title: "Greetings [ Artist (Greeting Id) ]"
+                    // title: "Greetings [ Artist (Greeting Id) ]",
+                    title: "Designers",
+                    titleTextStyle: {fontSize: 18}
                 },
                 focusTarget: 'category',
                 tooltip: {
                     isHtml: true
                 },
                 hAxis: {
-                    title: "Votes"
-                }
+                    title: "Summary of votes for all greetings",
+                    titleTextStyle: {fontSize: 18}
+                },
+                colors:['#62b861']
             };
             chart.draw(dataTable, options);
+            console.log($('.chosen-select'));
+            $('.chosen-select').chosen();
         },
 
         usersNotVoted: function(e) {
@@ -129,7 +136,9 @@ define(function(require) {
                 self = this;
             userNotVotedView.fetchData().done(function(data) {
                 self.$('.modal-container').html(userNotVotedView.render(data).el);
-                self.$('.modal').modal('show');
+                self.$('.modal').modal({
+                    backdrop:'static'
+                });
             });
             $('.container').siblings('.table-bordered').addClass('addPrint');
         }

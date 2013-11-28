@@ -31,6 +31,7 @@ define(function(require) {
         },
 
         render: function() {
+            var self= this;
             if (this.options.id !== undefined) {
                 this.$el.html(userCreateEditTemplate({
                     model: this.model.toJSON(),
@@ -40,6 +41,7 @@ define(function(require) {
                 this.model.set('accesstype', this.model.get('accesstype') + '');
             } else {
                 this.model.clear();
+                this.model.set('accesstype','false');
                 this.$el.html(userCreateEditTemplate({
                     create: true,
                     button: "Create"

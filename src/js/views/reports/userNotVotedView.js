@@ -77,7 +77,7 @@ define(function(require) {
                     pageIndex: 0,
                     pageSize: 5
                 },
-                stretchHeight: true
+                stretchHeight: false
             });
         },
     });

@@ -1,75 +1,75 @@
 <div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h3 class="modal-title" id="myModalLabel">User not voted</h3>
-			</div>
-			<div class="modal-body">
-				<div class="fuelux">
-					<table id="MyGrid" class="table table-bordered datagrid">
-						<thead>
-							<tr>
-								<th>
-									<div class="datagrid-header-left">
-										<div class="input-append search datagrid-search">
-											<input type="text" class="input-medium" placeholder="Search">
-											<button type="button" class="btn"><i class="icon-search"></i></button>
-										</div>
-									</div>
-								</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<th>
-									<div class="datagrid-footer-left" style="display:none;">
-										<div class="grid-controls">
-											<span>
-												<span class="grid-start"></span> -
-												<span class="grid-end"></span> of
-												<span class="grid-count"></span>
-											</span>
-											<div class="select grid-pagesize" data-resize="auto">
-												<button type="button" data-toggle="dropdown" class="btn dropdown-toggle">
-													<span class="dropdown-label"></span>
-													<span class="caret"></span>
-												</button>
-												<ul class="dropdown-menu">
-													<li data-value="5" ><a href="#">5</a></li>
-													<li data-value="10" data-selected="true"><a href="#">10</a></li>
-													<li data-value="20"><a href="#">20</a></li>
-													<li data-value="50"><a href="#">50</a></li>
-													<li data-value="100"><a href="#">100</a></li>
-												</ul>
-											</div>
-											<span>Per Page</span>
-										</div>
-									</div>
-									<div class="datagrid-footer-right" style="display:none;">
-										<div class="grid-pager">
-											<button type="button" class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
-											<span>Page</span>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 class="modal-title" id="myModalLabel">User not voted</h3>
+            </div>
+            <div class="modal-body">
+                <div class="fuelux">
+                    <table id="MyGrid" class="table datagrid">
+                        <thead>
+                            <tr>
+                                <th class="searchSummaryheader">
+                                    <div class="datagrid-header-left">
+                                        <div class="input-append search datagrid-search">
+                                            <input type="text" class="input-medium tableSearch" placeholder="Search">
+                                            <button type="button" class="btn"><i class="icon-search"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>
+                                    <div class="datagrid-footer-left" style="display:none;">
+                                        <div class="grid-controls">
+                                            <span>
+                                                <span class="grid-start"></span> -
+                                                <span class="grid-end"></span> of
+                                                <span class="grid-count"></span>
+                                            </span>
+                                            <div class="select grid-pagesize" data-resize="auto">
+                                                <button type="button" data-toggle="dropdown" class="btn dropdown-toggle">
+                                                    <span class="dropdown-label"></span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li data-value="5" ><a href="#">5</a></li>
+                                                    <li data-value="10" data-selected="true"><a href="#">10</a></li>
+                                                    <li data-value="20"><a href="#">20</a></li>
+                                                    <li data-value="50"><a href="#">50</a></li>
+                                                    <li data-value="100"><a href="#">100</a></li>
+                                                </ul>
+                                            </div>
+                                            <span>Per Page</span>
+                                        </div>
+                                    </div>
+                                    <div class="datagrid-footer-right" style="display:none;">
+                                        <div class="grid-pager">
+                                            <button type="button" class="btn grid-prevpage"><i class="icon-chevron-left"></i></button>
+                                            <span>Page</span>
 
-											<div class="input-append combobox">
-												<input class="span1" type="text">
-												<button type="button" class="btn" data-toggle="dropdown"><i class="caret"></i></button>
-												<ul class="dropdown-menu"></ul>
-											</div>
-											<span>of <span class="grid-pages"></span></span>
-											<button type="button" class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
-										</div>
-									</div>
-								</th>
-							</tr>
-						</tfoot>
-					</table>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn printUserNotVoted" ><i class="icon-print"></i> Print</button>
-				<button class="btn" data-dismiss="modal"><i class="icon-remove-sign"></i> Cancel</button>
-			</div>
-		</div><!-- /.modal-content -->
-	</div><!-- /.modal-dialog -->
+                                            <div class="input-append combobox">
+                                                <input class="span1" type="text">
+                                                <button type="button" class="btn" data-toggle="dropdown"><i class="caret"></i></button>
+                                                <ul class="dropdown-menu"></ul>
+                                            </div>
+                                            <span>of <span class="grid-pages"></span></span>
+                                            <button type="button" class="btn grid-nextpage"><i class="icon-chevron-right"></i></button>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary printUserNotVoted" >Print</button>
+                <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

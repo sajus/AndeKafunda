@@ -24,6 +24,8 @@ define(function(require) {
                     }
                 });
             } else {
+                // Hack for login view
+                $('body').css('background-image','url(\"../../../../imgs/header-bg.jpg\")');
                 $('.main-menu-container').remove();
                 $('.footer').remove();
                 $('.alert-container').remove();

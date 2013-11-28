@@ -2,48 +2,39 @@
     <div class="modal-content">
         <div class="modal-header">
             <a class="close" data-dismiss="modal">&times;</a>
-            <h3>{{#if editMode}}Edit{{else}}Create{{/if}} greeting</h3>
+            <h3>{{#if editMode}}Edit{{else}}Add New{{/if}} Greeting</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body clearfix">
             <div class="alert-container"></div>
-            <form class="form-horizontal" method="post" enctype="multipart/form-data" action="/upload">
-                <div class="control-group">
-                    <label class="control-label" for="url">Url</label>
-                    <div class="controls">
-                        <input type="text" class="input-xlarge" id="url" name="url" disabled>
+            <div class="col-md-8">
+                <form class="form-horizontal" role="form" method="post" enctype="multipart/form-data" action="/upload">
+                    <div class="form-group">
+                        <label class="control-label" for="fileInput">Upload greeting: &nbsp;(<span class="glyphicon glyphicon-asterisk txt-danger"></span>)</label>
+                        <input name="file" class="input-file form-control" id="fileInput" type="file">
+                        <span class="help-inline txt-greeting">(Upload greeting in .jpg or .png only)</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="url">Url: </label>
+                        <input type="text" class="input-xlarge form-control" id="url" name="url" disabled>
                         <span class="help-inline"></span>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="user">Select Artist</label>
-                    <div class="controls">
-                        <select class="user">
+                    <div class="form-group">
+                        <label class="control-label" for="user">Select Artist: </label>
+                        <select class="user form-control">
                             {{#each users}}
                             <option value="{{id}}">{{firstname}} {{lastname}}</option>
                             {{/each}}
                         </select>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label" for="fileInput">Upload greeting</label>
-                    <div class="controls">
-                        <input name="file" class="input-file" id="fileInput" type="file">
-                    </div>
-                </div>
-            </form>
-            <div class="clearfix customThumbPreview">
-                <ul class="thumbnails span4">
-                    <li class="span4">
-                        <a class="thumbnail">
-                            <img src="{{#if editMode}} {{url}} {{/if}}" class="uploadedImage" alt="No image available">
-                        </a>
-                    </li>
-                </ul>
+                </form>
+            </div>
+            <div class="customThumbPreview pull-right">
+                <img src="{{#if editMode}} {{url}} {{else}} ../../../imgs/no-image-available.jpg {{/if}}" class="uploadedImage img-thumbnail" width="250" alt="No image available">
             </div>
         </div>
         <div class="modal-footer">
-            <a href="#" class="btn btn-primary saveGreeting">Save changes</a>
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <a href="#" class="btn btn-primary saveGreeting">{{#if editMode}}Save{{else}} Add Greeting {{/if}}</a>
+            <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
         </div>
     </div>
 </div>

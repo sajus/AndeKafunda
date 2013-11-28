@@ -94,6 +94,9 @@ module.exports = function(grunt) {
             }
         },
         watch: {
+            options: {
+               livereload: true,
+            },
             files: "src/bower_components/greetingBootstrap/*.less",
             tasks: ["recess"]
         }

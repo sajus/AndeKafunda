@@ -19,10 +19,12 @@ define(function(require) {
             },
 
             _navigateLoggedUser: function(options) {
+                // Hack for login view
                 var appView = Core.create({}, 'AppView', AppView, {
                     skipAuthCheck: true
                 });
                 appView.render();
+                $('body').css('background-image','none');
                 if (options !== undefined && options.accesstype) {
                     this.navigate("dashboard", {
                         trigger: true
