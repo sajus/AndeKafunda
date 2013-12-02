@@ -5,11 +5,36 @@ define(function(require) {
         greetingTemplate = require('template!templates/greetings/greetingsUser'),
         greetingConfirmTemplate = require('template!templates/greetings/greetingConfirm'),
         cookieManager = require('utilities/cookieManager'),
-        services = require('services');
+        services = require('services'),
+        Handlebars = require('handlebars'),
+        _ = require('underscore');
 
     /* Requires with no return */
     require('prettyPhoto');
     require('bootstrapModal');
+
+    Handlebars.registerHelper('everyNth', function(context, every, options) {
+        var fn = options.fn,
+            inverse = options.inverse;
+        var ret = "";
+        if (context && context.length > 0) {
+            for (var i = 0, j = context.length; i < j; i++) {
+                var isFirst = i === 0;
+                var rowCount = i / every + 1;
+                var modZero = i % every === 0;
+                ret = ret + fn(_.extend({}, context[i], {
+                    isFirst: isFirst,
+                    rowCount: rowCount,
+                    isModZero: modZero,
+                    isModZeroNotFirst: modZero && i > 0,
+                    isLast: i === context.length - 1
+                }));
+            }
+        } else {
+            ret = inverse(this);
+        }
+        return ret;
+    });
 
     return Backbone.View.extend({
 
@@ -46,7 +71,69 @@ define(function(require) {
             'click .voteTooltip .glyphicon': 'checkGreeting',
             'click .confirmGreeting': 'confirmGreeting',
             'mouseenter .thumb-container': 'toggleTooltip',
-            'mouseleave .thumb-container': 'toggleTooltip'
+            'mouseleave .thumb-container': 'toggleTooltip',
+            // Pagination events
+            'click .pagination':'paginate'
+        },
+
+        paginate:function(e){
+            e.preventDefault();
+            var target$ = this.$(e.target),
+                targetLi$ = target$.closest('li'),
+                pagination$ = targetLi$.closest('.pagination'),
+                pageNumber = parseInt(target$.text(),10),
+                totalPages = pagination$.find('li').length-4;
+            if(!targetLi$.hasClass('active') && pageNumber){
+                this.switchPage(targetLi$, pageNumber, totalPages);
+            }else if(!targetLi$.hasClass('disabled')){
+                var siblingsLi$ =  targetLi$.siblings('.active');
+                pageNumber = parseInt(siblingsLi$.text(),10);
+                if(targetLi$.hasClass('nextPage')){
+                    // Next case
+                    this.switchPage(siblingsLi$.first().next(), pageNumber+1, totalPages);
+                }else if(targetLi$.hasClass('previousPage')){
+                    // Previous Case
+                    this.switchPage(siblingsLi$.first().prev(), pageNumber-1, totalPages);
+                }else if(targetLi$.hasClass('begin')){
+                    // Begin Case
+                    this.switchPage(pagination$.find('.firstPage'), 1, totalPages);
+                }else if(targetLi$.hasClass('end')){
+                    // End Case
+                    this.switchPage(pagination$.find('.lastPage'), totalPages, totalPages);
+                }
+            }
+
+            if(pagination$.hasClass('top')){
+                this.$('.pagination.bottom').html(pagination$.html());
+            }else{
+                this.$('.pagination.top').html(pagination$.html());
+            }
+        },
+
+        switchPage: function(targetLi$, pageNumber, totalPages){
+            // toggleActive "li" and toggle display "row"
+            targetLi$.toggleClass('active').siblings('li.active').toggleClass('active');
+            var targetContent = this.$('section.row[data-id=' + pageNumber + ']');
+            this.$('section.row.active').toggleClass('active').fadeToggle('slow',function(){
+                targetContent.toggleClass('active').fadeToggle('slow');
+            });
+            this.switchControlsState(targetLi$, pageNumber, totalPages);
+        },
+
+        switchControlsState:function(targetLi$, currentPageNumber, totalPages){
+            var pagination$ = targetLi$.closest('.pagination');
+            pagination$.find('.nextPage').removeClass('disabled');
+            pagination$.find('.previousPage').removeClass('disabled');
+            pagination$.find('.begin').removeClass('disabled');
+            pagination$.find('.end').removeClass('disabled');
+
+            if(currentPageNumber===1){
+                pagination$.find('.previousPage').addClass('disabled');
+                pagination$.find('.begin').addClass('disabled');
+            }else if(currentPageNumber===totalPages){
+                pagination$.find('.nextPage').addClass('disabled');
+                pagination$.find('.end').addClass('disabled');
+            }
         },
 
         refreshView: function() {
@@ -76,8 +163,18 @@ define(function(require) {
             // Put dates on top
             this.$('.highlight .pull-right').text(new Date().toGMTString());
             // Set the initial counter
-            this.$('.modal-footer .counter').text(this.responseArray.length);
+            this.$('.navigation .counter').text(this.responseArray.length);
             Events.trigger('refreshActiveState');
+            // Setup pagination
+            this.$('.nextPage').prev('li').addClass('lastPage');
+            this.$('.previousPage').addClass('disabled');
+            this.$('.begin').addClass('disabled');
+            if(!this.data.length){
+                this.$('.nextPage').addClass('disabled');
+            }
+            if(this.data.length < 4){
+                this.$('.end').addClass('disabled');
+            }
         },
 
         checkGreeting: function(e){
@@ -99,7 +196,7 @@ define(function(require) {
                 }
             }
 
-            this.$('.modal-footer .counter').text(this.responseArray.length);
+            this.$('.navigation .counter').text(this.responseArray.length);
 
             if(this.responseArray.length === 0) {
                 this.$('.submit').prop('disabled', true).addClass('disabled');
@@ -141,4 +238,5 @@ define(function(require) {
             });
         }
     });
+
 });

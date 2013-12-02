@@ -1,7 +1,7 @@
 <div class="container">
-    <div class="alert alert-custom">
-        <p class="highlight txt-user ">Hi {{firstname}} <span class="pull-right"><!-- Placeholder for date --></span></p>
-        <p>Welcome to your dashboard.
+    <div class="row alert alert-custom">
+        <p class="highlight txt-user col-md-12">Hi {{firstname}} <span class="pull-right"><!-- Placeholder for date --></span></p>
+        <p class="col-md-12">Welcome to your dashboard.
             <span class="pull-right txt-report">
                 {{#if response}}
                         <span class="glyphicon glyphicon-thumbs-up"></span> &nbsp; Thank you for responding to this survey.
@@ -11,12 +11,49 @@
             </span>
         </p>
     </div>
-    <h3 class="headingTitle">
+
+    <h3 class="headingTitle row">
         Vote your favourite greetings.
+        <hr>
     </h3>
-    <hr>
-    <section class="row">
-        {{#each greetings}}
+
+    <section class="navigation row">
+        <ul class="pagination top col-md-12">
+            {{#everyNth greetings 4}}
+                {{#if isModZeroNotFirst}}
+                    </li>
+                {{/if}}
+                {{#if isFirst}}
+                    <li class="begin"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="previousPage"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                {{/if}}
+                {{#if isModZero}}
+                    <li class=" {{#if isFirst}} active firstPage {{/if}}"><a href="#" class="pageNumber">{{rowCount}}</a>
+                {{/if}}
+
+                {{#if isLast}}
+                    </li>
+                    <li class="nextPage"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                    <li class="end"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                {{/if}}
+            {{/everyNth}}
+        </ul>
+
+        {{#unless response}}
+            <div class="col-md-12 info-container">
+                <span class="currentInfo col-md-3 col-md-offset-8">Selected Greetings for Voting &nbsp;<span class="label label-warning counter"> </span></span>
+                <button class="btn btn-secondary disabled submit" disabled = "true"><i class="icon-ok-sign icon-white"></i>Submit</button>
+            </div>
+        {{/unless}}
+    </section>
+
+    {{#everyNth greetings 4}}
+        {{#if isModZeroNotFirst}}
+            </section>
+        {{/if}}
+        {{#if isModZero}}
+            <section class="row {{#if isFirst}} active {{/if}}" data-id="{{rowCount}}" {{#unless isFirst}}style="display:none"{{/unless}} >
+        {{/if}}
             <div class="col-md-3 col-sm-4 col-xs-6 thumb-container" data-id="{{id}}">
                 <a title="{{url}}:" class="thumbnail" >
                     <img src="{{url}}" alt="{{url}}" class="greetingImage" />
@@ -30,14 +67,39 @@
                     <span class="glyphicon glyphicon-ok-circle {{#if ../response}} disabled {{/if}}" title="{{#if ../response}} Already voted{{else}} Vote Now {{/if}}"></span>
                 </div>
             </div>
-        {{/each}}
-    </section>
+        {{#if isLast}}
+            </section>
+        {{/if}}
+    {{/everyNth}}
 
-    {{#unless response}}
-        <div class="modal-footer row">
-            <span class="currentInfo col-md-3 col-md-offset-8">Selected Greetings for Voting &nbsp;<span class="label label-warning counter"> </span></span>
-            <button class="btn btn-secondary disabled submit" disabled = "true"><i class="icon-ok-sign icon-white"></i>Submit</button>
-        </div>
-    {{/unless}}
+    <section class="navigation row">
+        <ul class="pagination bottom col-md-12">
+            {{#everyNth greetings 4}}
+                {{#if isModZeroNotFirst}}
+                    </li>
+                {{/if}}
+                {{#if isFirst}}
+                    <li class="begin"><a href="#"><span class="glyphicon glyphicon-step-backward"></span></a></li>
+                    <li class="previousPage"><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                {{/if}}
+                {{#if isModZero}}
+                    <li class=" {{#if isFirst}} active firstPage {{/if}}"><a href="#" class="pageNumber">{{rowCount}}</a>
+                {{/if}}
+
+                {{#if isLast}}
+                    </li>
+                    <li class="nextPage"><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                    <li class="end"><a href="#"><span class="glyphicon glyphicon-step-forward"></span></a></li>
+                {{/if}}
+            {{/everyNth}}
+        </ul>
+
+        {{#unless response}}
+            <div class="col-md-12 info-container">
+                <span class="currentInfo col-md-3 col-md-offset-8">Selected Greetings for Voting &nbsp;<span class="label label-warning counter"> </span></span>
+                <button class="btn btn-secondary disabled submit" disabled = "true"><i class="icon-ok-sign icon-white"></i>Submit</button>
+            </div>
+        {{/unless}}
+    </section>
 </div>
 <div class="modal-container"></div>

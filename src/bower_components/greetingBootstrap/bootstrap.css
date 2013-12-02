@@ -6997,12 +6997,69 @@ fieldset[disabled] .btn-secondary.active {
   clear: both;
 }
 
-.currentInfo {
+.headingTitle hr {
+  margin: 5px;
+}
+
+.navigation {
+  margin-bottom: 15px;
+}
+
+.navigation .pagination {
+  padding: 10px;
+  margin-bottom: 0;
+  background-color: #e0e1e4;
+}
+
+.navigation .pagination li a {
+  margin-right: 8px;
+  border-radius: 8px;
+}
+
+.navigation .pagination li a.pageNumber {
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.navigation .pagination li.active .pageNumber {
+  text-decoration: none;
+  background-color: #01aef0 !important;
+}
+
+.navigation .pagination li.disabled .glyphicon {
+  color: #999999;
+}
+
+.navigation .pagination li.disabled.begin a,
+.navigation .pagination li.disabled.end a,
+.navigation .pagination li.disabled.nextPage a,
+.navigation .pagination li.disabled.previousPage a {
+  border-color: transparent;
+}
+
+.navigation .pagination li .glyphicon {
+  color: #01aef0;
+}
+
+.navigation .pagination li.begin a,
+.navigation .pagination li.end a,
+.navigation .pagination li.nextPage a,
+.navigation .pagination li.previousPage a {
+  border-color: #01aef0;
+}
+
+.navigation .info-container {
+  padding: 10px;
+  margin-top: -4px;
+  background-color: #f3f3f4;
+}
+
+.navigation .currentInfo {
   font-weight: bold;
   line-height: 40px;
 }
 
-.currentInfo .counter {
+.navigation .currentInfo .counter {
   font-size: 22px;
 }
 
