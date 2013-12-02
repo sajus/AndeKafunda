@@ -58,6 +58,7 @@ requirejs.config({
         'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',
         'jqueryAjaxForm': 'vendors/jquery/plugins/jquery.form.min',
         'chosen': '../bower_components/chosen/public/chosen.jquery.min',
+        'prettyPhoto': '../bower_components/prettyphoto-master/js/jquery.prettyPhoto',
 
         /* FuelUx */
 

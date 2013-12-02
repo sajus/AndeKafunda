@@ -21,3 +21,5 @@
 @import "../js/vendors/bootstrap/css/bootstrap.lightbox.css";
 /*------- Chosen Css -------*/
 @import "../bower_components/chosen/public/chosen.css";
+/*------- prettyPhoto Css -------*/
+@import "../bower_components/prettyphoto-master/css/prettyPhoto.css";

@@ -8,7 +8,8 @@ define(function(require) {
         services = require('services');
 
     /* Requires with no return */
-    require('bootstraplightbox');
+    require('prettyPhoto');
+    require('bootstrapModal');
 
     return Backbone.View.extend({
 
@@ -17,28 +18,35 @@ define(function(require) {
         initialize: function() {
             var self = this,
                 empid = cookieManager.checkEmpid();
+
+            this.responseArray = [];
             this.response = false;
+
+            // Fetch greetings
             services.getResponseCountById({
                 id: empid
             }).then(function(data){
                 if(data.count !== 0) {
                     self.response = true;
                 }
+                self.collection.fetch({
+                    success: function() {
+                        self.data = self.collection.toJSON();
+                        self.render();
+                    }
+                });
             }, function() {
                 console.error("error");
-            });
-            this.collection.fetch({
-                success: function() {
-                    self.data = self.collection.toJSON();
-                    self.render();
-                }
             });
         },
 
         events: {
-            'click .greetingCheck': 'greetingCheck',
             'click .submit': 'getResponse',
-            'click .confirmGreeting': 'confirmGreeting'
+            'click .voteNow': 'checkGreeting',
+            'click .voteTooltip .glyphicon': 'checkGreeting',
+            'click .confirmGreeting': 'confirmGreeting',
+            'mouseenter .thumb-container': 'toggleTooltip',
+            'mouseleave .thumb-container': 'toggleTooltip'
         },
 
         refreshView: function() {
@@ -48,40 +56,68 @@ define(function(require) {
             }));
         },
 
+        toggleTooltip:function(e){
+            var target$ = this.$(e.currentTarget);
+            target$.find('.greetingTooltip').slideToggle('fast');
+            if(!target$.hasClass('checked')){
+                target$.find('.voteTooltip').fadeToggle('fast');
+            }
+        },
+
         render: function() {
             this.$el.html(greetingTemplate({
                 greetings:this.data,
-                response: this.response
+                response: this.response,
+                firstname: cookieManager.getFirstname()
             }));
+            console.log("Res: "+this.response);
+            $('.page').css('margin-top','20px');
+            this.$("a[rel^='greetings']").prettyPhoto();
+            // Put dates on top
+            this.$('.highlight .pull-right').text(new Date().toGMTString());
+            // Set the initial counter
+            this.$('.modal-footer .counter').text(this.responseArray.length);
             Events.trigger('refreshActiveState');
         },
 
-        greetingCheck: function() {
-            var responseValue = [];
-            $('.greetingCheck:checked').each(function() {
-                responseValue.push($(this).val());
-            });
-            if(responseValue.length === 0) {
-                $('.submit').prop('disabled', true).addClass('disabled');
+        checkGreeting: function(e){
+            if(this.$(e.target).hasClass('disabled')){
+                return false;
+            }
+            var target$ = this.$(e.target).closest('.thumb-container');
+            target$.toggleClass('checked');
+            this.greetingCheck(target$);
+        },
+
+        greetingCheck: function(target) {
+            if(target.hasClass('checked')){
+                this.responseArray.push(target.attr('data-id'));
+            }else {
+                var index = this.responseArray.indexOf(target.attr('data-id'));
+                if(index !== -1){
+                    this.responseArray.splice(index, 1);
+                }
+            }
+
+            this.$('.modal-footer .counter').text(this.responseArray.length);
+
+            if(this.responseArray.length === 0) {
+                this.$('.submit').prop('disabled', true).addClass('disabled');
             } else {
-                $('.submit').removeProp('disabled').removeClass('disabled');
+                this.$('.submit').removeProp('disabled').removeClass('disabled');
             }
         },
 
         getResponse: function() {
             this.$('.modal-container').html(greetingConfirmTemplate);
-            this.$('.modal').modal({
+            this.$('.modal-container .modal').modal({
                 backdrop: 'static'
             });
         },
 
         confirmGreeting: function() {
-            var self = this,
-                responseValue = [];
-            $('.greetingCheck:checked').each(function() {
-                responseValue.push($(this).val());
-            });
-            if(responseValue.length === 0) {
+            var self = this;
+            if(this.responseArray.length === 0) {
                 Events.trigger("alert:error", [{
                     message: "No greetings selected"
                 }]);
@@ -99,11 +135,10 @@ define(function(require) {
             }
             services.createResponse({
                 empid: cookieManager.checkEmpid(),
-                greetingid: responseValue
+                greetingid: self.responseArray
             }).done(function(response) {
                 console.log(response);
             });
-            console.log(responseValue);
         }
     });
 });

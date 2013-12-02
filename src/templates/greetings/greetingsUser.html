@@ -1,40 +1,43 @@
 <div class="container">
-    {{#if response}}
-        <div class="alert alert-warning">
-            <a class="close" data-dismiss="alert">&times;</a>
-            <strong>You have already responded.</strong>
-        </div>
-    {{/if}}
-    <section id="overview">
-        <h2>
-            Overview
-        </h2>
-        <p>
-            Welcome to yet another lightbox plugin for Twitter Bootstrap. This plugin aims to enable your users to view larger, higher resolution images just by clicking on an image, or group of images and designed to be implemented in Bootstrap with minimal markup.
+    <div class="alert alert-custom">
+        <p class="highlight txt-user ">Hi {{firstname}} <span class="pull-right"><!-- Placeholder for date --></span></p>
+        <p>Welcome to your dashboard.
+            <span class="pull-right txt-report">
+                {{#if response}}
+                        <span class="glyphicon glyphicon-thumbs-up"></span> &nbsp; Thank you for responding to this survey.
+                    {{else}}
+                        Vote for your favourite greeting now.
+                {{/if}}
+            </span>
         </p>
-        <h3>
-            Why
-        </h3>
-        <p>
-            I wanted a lightbox plugin that with minimal effort , would just work with the bootstrap framework. Unfortunately the existing <a href="http://jbutz.github.com/bootstrap-lightbox/">bootstrap-lightbox</a> plugin did not do that, requiring extra markup, buggy css and javascript, even setting up a collection of images to cycle through was complicated. Instead of messing around trying to get it to just work, I grabbed the original <a href="http://lokeshdhakar.com/projects/lightbox2/">Lightbox</a> plugin and with a little prodding, I had a lightbox up and running exactly how I wanted. This plugin is an extention of that effort, incorporating ideas from the exiting plugins and migrating it over to the Bootstrap framework.
-        </p>
-    </section>
-    <ul class="thumbnails" data-toggle="lightbox">
+    </div>
+    <h3 class="headingTitle">
+        Vote your favourite greetings.
+    </h3>
+    <hr>
+    <section class="row">
         {{#each greetings}}
-            <li class="span3">
-                <a href="{{url}}" title="{{url}}" class="thumbnail">
-                    <img src="{{url}}" alt="" class="greetingImage"/>
+            <div class="col-md-3 col-sm-4 col-xs-6 thumb-container" data-id="{{id}}">
+                <a title="{{url}}:" class="thumbnail" >
+                    <img src="{{url}}" alt="{{url}}" class="greetingImage" />
                 </a>
-                {{#unless ../response}}
-                <label class="checkbox">
-                    <input type="checkbox" name="greetingCheck" class="greetingCheck" value="{{id}}"> Select Greeting
-                </label>
-                {{/unless}}
-            </li>
+                <div class="well well-small greetingTooltip" style="display:none">
+                    <p>Designed by:&nbsp;<strong>{{tblUsers.0.firstname}} {{tblUsers.0.lastname}}</strong></p>
+                    <a href="{{url}}" class="btn btn-primary" rel="greetings[set]">Quick View</a>
+                    <a class="btn btn-secondary voteNow {{#if ../response}} disabled {{/if}}" title="{{#if ../response}} Already voted{{else}} Vote Now {{/if}}" >Vote Now</a>
+                </div>
+                <div class="voteTooltip" style="display:none">
+                    <span class="glyphicon glyphicon-ok-circle {{#if ../response}} disabled {{/if}}" title="{{#if ../response}} Already voted{{else}} Vote Now {{/if}}"></span>
+                </div>
+            </div>
         {{/each}}
-    </ul>
+    </section>
+
     {{#unless response}}
-        <button class="btn btn-success disabled submit" disabled = "true"><i class="icon-ok-sign icon-white"></i>Submit</button>
+        <div class="modal-footer row">
+            <span class="currentInfo col-md-3 col-md-offset-8">Selected Greetings for Voting &nbsp;<span class="label label-warning counter"> </span></span>
+            <button class="btn btn-secondary disabled submit" disabled = "true"><i class="icon-ok-sign icon-white"></i>Submit</button>
+        </div>
     {{/unless}}
 </div>
 <div class="modal-container"></div>

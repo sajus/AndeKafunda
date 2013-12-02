@@ -66,11 +66,11 @@
                 var newPathName = __dirname + '/uploads/' + req.files.file.name;
                 fs.rename(req.files.file.path, newPathName, function(err) {
                     if (err) {
-                        console.log("error in file upload");
+                        console.error("error in file upload");
                         fs.unlink(req.files.file.path);
                         res.redirect('#greetings');
                     } else {
-                        console.log("file uploaded successfully");
+                        console.info("file uploaded successfully");
                         res.send('/' + req.files.file.name);
                     }
 

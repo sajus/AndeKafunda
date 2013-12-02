@@ -6,6 +6,8 @@ define(function(require) {
         $.cookie('isAdmin', data.accesstype);
         $.cookie('email', data.email);
         $.cookie('empid', data.id);
+        $.cookie('firstname', data.firstname);
+        $.cookie('lastname', data.lastname);
     },
         _destroySessionCookie = function() {
             $.removeCookie('isAuthenticated');
@@ -22,9 +24,11 @@ define(function(require) {
         _checkEmpid = function() {
             return $.cookie('empid');
         },
-
         _checkEmail = function() {
             return $.cookie('email');
+        },
+        _getFirstname = function() {
+            return $.cookie('firstname');
         };
 
     return {
@@ -33,6 +37,7 @@ define(function(require) {
         isAuthenticated: _isAuthenticated,
         isAdmin: _isAdmin,
         checkEmpid: _checkEmpid,
-        checkEmail: _checkEmail
+        checkEmail: _checkEmail,
+        getFirstname: _getFirstname
     };
 });

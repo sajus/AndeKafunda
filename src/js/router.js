@@ -40,10 +40,9 @@ define(function(require) {
                 '(login)': 'login',
                 'dashboard': 'dashboard',
                 'users': 'users',
-                'greetings': 'greetings',
+                'greetings([set]/:id/)': 'greetings',
                 'reports': 'reports',
                 'logout': 'logout',
-                // Default - catch all
                 '*actions': 'defaultAction'
             }
         });
@@ -86,14 +85,19 @@ define(function(require) {
         });
 
         /* Greetings Routes */
-        router.on('route:greetings', function() {
-            var greetingsViewPath = cookieManager.isAdmin() ? 'views/greetings/admin/greetingsAdmin' : 'views/greetings/greetingsUser';
-            require([greetingsViewPath, 'collections/greetings/greetings'], function(GreetingsView, GreetingsCollection) {
-                var greetingsCollection = new GreetingsCollection();
-                Core.create(appView, 'GreetingsView', GreetingsView, {
-                    collection: greetingsCollection
+        router.on('route:greetings', function(id) {
+            if(!this.currentGreetingId || !id ){
+                var greetingsViewPath = cookieManager.isAdmin() ? 'views/greetings/admin/greetingsAdmin' : 'views/greetings/greetingsUser';
+                require([greetingsViewPath, 'collections/greetings/greetings'], function(GreetingsView, GreetingsCollection) {
+                    var greetingsCollection = new GreetingsCollection();
+                    Core.create(appView, 'GreetingsView', GreetingsView, {
+                        collection: greetingsCollection
+                    });
                 });
-            });
+            }
+            if(id){
+                this.currentGreetingId = id;
+            }
         });
 
         /*Reports Admin*/
