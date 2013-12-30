@@ -86,10 +86,12 @@ module.exports = function(grunt) {
         recess: {
             dist: {
                 files:{
-                    'src/bower_components/greetingBootstrap/bootstrap.css':['src/bower_components/greetingBootstrap/bootstrap.less']
+                    // 'src/bower_components/greetingBootstrap/bootstrap.css':['src/bower_components/greetingBootstrap/bootstrap.less'],
+                    'src/css/main.css':['src/css/main.less']
                 },
                 options: {
-                    compile: true
+                    compile: true,
+                    compress: true
                 }
             }
         },
@@ -97,7 +99,10 @@ module.exports = function(grunt) {
             options: {
                livereload: true,
             },
-            files: "src/bower_components/greetingBootstrap/*.less",
+            files: [
+                "bower_components/greetingBootstrap/*.less",
+                "src/css/*.less"
+            ],
             tasks: ["recess"]
         }
     });

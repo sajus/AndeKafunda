@@ -22,6 +22,8 @@
         app.set(express.router);
         app.use(express.static(__dirname + '/src'));
         app.use(express.static(__dirname + '/uploads'));
+        // FallBack
+        app.use(express.static(__dirname));
         app.use(express.limit('2mb'));
     });
     /*Authorization Call*/

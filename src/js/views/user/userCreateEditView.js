@@ -17,8 +17,9 @@ define(function(require) {
             'click .createEditUser': 'processForm'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             var self = this;
+            this.options = options || {};
             this.responseText = "Some error in creating new user. Please recheck the form!!";
             this._modelBinder = new Backbone.ModelBinder();
             if (this.options.id !== undefined) {

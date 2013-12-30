@@ -10,7 +10,7 @@ requirejs.config({
 
     map: {
         '*': {
-            'css': 'vendors/require/plugins/require-css/css'
+            'css': '../../bower_components/requirejs-text/text'
         }
     },
 
@@ -22,55 +22,54 @@ requirejs.config({
     paths: {
 
         /* List of frameworks/libraries to be included in this architecture. */
-        'jquery': 'vendors/jquery/jquery',
-        'underscore': 'vendors/underscore/underscore',
-        'backbone': 'vendors/backbone/backbone',
-        'handlebars': 'vendors/handlebars/handlebars',
-        'moment': 'vendors/moment/moment',
+            'jquery': '../../bower_components/jquery/jquery.min',
+            'underscore': '../../bower_components/underscore/underscore-min',
+            'backbone': '../../bower_components/backbone/backbone-min',
+            'Handlebars': '../../bower_components/handlebars/handlebars.min',
+            'moment': '../../bower_components/momentjs/moment',
 
         /* List of custom files to be loaded in this architecture. */
-        'template': 'utilities/handlebars-template-mapper',
-        'handlebars_Helpers': 'utilities/handlebars-helpers',
-        'templates': '../templates',
+            'template': '../../bower_components/requirejs-handlebars/hbars',
+            'handlebars_Helpers': 'utilities/handlebars-helpers',
+            'templates': '../templates',
 
         /* List of Backbone plugins */
-        'modelValidator': 'vendors/backbone/plugins/backbone-validation',
-        'modelBinder': 'vendors/backbone/plugins/backbone-modelbinder',
+            'modelValidator': '../../bower_components/backbone-validation/src/backbone-validation',
+            'modelBinder': '../../bower_components/Backbone.ModelBinder/Backbone.ModelBinder.min',
+
         /* List of Require plugins */
-        'text': 'vendors/require/plugins/text',
+            'text': '../../bower_components/requirejs-text/text',
 
         /* List of Bootstrap js plugins */
-        'bootstrapAlert': '../bower_components/bootstrap/js/alert',
-        'bootstrapDropdown': '../bower_components/bootstrap/js/dropdown',
-        'bootstrapTransition': '../bower_components/bootstrap/js/transition',
-        'bootstraplightbox': 'vendors/bootstrap/js/bootstrap.lightbox',
-        'bootstrapModal': '../bower_components/bootstrap/js/modal',
-        'bootstrapCarousel': '../bower_components/bootstrap/js/carousel',
-        'bootstrapAffix': '../bower_components/bootstrap/js/affix',
-        'bootstrapButton': '../bower_components/bootstrap/js/button',
-        'bootstrapCollapse': '../bower_components/bootstrap/js/collapse',
-        'bootstrapPopOver': '../bower_components/bootstrap/js/popover',
-        'bootstrapScrollSpy': '../bower_components/bootstrap/js/scrollspy',
-        'bootstrapTab': '../bower_components/bootstrap/js/tab',
-        'bootstrapTooltip': '../bower_components/bootstrap/js/tooltip',
+            'bootstrapAlert': '../../bower_components/bootstrap/js/alert',
+            'bootstrapDropdown': '../../bower_components/bootstrap/js/dropdown',
+            'bootstrapTransition': '../../bower_components/bootstrap/js/transition',
+            'bootstraplightbox': 'vendors/bootstrap/js/bootstrap.lightbox',
+            'bootstrapModal': '../../bower_components/bootstrap/js/modal',
+            'bootstrapCarousel': '../../bower_components/bootstrap/js/carousel',
+            'bootstrapAffix': '../../bower_components/bootstrap/js/affix',
+            'bootstrapButton': '../../bower_components/bootstrap/js/button',
+            'bootstrapCollapse': '../../bower_components/bootstrap/js/collapse',
+            'bootstrapPopOver': '../../bower_components/bootstrap/js/popover',
+            'bootstrapScrollSpy': '../../bower_components/bootstrap/js/scrollspy',
+            'bootstrapTab': '../../bower_components/bootstrap/js/tab',
+            'bootstrapTooltip': '../../bower_components/bootstrap/js/tooltip',
 
         /* List of jQuery plugins */
-        'jqueryCookie': 'vendors/jquery/plugins/jquery.cookie',
-        'jqueryAjaxForm': 'vendors/jquery/plugins/jquery.form.min',
-        'chosen': '../bower_components/chosen/public/chosen.jquery.min',
-        'prettyPhoto': '../bower_components/prettyphoto-master/js/jquery.prettyPhoto',
+            'jqueryCookie': '../../bower_components/jquery-cookie/jquery.cookie',
+            'jqueryAjaxForm': '../../bower_components/jquery-form/jquery.form',
+            'chosen': '../../bower_components/chosen/public/chosen.jquery.min',
+            'prettyPhoto': '../../bower_components/prettyphoto-master/js/jquery.prettyPhoto',
 
         /* FuelUx */
-
-        'fuelux': 'vendors/bootstrap/plugins/fuelux/all',
-        'fueluxDataGrid': 'vendors/bootstrap/plugins/fuelux/datagrid',
-        'fueluxDataSource': 'vendors/bootstrap/plugins/fuelux/datasource',
-        'fueluxComboBox': 'vendors/bootstrap/plugins/fuelux/combobox',
-        'fueluxSelectBox': 'vendors/bootstrap/plugins/fuelux/select',
-        'fueluxSearchBox': 'vendors/bootstrap/plugins/fuelux/search',
-        'util': 'vendors/bootstrap/plugins/fuelux/util',
-        'fueluxWizard': 'vendors/bootstrap/plugins/fuelux/wizard'
-
+            'fuelux': '../../bower_components/fuelux/dist/all.min',
+            'fueluxDataGrid': '../../bower_components/fuelux/dist/datagrid',
+            'fueluxDataSource': '../../bower_components/fuelux/sample/datasource',
+            'fueluxComboBox': '../../bower_components/fuelux/dist/combobox',
+            'fueluxSelectBox': '../../bower_components/fuelux/dist/select',
+            'fueluxSearchBox': '../../bower_components/fuelux/dist/search',
+            'util': '../../bower_components/fuelux/dist/util',
+            'fueluxWizard': '../../bower_components/fuelux/dist/wizard'
     },
 
     /*
@@ -87,18 +86,61 @@ requirejs.config({
         underscore: {
             exports: '_'
         },
-        handlebars: {
+        Handlebars: {
             exports: 'Handlebars'
         },
         bootstrap: {
             deps: ['jquery']
         },
-        bootstrapAlert: {
-            deps: ['jquery']
-        },
+
+        /* Bootstrap plugins */
+            bootstrapAlert: {
+                deps: ['jquery']
+            },
+            bootstrapDropdown: {
+                deps: ['jquery']
+            },
+            bootstrapTransition: {
+                deps: ['jquery']
+            },
+            bootstraplightbox: {
+                deps: ['jquery']
+            },
+            bootstrapModal: {
+                deps: ['jquery']
+            },
+            bootstrapCarousel: {
+                deps: ['jquery']
+            },
+            bootstrapAffix: {
+                deps: ['jquery']
+            },
+            bootstrapButton: {
+                deps: ['jquery']
+            },
+            bootstrapCollapse: {
+                deps: ['jquery']
+            },
+            bootstrapPopOver: {
+                deps: ['jquery']
+            },
+            bootstrapScrollSpy: {
+                deps: ['jquery']
+            },
+            bootstrapTab: {
+                deps: ['jquery']
+            },
+            bootstrapTooltip: {
+                deps: ['jquery']
+            },
+
         modelBinder: {
             deps: ['backbone'],
             exports: 'Backbone.ModelBinder'
+        },
+        modelValidator:{
+            deps: ['backbone'],
+            exports: 'Backbone.Validation'
         }
     }
 });

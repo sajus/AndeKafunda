@@ -5,48 +5,48 @@ define(function(require) {
         $ = require('jquery'),
         Events = require('events'),
         cookieManager = require('utilities/cookieManager'),
-        AppView = require('views/app'),
-        AppRouter = Backbone.Router.extend({
+        AppView = require('views/app');
+        require('jqueryCookie');
+    var AppRouter = Backbone.Router.extend({
 
-            initialize: function() {
-                Events.on('page:navigate', this._navigatePage, this);
-                Events.on('redirectToAuthPage', this._navigateLoggedUser, this);
-                this.currentId = null;
-            },
+        initialize: function() {
+            Events.on('page:navigate', this._navigatePage, this);
+            Events.on('redirectToAuthPage', this._navigateLoggedUser, this);
+            this.currentId = null;
+        },
 
-            _navigatePage: function(navigationData) {
-                this.navigate(navigationData.path, navigationData.options);
-            },
+        _navigatePage: function(navigationData) {
+            this.navigate(navigationData.path, navigationData.options);
+        },
 
-            _navigateLoggedUser: function(options) {
-                // Hack for login view
-                var appView = Core.create({}, 'AppView', AppView, {
-                    skipAuthCheck: true
+        _navigateLoggedUser: function(options) {
+            // Hack for login view
+            var appView = Core.create({}, 'AppView', AppView, {
+                skipAuthCheck: true
+            });
+            appView.render();
+            $('body').css('background-image','none');
+            if (options !== undefined && options.accesstype) {
+                this.navigate("dashboard", {
+                    trigger: true
                 });
-                appView.render();
-                $('body').css('background-image','none');
-                if (options !== undefined && options.accesstype) {
-                    this.navigate("dashboard", {
-                        trigger: true
-                    });
-                } else {
-                    this.navigate("greetings", {
-                        trigger: true
-                    });
-                }
-            },
-
-            routes: {
-                '(login)': 'login',
-                'dashboard': 'dashboard',
-                'users': 'users',
-                'greetings([set]/:id/)': 'greetings',
-                'reports': 'reports',
-                'logout': 'logout',
-                '*actions': 'defaultAction'
+            } else {
+                this.navigate("greetings", {
+                    trigger: true
+                });
             }
-        });
-    require('jqueryCookie');
+        },
+
+        routes: {
+            '(login)': 'login',
+            'dashboard': 'dashboard',
+            'users': 'users',
+            'greetings([set]/:id/)': 'greetings',
+            'reports': 'reports',
+            'logout': 'logout',
+            '*actions': 'defaultAction'
+        }
+    });
     var initialize = function(options) {
         var appView = options.appView,
             router = new AppRouter(options);

@@ -1,4 +1,4 @@
-define(['backbone', 'events', 'template!templates/header/menu', 'utilities/cookieManager','handlebars'],
+define(['backbone', 'events', 'template!templates/header/menu', 'utilities/cookieManager','Handlebars'],
 function(Backbone, Events, headerMenuTemplate, cookieManager, Handlebars) {
     'use strict';
 

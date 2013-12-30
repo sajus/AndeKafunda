@@ -13,7 +13,8 @@ define(function(require) {
 
         el: '.page',
 
-        initialize: function() {
+        initialize: function(options) {
+            this.options = options || {};
             this._modelBinder = new Backbone.ModelBinder();
             this._isAuthenticated = cookieManager.isAuthenticated();
             if (this._isAuthenticated) {
@@ -46,7 +47,7 @@ define(function(require) {
                 valid: this.removeError
             });
 
-            if (this.options.authorizationFailed === true) {
+            if (this.options && this.options.authorizationFailed === true) {
                 Events.trigger("alert:error", [{
                     message: "You are not authorized to view this page."
                 }]);

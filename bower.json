@@ -1,0 +1,82 @@
+{
+  "name": "Cybage-UI Greetings",
+  "version": "0.0.1",
+  "homepage": "https://github.com/sajus/AndeKafunda",
+  "authors": [
+    "Vinayak Patil <vinayakpat@cybage.com>"
+  ],
+  "description": "Greetings survey application for Cybage-UI",
+  "main": "bower_components/requirejs/require.js",
+  "keywords": [
+    "Cybage-UI"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+  ],
+  "dependencies": {
+    "backbone": "~1.1.0",
+    "Backbone.ModelBinder": "~1.0.5",
+    "backbone-validation": "~0.9.0",
+    "bootstrap": "~3.0.0",
+    "chosen": "~1.0.0",
+    "fuelux": "~2.5.0",
+    "handlebars": "~1.1.2",
+    "jquery-form": "~3.46.0",
+    "jquery": "~2.0.3",
+    "momentjs": "~2.4.0",
+    "requirejs-text": "~2.0.10",
+    "jquery-cookie": "~1.4.0",
+    "requirejs": "~2.1.9",
+    "underscore": "~1.5.2"
+  },
+  "overrides": {
+    "Backbone.ModelBinder": {
+      "main": "Backbone.ModelBinder.min.js",
+      "dependencies": {
+        "backbone": "~1.1.0"
+      }
+    },
+    "backbone-validation": {
+      "main": "src/backbone-validation.js",
+      "dependencies": {
+        "backbone": "~1.1.0"
+      }
+    },
+    "backbone": {
+      "main": "backbone-min.js",
+      "dependencies": {
+        "jquery": "~2.0.3",
+        "underscore": "~1.5.2"
+      }
+    },
+    "chosen": {
+      "main": "public/chosen.jquery.js",
+      "dependencies": {
+        "jquery": "~2.0.3",
+        "bootstrap": "~3.0.0"
+      }
+    },
+    "fuelux": {
+      "main": "dist/all.min.js",
+      "dependencies": {
+        "jquery": "~2.0.3"
+      }
+    },
+    "requirejs-text": {
+      "main": "text.js",
+      "dependencies": {
+        "requirejs": "~2.1.9"
+      }
+    },
+    "requirejs": {
+      "main": "require.js",
+      "dependencies": {
+        "jquery": "~2.0.3"
+      }
+    },
+    "underscore": {
+      "main": "underscore-min.js"
+    }
+  }
+}

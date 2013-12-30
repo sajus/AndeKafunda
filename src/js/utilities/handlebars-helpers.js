@@ -1,7 +1,7 @@
 /**
  * Set of generic handlebars helpers
  */
-define(['handlebars', 'moment'], function(Handlebars, moment) {
+define(['Handlebars', 'moment'], function(Handlebars, moment) {
     'use strict';
     /**
      * This helper provides a more fluent syntax for inline ifs. i.e. if

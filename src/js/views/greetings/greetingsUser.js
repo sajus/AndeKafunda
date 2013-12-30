@@ -6,7 +6,7 @@ define(function(require) {
         greetingConfirmTemplate = require('template!templates/greetings/greetingConfirm'),
         cookieManager = require('utilities/cookieManager'),
         services = require('services'),
-        Handlebars = require('handlebars'),
+        Handlebars = require('Handlebars'),
         _ = require('underscore');
 
     /* Requires with no return */
@@ -172,7 +172,7 @@ define(function(require) {
             if(!this.data.length){
                 this.$('.nextPage').addClass('disabled');
             }
-            if(this.data.length < 4){
+            if(this.data.length < 8){
                 this.$('.end').addClass('disabled');
             }
         },
@@ -226,7 +226,7 @@ define(function(require) {
                 setTimeout(function() {
                     confirmModal$.modal('hide');
                 }, 1500);
-                confirmModal$.on('hidden', function() {
+                confirmModal$.on('hidden.bs.modal', function() {
                     self.refreshView();
                 });
             }

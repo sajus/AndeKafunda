@@ -1,0 +1,15 @@
+{
+  "name": "fuelux",
+  "homepage": "https://github.com/ExactTarget/fuelux",
+  "version": "2.5.0",
+  "_release": "2.5.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.5.0",
+    "commit": "ab73be92b1151e49b50183e5f2b3a408df1cccd2"
+  },
+  "_source": "https://github.com/ExactTarget/fuelux.git",
+  "_target": "~2.5.0",
+  "_originalSource": "fuelux",
+  "_direct": true
+}

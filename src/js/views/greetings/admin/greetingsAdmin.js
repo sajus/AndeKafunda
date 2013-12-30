@@ -212,7 +212,7 @@ define(function(require) {
                     setTimeout(function() {
                         confirmModal$.modal('hide');
                     }, 1500);
-                    confirmModal$.on('hidden', function() {
+                    confirmModal$.on('hidden.bs.modal', function() {
                         Events.trigger('refreshView');
                     });
                 }

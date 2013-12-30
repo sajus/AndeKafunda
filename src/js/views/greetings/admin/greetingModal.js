@@ -9,7 +9,8 @@ define(function(require) {
     require('jqueryAjaxForm');
     return BaseView.extend({
         className: "modal fade",
-        initialize: function() {
+        initialize: function(options) {
+            this.options = options || {};
             this._greetingBinder = new Backbone.ModelBinder();
         },
         events: {
@@ -39,7 +40,7 @@ define(function(require) {
                     setTimeout(function() {
                         self.$el.modal('hide');
                     }, 1500);
-                    self.$el.on('hidden', function() {
+                    self.$el.on('hidden.bs.modal', function() {
                         Events.trigger('refreshView');
                     });
                 }
