@@ -169,10 +169,8 @@ define(function(require) {
             this.$('.nextPage').prev('li').addClass('lastPage');
             this.$('.previousPage').addClass('disabled');
             this.$('.begin').addClass('disabled');
-            if(!this.data.length){
+            if(this.data.length < 9){
                 this.$('.nextPage').addClass('disabled');
-            }
-            if(this.data.length < 8){
                 this.$('.end').addClass('disabled');
             }
         },
