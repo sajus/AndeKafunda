@@ -55,6 +55,7 @@ define(function(require) {
                 self.data = data;
                 self.drawChart();
             });
+            $('.designers').next().find('a.chosen-single span').html('All');
         },
         designerChanged: function(e) {
             var self = this;
@@ -64,6 +65,7 @@ define(function(require) {
                 self.data = data;
                 self.drawChart();
             });
+            $('.users').next().find('a.chosen-single span').html('All');
         },
         render: function() {
             this.$el.html(reportsTemplate({
